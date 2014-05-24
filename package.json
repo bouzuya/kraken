@@ -1,6 +1,6 @@
 {
   "name": "kraken",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Kraken is a blog generator for bouzuya.",
   "main": "index.js",
   "bin": {

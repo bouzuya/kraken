@@ -1,6 +1,6 @@
 {
   "name": "kraken",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Kraken is a blog generator for bouzuya.",
   "main": "index.js",
   "bin": {
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/bouzuya/kraken",
   "dependencies": {
     "commander-b": "0.2.0",
-    "markdown": "0.5.0",
+    "marked": "0.3.2",
     "mkdirp": "0.4.1",
     "myjekyll": "git://github.com/bouzuya/myjekyll",
     "q": "1.0.1"

@@ -2,7 +2,11 @@
   "name": "kraken",
   "description": "Kraken is a blog generator for bouzuya.",
   "version": "1.0.0",
-  "author": "bouzuya",
+  "author": {
+    "name": "bouzuya",
+    "email": "m@bouzuya.net",
+    "url": "http://bouzuya.net"
+  },
   "bin": {
     "kraken": "./bin/kraken"
   },

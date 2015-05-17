@@ -1,29 +1,29 @@
 {
   "name": "kraken",
-  "version": "1.0.0",
   "description": "Kraken is a blog generator for bouzuya.",
-  "main": "index.js",
+  "version": "1.0.0",
+  "author": "bouzuya",
   "bin": {
     "kraken": "./bin/kraken"
   },
-  "scripts": {
-    "start": "node index"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/bouzuya/kraken.git"
-  },
-  "author": "bouzuya",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/bouzuya/kraken/issues"
   },
-  "homepage": "https://github.com/bouzuya/kraken",
   "dependencies": {
     "commander-b": "0.2.0",
     "marked": "0.3.2",
     "mkdirp": "0.4.1",
     "myjekyll": "git://github.com/bouzuya/myjekyll",
     "q": "1.0.1"
+  },
+  "homepage": "https://github.com/bouzuya/kraken",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bouzuya/kraken.git"
+  },
+  "scripts": {
+    "start": "node index"
   }
 }

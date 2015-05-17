@@ -1,6 +1,10 @@
 Kraken
 ==============================================================================
 
+**DEPRECATED**: Kraken has been integrated into the [bouzuya/bbn-react][]
+
+[bouzuya/bbn-react]: https://github.com/bouzuya/bbn-react
+
 Kraken is a blog generator for [bouzuya](http://bouzuya.net/).
 
 Installation

@@ -17,7 +17,7 @@
     "commander-b": "0.2.0",
     "marked": "0.3.2",
     "mkdirp": "0.4.1",
-    "myjekyll": "git://github.com/bouzuya/myjekyll",
+    "myjekyll": "https://github.com/bouzuya/myjekyll/archive/1.0.0.tar.gz",
     "q": "1.0.1"
   },
   "homepage": "https://github.com/bouzuya/kraken",

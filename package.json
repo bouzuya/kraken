@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "commander-b": "0.2.0",
+    "fs-extra": "^0.18.3",
     "marked": "0.3.2",
     "mkdirp": "0.4.1",
     "myjekyll": "https://github.com/bouzuya/myjekyll/archive/2.0.0.tar.gz",

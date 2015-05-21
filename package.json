@@ -18,8 +18,7 @@
     "es6-promise": "^2.1.1",
     "fs-extra": "^0.18.3",
     "marked": "0.3.2",
-    "myjekyll": "https://github.com/bouzuya/myjekyll/archive/2.0.0.tar.gz",
-    "q": "1.0.1"
+    "myjekyll": "https://github.com/bouzuya/myjekyll/archive/2.0.0.tar.gz"
   },
   "devDependencies": {
     "coffee-script": "^1.9.2",

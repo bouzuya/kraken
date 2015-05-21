@@ -5,6 +5,7 @@ myjekyll = require 'myjekyll'
 path = require 'path'
 async = require './async'
 AtomFormatter = require './atom-formatter'
+SitemapFormatter = require './sitemap-formatter'
 
 class Compiler
   constructor: ({ srcDir, postsDir, dstDir }) ->
@@ -69,22 +70,15 @@ class Compiler
   # <dstDir>/sitemap.xml
   _writeSitemapXml: ->
     dest = path.join @_dstDir, 'sitemap.xml'
-    urls = @_compiledPosts.map (post) ->
-      loc = 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/'
-      lastmod = post.pubdate
-      """
-        <url>
-          <loc>#{loc}</loc>
-          <lastmod>#{lastmod}</lastmod>
-        </url>
-      """
-    data = """
-      <?xml version="1.0" encoding="utf-8"?>
-      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      #{urls.join('\n')}
-      </urlset>
-    """
+    sitemap = @_buildSitemap @_compiledPosts
+    formatter = new SitemapFormatter sitemap
+    data = formatter.format()
     fs.outputFileSync dest, data, encoding: 'utf-8'
+
+  _buildSitemap: (posts) ->
+    posts.map (post) ->
+      loc: 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/'
+      lastmod: post.pubdate
 
   # <dstDir>/atom.xml
   _writeAtomXml: ->

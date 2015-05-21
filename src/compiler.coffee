@@ -109,7 +109,7 @@ class Compiler
     atom =
       title: 'blog.bouzuya.net'
       linkHref: 'http://blog.bouzuya.net/'
-      updated: if entries.length > 0 then entries[0].updated else ''
+      updated: entries[0]?.updated ? ''
       id: 'http://blog.bouzuya.net/'
       author:
         name: 'bouzuya'

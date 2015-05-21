@@ -88,16 +88,14 @@ class Compiler
 
   # <dstDir>/atom.xml
   _writeAtomXml: ->
-    limit = 20
     dest = path.join @_dstDir, 'atom.xml'
-    entries = @_compiledPosts.map (post) ->
-      url = 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/'
-      title: post.title,
-      linkHref: url,
-      updated: post.pubdate,
-      id: url,
-      content: post.html
-    .sort (a, b) ->
+    atom = @_buildAtom @_compiledPosts
+    formatter = new AtomFormatter atom
+    data = formatter.format()
+    fs.outputFileSync dest, data, encoding: 'utf-8'
+
+  _buildAtom: (posts) ->
+    entries = posts.sort (a, b) ->
       # order by date desc.
       if a.updated is b.updated
         0
@@ -105,7 +103,15 @@ class Compiler
         1
       else
         -1
-    .slice 0, limit
+    .filter (_, index) ->
+      index < 20 # limit
+    .map (post) ->
+      url = 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/'
+      title: post.title,
+      linkHref: url,
+      updated: post.pubdate,
+      id: url,
+      content: post.html
 
     atom =
       title: 'blog.bouzuya.net'
@@ -115,9 +121,6 @@ class Compiler
       author:
         name: 'bouzuya'
       entries: entries
-    formatter = new AtomFormatter atom
-    data = formatter.format()
-    fs.outputFileSync dest, data, encoding: 'utf-8'
 
   _copyOtherFiles: ->
     srcFiles = @_getFiles @_srcDir

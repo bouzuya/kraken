@@ -159,8 +159,7 @@ class Compiler
         fs.copyFileSync srcPath, dstPath
 
     _getFiles: (file) ->
-      unless !fs.statSync(file).isDirectory()
-        [file]
+      return [file] unless fs.statSync(file).isDirectory()
       fs.readdirSync file
       .filter (f) -> !f.match /^_/
       .reduce (a, f) =>

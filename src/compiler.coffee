@@ -119,19 +119,19 @@ class Compiler
     data = formatter.format()
     fs.outputFileSync dest, data, encoding: 'utf-8'
 
-    _copyOtherFiles: ->
-      srcFiles = @_getFiles @_srcDir
-      srcFiles.forEach (srcPath) =>
-        relativePath = path.relative @_srcDir, srcPath
-        dstPath = path.resolve @_dstDir, relativePath
-        fs.copyFileSync srcPath, dstPath
+  _copyOtherFiles: ->
+    srcFiles = @_getFiles @_srcDir
+    srcFiles.forEach (srcPath) =>
+      relativePath = path.relative @_srcDir, srcPath
+      dstPath = path.resolve @_dstDir, relativePath
+      fs.copyFileSync srcPath, dstPath
 
-    _getFiles: (file) ->
-      return [file] unless fs.statSync(file).isDirectory()
-      fs.readdirSync file
-      .filter (f) -> !f.match /^_/
-      .reduce (a, f) =>
-        a.concat @_getFiles path.join file, f
-      , []
+  _getFiles: (file) ->
+    return [file] unless fs.statSync(file).isDirectory()
+    fs.readdirSync file
+    .filter (f) -> !f.match /^_/
+    .reduce (a, f) =>
+      a.concat @_getFiles path.join file, f
+    , []
 
 module.exports = Compiler

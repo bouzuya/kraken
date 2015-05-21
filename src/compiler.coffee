@@ -1,7 +1,6 @@
 {Promise} = require 'es6-promise'
 fs = require 'fs-extra'
 marked = require 'marked'
-mkdirp = require 'mkdirp'
 myjekyll = require 'myjekyll'
 path = require 'path'
 async = require './async'

@@ -1,5 +1,5 @@
 {Promise} = require 'es6-promise'
-fs = require 'fs'
+fs = require 'fs-extra'
 marked = require 'marked'
 mkdirp = require 'mkdirp'
 myjekyll = require 'myjekyll'
@@ -40,9 +40,9 @@ class Compiler
   _writePosts: ->
     posts = @_compiledPosts
     destDir = path.join @_dstDir, 'posts'
-    async.eachSeries posts, (post) =>
+    async.eachSeries posts, (post) ->
       dest = path.join destDir, post.date + '.join'
-      @_writeJson dest, post
+      fs.outputJsonSync dest, post, encoding: 'utf-8'
 
   # <dstDir>/posts.json
   _writePostsJson: ->
@@ -55,7 +55,7 @@ class Compiler
       pubdate: i.pubdate
       tags: i.tags
       title: i.title
-    @_writeJson dest, data
+    fs.outputJsonSync dest, data, encoding: 'utf-8'
 
   # <dstDir>/tags.json
   _writeTagsJson: ->
@@ -64,7 +64,7 @@ class Compiler
     data = Object.keys(tagCounts).reduce (tags, tag) ->
       tags.push name: tag, count: tagCounts[tag]
     , []
-    @_writeJson dest, data
+    fs.outputJsonSync dest, data, encoding: 'utf-8'
 
   # <dstDir>/sitemap.xml
   _writeSitemapXml: ->
@@ -84,7 +84,7 @@ class Compiler
       #{urls.join('\n')}
       </urlset>
     """
-    @_writeTextFile dest, data
+    fs.outputFileSync dest, data, encoding: 'utf-8'
 
   # <dstDir>/atom.xml
   _writeAtomXml: ->
@@ -141,7 +141,7 @@ class Compiler
         #{entriesXml}
       </feed>
     """
-    @_writeTextFile dest, data
+    fs.outputFileSync dest, data, encoding: 'utf-8'
 
     _escapeHtml: (html) ->
       html
@@ -153,19 +153,10 @@ class Compiler
 
     _copyOtherFiles: ->
       srcFiles = @_getFiles @_srcDir
-      srcFiles.forEach (file) =>
-        @_copyFile file
-
-    _writeJson: (file, data) ->
-      json = JSON.stringify(data)
-      @_writeTextFile file, json
-
-    _writeTextFile: (file, data) ->
-      options = encoding: 'utf-8'
-      dir = path.dirname file
-      unless fs.existsSync dir
-        mkdirp.sync dir
-      fs.writeFileSync file, data, options
+      srcFiles.forEach (srcPath) =>
+        relativePath = path.relative @_srcDir, srcPath
+        dstPath = path.resolve @_dstDir, relativePath
+        fs.copyFileSync srcPath, dstPath
 
     _getFiles: (file) ->
       unless !fs.statSync(file).isDirectory()
@@ -175,12 +166,5 @@ class Compiler
       .reduce (a, f) =>
         a.concat @_getFiles path.join file, f
       , []
-
-    _copyFile: (srcPath) ->
-      relativePath = path.relative @_srcDir, srcPath
-      dstPath = path.resolve @_dstDir, relativePath
-      dir = path.dirname dstPath
-      mkdirp.sync dir unless fs.existsSync dir
-      fs.writeFileSync dstPath, fs.readFileSync srcPath
 
 module.exports = Compiler

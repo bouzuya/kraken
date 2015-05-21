@@ -145,11 +145,11 @@ class Compiler
 
     _escapeHtml: (html) ->
       html
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;')
+      .replace /&/g, '&amp;'
+      .replace /</g, '&lt;'
+      .replace />/g, '&gt;'
+      .replace /"/g, '&quot;'
+      .replace /'/g, '&apos;'
 
     _copyOtherFiles: ->
       srcFiles = @_getFiles @_srcDir

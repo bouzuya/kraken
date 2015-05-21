@@ -46,6 +46,9 @@
     "url": "git://github.com/bouzuya/kraken.git"
   },
   "scripts": {
-    "start": "node index"
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "test": "gulp test",
+    "watch": "gulp watch"
   }
 }

@@ -4,6 +4,7 @@ marked = require 'marked'
 myjekyll = require 'myjekyll'
 path = require 'path'
 async = require './async'
+AtomFormatter = require './atom-formatter'
 
 class Compiler
   constructor: ({ srcDir, postsDir, dstDir }) ->
@@ -114,41 +115,9 @@ class Compiler
       author:
         name: 'bouzuya'
       entries: entries
-
-    entriesXml = atom.entries.map (entry) =>
-      """
-        <entry>
-            <title>#{entry.title}</title>
-            <link href="#{entry.linkHref}" />
-            <updated>#{entry.updated}</updated>
-            <id>#{entry.id}</id>
-            <content type="html">#{@_escapeHtml(entry.content)}</content>
-        </entry>
-      """
-    .join '\n'
-
-    xml = """
-      <?xml version="1.0" encoding="utf-8"?>
-      <feed xmlns="http://www.w3.org/2005/Atom">
-        <title>#{atom.title}</title>
-        <link rel="alternate" type="text/html" href="#{atom.linkHref}" />
-        <updated>#{atom.updated}</updated>
-        <id>#{atom.id}</id>
-        <author>
-          <name>#{atom.author.name}</name>
-        </author>
-        #{entriesXml}
-      </feed>
-    """
+    formatter = new AtomFormatter atom
+    data = formatter.format()
     fs.outputFileSync dest, data, encoding: 'utf-8'
-
-    _escapeHtml: (html) ->
-      html
-      .replace /&/g, '&amp;'
-      .replace /</g, '&lt;'
-      .replace />/g, '&gt;'
-      .replace /"/g, '&quot;'
-      .replace /'/g, '&apos;'
 
     _copyOtherFiles: ->
       srcFiles = @_getFiles @_srcDir

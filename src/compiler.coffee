@@ -5,6 +5,7 @@ myjekyll = require 'myjekyll'
 path = require 'path'
 async = require './async'
 AtomFormatter = require './atom-formatter'
+SitemapBuilder = require './sitemap-builder'
 SitemapFormatter = require './sitemap-formatter'
 
 class Compiler
@@ -70,15 +71,10 @@ class Compiler
   # <dstDir>/sitemap.xml
   _writeSitemapXml: ->
     dest = path.join @_dstDir, 'sitemap.xml'
-    sitemap = @_buildSitemap @_compiledPosts
+    sitemap = new SitemapBuilder(@_compiledPosts).build()
     formatter = new SitemapFormatter sitemap
     data = formatter.format()
     fs.outputFileSync dest, data, encoding: 'utf-8'
-
-  _buildSitemap: (posts) ->
-    posts.map (post) ->
-      loc: 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/'
-      lastmod: post.pubdate
 
   # <dstDir>/atom.xml
   _writeAtomXml: ->

@@ -4,6 +4,7 @@ marked = require 'marked'
 myjekyll = require 'myjekyll'
 path = require 'path'
 async = require './async'
+AtomBuilder = require './atom-builder'
 AtomFormatter = require './atom-formatter'
 SitemapBuilder = require './sitemap-builder'
 SitemapFormatter = require './sitemap-formatter'
@@ -79,38 +80,10 @@ class Compiler
   # <dstDir>/atom.xml
   _writeAtomXml: ->
     dest = path.join @_dstDir, 'atom.xml'
-    atom = @_buildAtom @_compiledPosts
+    atom = new AtomBuilder(@_compiledPosts).build()
     formatter = new AtomFormatter atom
     data = formatter.format()
     fs.outputFileSync dest, data, encoding: 'utf-8'
-
-  _buildAtom: (posts) ->
-    entries = posts.sort (a, b) ->
-      # order by date desc.
-      if a.updated is b.updated
-        0
-      else if a.updated < b.updated
-        1
-      else
-        -1
-    .filter (_, index) ->
-      index < 20 # limit
-    .map (post) ->
-      url = 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/'
-      title: post.title,
-      linkHref: url,
-      updated: post.pubdate,
-      id: url,
-      content: post.html
-
-    atom =
-      title: 'blog.bouzuya.net'
-      linkHref: 'http://blog.bouzuya.net/'
-      updated: entries[0]?.updated ? ''
-      id: 'http://blog.bouzuya.net/'
-      author:
-        name: 'bouzuya'
-      entries: entries
 
   _copyOtherFiles: ->
     srcFiles = @_getFiles @_srcDir

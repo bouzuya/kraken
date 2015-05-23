@@ -1,10 +1,4 @@
 #!/usr/bin/env node
 
-var commander = require('commander-b');
-var fs = require('fs');
-var kraken = require('../');
-
-commander('kraken')
-.version(JSON.parse(fs.readFileSync(__dirname + '/../package.json')).version)
-.action(function() { return kraken(); })
-.execute();
+var CLI = require('../lib/cli');
+new CLI().run();

@@ -90,7 +90,7 @@ class Compiler
     srcFiles.forEach (srcPath) =>
       relativePath = path.relative @_srcDir, srcPath
       dstPath = path.resolve @_dstDir, relativePath
-      fs.copyFileSync srcPath, dstPath
+      fs.copySync srcPath, dstPath
 
   _getFiles: (file) ->
     return [file] unless fs.statSync(file).isDirectory()

@@ -18,7 +18,7 @@ class Compiler
     @_compiledPosts = []
 
   compile: ->
-    @_blog = myjekyll { dir: @_postsDir }
+    @_blog = myjekyll @_postsDir + '/**/*.coffee', {}
     Promise.resolve()
     .then @_compilePosts.bind @
     .then @_writePosts.bind @

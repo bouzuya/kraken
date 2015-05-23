@@ -1,6 +1,7 @@
 {Promise} = require 'es6-promise'
 fs = require 'fs-extra'
 marked = require 'marked'
+moment = require 'moment'
 myjekyll = require 'myjekyll'
 path = require 'path'
 async = require './async'
@@ -20,7 +21,7 @@ class Compiler
     @_blog = myjekyll @_postsDir + '/**/*.coffee', {}
     Promise.resolve()
     .then @_compilePosts.bind @
-    .then @_writePosts.bind @
+    .then @_writeDailyPosts.bind @
     .then @_writePostsJson.bind @
     .then @_writeTagsJson.bind @
     .then @_writeSitemapXml.bind @
@@ -37,12 +38,19 @@ class Compiler
       tags: entry.tags
       title: entry.title
 
-  # <dstDir>/posts/yyyy-mm-dd.json
-  _writePosts: ->
+  # <dstDir>/yyyy/mm/dd.json
+  # <dstDir>/yyyy/mm/dd/index.json
+  _writeDailyPosts: ->
     posts = @_compiledPosts
-    destDir = path.join @_dstDir, 'posts'
+    dir = @_dstDir
     async.eachSeries posts, (post) ->
-      dest = path.join destDir, post.date + '.join'
+      d = moment post.date
+      year = d.format 'YYYY'
+      month = d.format 'MM'
+      date = d.format 'DD'
+      dest = path.join dir, year, month, date + '.join'
+      fs.outputJsonSync dest, post, encoding: 'utf-8'
+      dest = path.join dir, year, month, date, 'index.join'
       fs.outputJsonSync dest, post, encoding: 'utf-8'
 
   # <dstDir>/posts.json

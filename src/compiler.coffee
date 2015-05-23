@@ -23,6 +23,7 @@ class Compiler
     .then @_compilePosts.bind @
     .then @_writeDailyPosts.bind @
     .then @_writeMonthlyPosts.bind @
+    .then @_writeYearlyPosts.bind @
     .then @_writePostsJson.bind @
     .then @_writeTagsJson.bind @
     .then @_writeSitemapXml.bind @
@@ -69,6 +70,22 @@ class Compiler
       dest = path.join dir, year, month + '.join'
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
       dest = path.join dir, year, month, 'index.join'
+      fs.outputJsonSync dest, posts, encoding: 'utf-8'
+
+  # <dstDir>/yyyy.json
+  # <dstDir>/yyyy/index.json
+  _writeYearlyPosts: ->
+    yearlyPosts = @_compiledPosts.reduce (r, post) ->
+      d = moment post.date
+      y = d.format 'YYYY'
+      r[y] ?= []
+      r[y].push post
+    , {}
+    dir = @_dstDir
+    for year, posts of yearlyPosts
+      dest = path.join dir, year + '.join'
+      fs.outputJsonSync dest, posts, encoding: 'utf-8'
+      dest = path.join dir, year, 'index.join'
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
 
   # <dstDir>/posts.json

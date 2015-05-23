@@ -22,6 +22,7 @@ class Compiler
     Promise.resolve()
     .then @_compilePosts.bind @
     .then @_writeDailyPosts.bind @
+    .then @_writeMonthlyPosts.bind @
     .then @_writePostsJson.bind @
     .then @_writeTagsJson.bind @
     .then @_writeSitemapXml.bind @
@@ -52,6 +53,23 @@ class Compiler
       fs.outputJsonSync dest, post, encoding: 'utf-8'
       dest = path.join dir, year, month, date, 'index.join'
       fs.outputJsonSync dest, post, encoding: 'utf-8'
+
+  # <dstDir>/yyyy/mm.json
+  # <dstDir>/yyyy/mm/index.json
+  _writeMonthlyPosts: ->
+    monthlyPosts = @_compiledPosts.reduce (r, post) ->
+      d = moment post.date
+      ym = d.format 'YYYY/MM'
+      r[ym] ?= []
+      r[ym].push post
+    , {}
+    dir = @_dstDir
+    for ym, posts of monthlyPosts
+      [year, month] = ym.split '/'
+      dest = path.join dir, year, month + '.join'
+      fs.outputJsonSync dest, posts, encoding: 'utf-8'
+      dest = path.join dir, year, month, 'index.join'
+      fs.outputJsonSync dest, posts, encoding: 'utf-8'
 
   # <dstDir>/posts.json
   _writePostsJson: ->

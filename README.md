@@ -1,11 +1,9 @@
 Kraken
 ==============================================================================
 
-**DEPRECATED**: Kraken has been integrated into the [bouzuya/bbn-react][]
+A blog data generator for [blog.bouzuya.net](http://blog.bouzuya.net/).
 
-[bouzuya/bbn-react]: https://github.com/bouzuya/bbn-react
-
-Kraken is a blog generator for [bouzuya](http://bouzuya.net/).
+See: [bouzuya/blog.bouzuya.net][]
 
 Installation
 ------------------------------------------------------------------------------
@@ -55,3 +53,5 @@ Badges
 ------------------------------------------------------------------------------
 
 [![Build Status](https://travis-ci.org/bouzuya/kraken.svg)](https://travis-ci.org/bouzuya/kraken)
+
+[bouzuya/blog.bouzuya.net]: https://github.com/bouzuya/blog.bouzuya.net

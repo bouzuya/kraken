@@ -24,7 +24,7 @@ class Compiler
     .then @_writeDailyPosts.bind @
     .then @_writeMonthlyPosts.bind @
     .then @_writeYearlyPosts.bind @
-    .then @_writePostsJson.bind @
+    .then @_writeAllPosts.bind @
     .then @_writeTagsJson.bind @
     .then @_writeSitemapXml.bind @
     .then @_writeAtomXml.bind @
@@ -89,7 +89,7 @@ class Compiler
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
 
   # <dstDir>/posts.json
-  _writePostsJson: ->
+  _writeAllPosts: ->
     posts = @_compiledPosts
     dest = path.join @_dstDir, 'posts.json'
     data = posts.map (i) ->

@@ -18,7 +18,7 @@ class Compiler
     @_compiledPosts = []
 
   compile: ->
-    @_blog = myjekyll @_postsDir + '/**/*.coffee', {}
+    @_blog = myjekyll @_postsDir + '/**/*.md', {}
     Promise.resolve()
     .then @_compilePosts.bind @
     .then @_writeDailyPosts.bind @
@@ -50,9 +50,9 @@ class Compiler
       year = d.format 'YYYY'
       month = d.format 'MM'
       date = d.format 'DD'
-      dest = path.join dir, year, month, date + '.join'
+      dest = path.join dir, year, month, date + '.json'
       fs.outputJsonSync dest, post, encoding: 'utf-8'
-      dest = path.join dir, year, month, date, 'index.join'
+      dest = path.join dir, year, month, date, 'index.json'
       fs.outputJsonSync dest, post, encoding: 'utf-8'
 
   # <dstDir>/yyyy/mm.json
@@ -63,13 +63,14 @@ class Compiler
       ym = d.format 'YYYY/MM'
       r[ym] ?= []
       r[ym].push post
+      r
     , {}
     dir = @_dstDir
     for ym, posts of monthlyPosts
       [year, month] = ym.split '/'
-      dest = path.join dir, year, month + '.join'
+      dest = path.join dir, year, month + '.json'
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
-      dest = path.join dir, year, month, 'index.join'
+      dest = path.join dir, year, month, 'index.json'
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
 
   # <dstDir>/yyyy.json
@@ -80,12 +81,13 @@ class Compiler
       y = d.format 'YYYY'
       r[y] ?= []
       r[y].push post
+      r
     , {}
     dir = @_dstDir
     for year, posts of yearlyPosts
-      dest = path.join dir, year + '.join'
+      dest = path.join dir, year + '.json'
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
-      dest = path.join dir, year, 'index.join'
+      dest = path.join dir, year, 'index.json'
       fs.outputJsonSync dest, posts, encoding: 'utf-8'
 
   # <dstDir>/posts.json

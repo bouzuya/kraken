@@ -109,6 +109,7 @@ class Compiler
     tagCounts = @_blog.tagCounts()
     data = Object.keys(tagCounts).reduce (tags, tag) ->
       tags.push name: tag, count: tagCounts[tag]
+      tags
     , []
     fs.outputJsonSync dest, data, encoding: 'utf-8'
 

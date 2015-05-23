@@ -10,8 +10,7 @@ SitemapBuilder = require './sitemap-builder'
 SitemapFormatter = require './sitemap-formatter'
 
 class Compiler
-  constructor: ({ srcDir, postsDir, dstDir }) ->
-    @_srcDir = srcDir
+  constructor: ({ postsDir, dstDir }) ->
     @_postsDir = postsDir
     @_dstDir = dstDir
     @_blog = {}

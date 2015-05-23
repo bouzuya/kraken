@@ -5,10 +5,9 @@ module.exports = class Kraken
   constructor: ->
     @_config = new Config()
     @_config.load()
-    srcDir = @_config.srcDir()
     postsDir = @_config.postsDir()
     dstDir = @_config.dstDir()
-    @_compiler = new Compiler { srcDir, postsDir, dstDir }
+    @_compiler = new Compiler { postsDir, dstDir }
 
   run: ->
     @_compiler.compile()

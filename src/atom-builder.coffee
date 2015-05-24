@@ -1,12 +1,15 @@
+moment = require 'moment'
 module.exports = class AtomBuilder
   constructor: (@posts) ->
 
   build: ->
     entries = @posts.sort (a, b) ->
       # order by date desc.
-      if a.updated is b.updated
+      ad = moment a.pubdate
+      bd = moment b.pubdate
+      if ad.isSame bd
         0
-      else if a.updated < b.updated
+      else if ad.isBefore bd
         1
       else
         -1

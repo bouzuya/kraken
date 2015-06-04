@@ -6,7 +6,7 @@ module.exports = class AtomFormatter
     """
       <?xml version="1.0" encoding="utf-8"?>
       <feed xmlns="http://www.w3.org/2005/Atom">
-        <title>#{atom.title}</title>
+        <title>#{@_escapeHtml(atom.title)}</title>
         <link rel="alternate" type="text/html" href="#{atom.linkHref}" />
         <updated>#{atom.updated}</updated>
         <id>#{atom.id}</id>
@@ -20,7 +20,7 @@ module.exports = class AtomFormatter
   _buildEntry: (entry) ->
     """
       <entry>
-        <title>#{entry.title}</title>
+        <title>#{@_escapeHtml(entry.title)}</title>
         <link href="#{entry.linkHref}" />
         <updated>#{entry.updated}</updated>
         <id>#{entry.id}</id>

@@ -10,6 +10,8 @@ AtomFormatter = require './atom-formatter'
 SitemapBuilder = require './sitemap-builder'
 SitemapFormatter = require './sitemap-formatter'
 
+fs.jsonfile.spaces = null
+
 class Compiler
   constructor: ({ postsDir, dstDir }) ->
     @_postsDir = postsDir

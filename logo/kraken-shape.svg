@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="4096"
+   height="4096"
+   viewBox="0 0 4096.0001 4096"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="kraken-shape.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.11410362"
+     inkscape:cx="1730.2465"
+     inkscape:cy="1962.8879"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:snap-bbox="true"
+     inkscape:window-width="1362"
+     inkscape:window-height="723"
+     inkscape:window-x="4"
+     inkscape:window-y="23"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,3043.6378)"
+     style="display:inline">
+    <path
+       style="opacity:1;fill:#fd002b;fill-opacity:0.54455447;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0 0 L 0 11.376953 A 4096 4096 0 0 1 548.75977 2048 A 4096 4096 0 0 1 0 4088.748 L 0 4096 L 4096 4096 A 4096 4096 0 0 0 4056.6172 3584 L 3840 3584 L 3727.6113 3584 L 1280 3584 C 1138.176 3584 1024 3469.824 1024 3328 C 1024 3186.176 1138.176 3072 1280 3072 L 3727.6113 3072 L 3840 3072 L 3956.0215 3072 A 4096 4096 0 0 0 3791.8125 2560 L 1280 2560 C 1138.176 2560 1024 2445.824 1024 2304 C 1024 2162.176 1138.176 2048 1280 2048 L 3539.4121 2048 A 4096 4096 0 0 0 3192.6328 1536 L 1280 1536 C 1138.176 1536 1024 1421.824 1024 1280 C 1024 1138.176 1138.176 1024 1280 1024 L 2701.5059 1024 A 4096 4096 0 0 0 0 0 z "
+       transform="translate(0,-3043.6378)"
+       id="rect5816" />
+  </g>
+</svg>

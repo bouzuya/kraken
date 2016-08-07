@@ -1,7 +1,6 @@
-Kraken
-==============================================================================
+![kraken](https://cloud.githubusercontent.com/assets/1221346/17460910/189fabd0-5cb4-11e6-83b6-bc8122c7557a.png)
 
-A blog data generator for [blog.bouzuya.net](http://blog.bouzuya.net/).
+kraken: A blog data generator for [blog.bouzuya.net](http://blog.bouzuya.net/).
 
 See: [bouzuya/blog.bouzuya.net][]
 

@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-var CLI = require('../lib/cli');
+var CLI = require('../lib/cli').CLI;
 new CLI().run();

@@ -1,7 +1,14 @@
 import * as moment from 'moment';
 
+export type Post = {
+  date: string;
+  html: string;
+  pubdate: string;
+  title: string;
+};
+
 export class AtomBuilder {
-  constructor(posts) {
+  constructor(private posts: Post[]) {
     this.posts = posts;
   }
 

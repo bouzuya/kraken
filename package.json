@@ -47,7 +47,7 @@
   },
   "scripts": {
     "build": "gulp build",
-    "clean": "gulp clean",
+    "clean": "rimraf .tmp lib",
     "test": "gulp test",
     "watch": "gulp watch"
   }

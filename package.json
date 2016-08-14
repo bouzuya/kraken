@@ -22,11 +22,9 @@
     "myjekyll": "https://github.com/bouzuya/myjekyll/archive/2.0.0.tar.gz"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.2",
-    "gulp": "^3.8.11",
-    "gulp-coffee": "^2.3.1",
-    "gulp-uglify": "^1.2.0",
-    "rimraf": "2.5.4"
+    "coffee-script": "1.10.0",
+    "rimraf": "2.5.4",
+    "uglify-js": "2.6.4"
   },
   "homepage": "https://github.com/bouzuya/kraken",
   "license": "MIT",
@@ -36,7 +34,9 @@
     "url": "git://github.com/bouzuya/kraken.git"
   },
   "scripts": {
-    "build": "gulp build",
+    "build": "npm run build:coffee && npm run build:minify",
+    "build:coffee": "coffee -b -c -o .tmp src",
+    "build:minify": "([ -d lib ] || mkdir lib) && for f in .tmp/*.js; do uglifyjs --compress --mangle -o lib/\"${f##*/}\" -- \"${f}\"; done",
     "clean": "rimraf .tmp lib"
   }
 }

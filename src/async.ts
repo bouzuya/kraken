@@ -1,10 +1,8 @@
 import { Promise } from './globals';
 
-var eachSeries = function(arr, f) {
-  return arr.reduce(function(promise, item) {
-    return promise.then(function() {
-      return f(item);
-    });
+const eachSeries = <T>(arr: T[], f: (item: T) => void): Promise<void> => {
+  return arr.reduce((promise, item) => {
+    return promise.then(() => void f(item));
   }, Promise.resolve());
 };
 

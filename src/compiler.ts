@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import * as myjekyll from 'myjekyll';
 import * as path from 'path';
 import * as async from './async';
+import { formatAtom } from './format-atom';
 import { AtomBuilder } from './atom-builder';
 import { AtomFormatter } from './atom-formatter';
 import { Promise } from './globals';
@@ -187,11 +188,8 @@ export class Compiler {
 
   _writeAtomXml() {
     const dest = path.join(this._dstDir, 'atom.xml');
-    const atom = new AtomBuilder(this._compiledPosts).build();
-    const formatter = new AtomFormatter(atom);
-    const data = formatter.format();
-    return fs.outputFileSync(dest, data, {
-      encoding: 'utf-8'
-    });
+    const entries = this._compiledPosts;
+    const formatted = formatAtom(entries);
+    return fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
   }
 }

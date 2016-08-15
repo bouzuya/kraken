@@ -27,11 +27,6 @@ Usage
     $ cat build/posts/2014-04-01.json
     {"title":"hoge","tags":["diary"],"data":"i love munchkin.","html":"<p>i love munchkin.</p>\n\n"}
 
-License
-------------------------------------------------------------------------------
-
-MIT
-
 Note
 ------------------------------------------------------------------------------
 
@@ -48,10 +43,12 @@ Note
   - tags
   - minutes
 
-Badges
-------------------------------------------------------------------------------
+## Badges
 
-[![Build Status](https://travis-ci.org/bouzuya/kraken.svg)](https://travis-ci.org/bouzuya/kraken)
+[![Travis CI][travisci-badge-url]][travisci-url]
+
+[travisci-badge-url]: https://travis-ci.org/bouzuya/kraken.svg
+[travisci-url]: https://travis-ci.org/bouzuya/kraken
 
 [bouzuya/blog.bouzuya.net]: https://github.com/bouzuya/blog.bouzuya.net
 

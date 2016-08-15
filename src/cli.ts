@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as commander from 'commander-b';
 import kraken from './';
-import { Promise } from './globals';
 
 export class CLI {
   run(): Promise<void> {

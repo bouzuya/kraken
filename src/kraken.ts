@@ -1,6 +1,5 @@
 import { Config } from './config';
 import { Compiler } from './compiler';
-import { Promise } from './globals';
 
 export class Kraken {
   private _config: Config;

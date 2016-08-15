@@ -9,5 +9,5 @@ export class CLI {
     return commander('kraken').version(JSON.parse(pkg).version).action(function () {
       return kraken();
     }).execute();
-  };
+  }
 }

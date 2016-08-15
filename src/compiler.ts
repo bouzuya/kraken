@@ -100,6 +100,29 @@ const saveAllJson = (
   writeFile(join(outDir, 'posts.json'), formatted);
 };
 
+const saveTagsJson = (
+  repository: Repository,
+  outDir: string
+): void => {
+  const entries = repository.findAll();
+  const formatted = JSON.stringify(
+    entries.reduce<{ name: string; count: number; }[]>((tags, entry) => {
+      return entry.tags.reduce((tags, tag) => {
+        const index = tags.findIndex(({ name }) => name === tag);
+        if (index >= 0) {
+          const before = tags.slice(0, index);
+          const oldTag = tags[index];
+          const newTag = Object.assign({}, oldTag, { count: oldTag.count + 1 });
+          const after = tags.slice(index + 1);
+          return before.concat([newTag]).concat(after);
+        } else {
+          return tags.concat([{ name: tag, count: 1 }]);
+        }
+      }, tags);
+    }, []));
+  writeFile(join(outDir, 'tags.json'), formatted);
+};
+
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
@@ -119,10 +142,10 @@ export class Compiler {
     saveMonthlyJson(repository, this._dstDir);
     saveYearlyJson(repository, this._dstDir);
     saveAllJson(repository, this._dstDir);
+    saveTagsJson(repository, this._dstDir);
     this._blog = myjekyll(this._postsDir + '/**/*.md', {});
     return Promise.resolve()
       .then(this._compilePosts.bind(this))
-      .then(this._writeTagsJson.bind(this))
       .then(this._writeSitemapXml.bind(this))
       .then(this._writeAtomXml.bind(this));
   }
@@ -139,20 +162,6 @@ export class Compiler {
         title: entry.title
       };
     });
-  }
-
-  _writeTagsJson(): void {
-    const dest = path.join(this._dstDir, 'tags.json');
-    const tagCounts = this._blog.tagCounts();
-    const data = Object.keys(tagCounts)
-      .reduce<{ name: string; count: number; }[]>((tags, tag) => {
-        tags.push({
-          name: tag,
-          count: tagCounts[tag]
-        });
-        return tags;
-      }, []);
-    writeFile(dest, formatJson(data));
   }
 
   _writeSitemapXml(): void {

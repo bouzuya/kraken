@@ -11,7 +11,7 @@ export class SitemapBuilder {
   }
 
   build() {
-    return this.posts.map(function (post) {
+    return this.posts.map((post) => {
       return {
         loc: 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/',
         lastmod: post.pubdate

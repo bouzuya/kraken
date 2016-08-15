@@ -6,8 +6,9 @@ export class CLI {
   run() {
     var pkg;
     pkg = fs.readFileSync(__dirname + '/../package.json');
-    return commander('kraken').version(JSON.parse(pkg).version).action(function () {
-      return kraken();
-    }).execute();
+    return commander('kraken')
+      .version(JSON.parse(pkg).version)
+      .action(() => kraken())
+      .execute();
   }
 }

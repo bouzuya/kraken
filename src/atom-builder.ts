@@ -32,28 +32,29 @@ export class AtomBuilder {
   }
 
   build(): Atom {
-    const entries: AtomEntry[] = this.posts.sort(function (a, b) {
-      const ad = moment(a.pubdate);
-      const bd = moment(b.pubdate);
-      if (ad.isSame(bd)) {
-        return 0;
-      } else if (ad.isBefore(bd)) {
-        return 1;
-      } else {
-        return -1;
-      }
-    }).filter(function (_, index) {
-      return index < 20;
-    }).map(function (post) {
-      const url = `http://blog.bouzuya.net/${post.date.replace(/-/g, '/')}/`;
-      return {
-        title: post.title,
-        linkHref: url,
-        updated: post.pubdate,
-        id: url,
-        content: post.html
-      };
-    });
+    const entries: AtomEntry[] = this.posts
+      .sort((a, b) => {
+        const ad = moment(a.pubdate);
+        const bd = moment(b.pubdate);
+        if (ad.isSame(bd)) {
+          return 0;
+        } else if (ad.isBefore(bd)) {
+          return 1;
+        } else {
+          return -1;
+        }
+      })
+      .filter((_, index) => index < 20)
+      .map((post) => {
+        const url = `http://blog.bouzuya.net/${post.date.replace(/-/g, '/')}/`;
+        return {
+          title: post.title,
+          linkHref: url,
+          updated: post.pubdate,
+          id: url,
+          content: post.html
+        };
+      });
     const lastEntry: AtomEntry | undefined = entries[0];
     const updated = typeof lastEntry === 'undefined' ? '' : lastEntry.updated;
     return {

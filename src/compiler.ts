@@ -79,7 +79,7 @@ export class Compiler {
   _writeDailyPosts() {
     const posts = this._compiledPosts;
     const dir = this._dstDir;
-    return async.eachSeries(posts, function (post) {
+    return async.eachSeries(posts, (post) => {
       var dest: string;
       const d = moment(post.date);
       const year = d.format('YYYY');
@@ -155,7 +155,7 @@ export class Compiler {
   _writeAllPosts() {
     const posts = this._compiledPosts;
     const dest = path.join(this._dstDir, 'posts.json');
-    const data = posts.map(function (i) {
+    const data = posts.map((i) => {
       if (i.minutes == null) {
         throw new Error(i.date + " minutes is not defined.");
       }
@@ -176,7 +176,7 @@ export class Compiler {
     const dest = path.join(this._dstDir, 'tags.json');
     const tagCounts = this._blog.tagCounts();
     const data = Object.keys(tagCounts)
-      .reduce<{ name: string; count: number; }[]>(function (tags, tag) {
+      .reduce<{ name: string; count: number; }[]>((tags, tag) => {
         tags.push({
           name: tag,
           count: tagCounts[tag]

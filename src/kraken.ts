@@ -1,27 +1,22 @@
 import { Config } from './config';
 import { Compiler } from './compiler';
 
-var Kraken;
+export class Kraken {
+  private _config: Config;
+  private _compiler: Compiler;
 
-Kraken = (function() {
-  function Kraken() {
-    var dstDir, postsDir;
+  constructor() {
     this._config = new Config();
     this._config.load();
-    postsDir = this._config.postsDir();
-    dstDir = this._config.dstDir();
+    const postsDir = this._config.postsDir();
+    const dstDir = this._config.dstDir();
     this._compiler = new Compiler({
       postsDir: postsDir,
       dstDir: dstDir
     });
   }
 
-  Kraken.prototype.run = function() {
+  run() {
     return this._compiler.compile();
-  };
-
-  return Kraken;
-
-})();
-
-export { Kraken };
+  }
+}

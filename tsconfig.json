@@ -20,6 +20,7 @@
     "./src/cli.ts",
     "./src/index.ts",
     "./test/compile.ts",
+    "./test/format.ts",
     "./test/fs/format-json.ts",
     "./test/fs/list-files.ts",
     "./test/fs/parse-json.ts",

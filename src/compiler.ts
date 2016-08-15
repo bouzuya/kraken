@@ -1,4 +1,3 @@
-import * as fs from 'fs-extra';
 import * as marked from 'marked';
 import * as moment from 'moment';
 import * as myjekyll from 'myjekyll';
@@ -7,8 +6,7 @@ import * as async from './async';
 import { formatAtom } from './format-atom';
 import { formatSitemap } from './format-sitemap';
 import { Promise } from './globals';
-
-fs.jsonfile.spaces = null;
+import { formatJson, writeFile } from './fs';
 
 type MyJekyll = {
   entries: () => Entry[];
@@ -83,13 +81,13 @@ export class Compiler {
       const month = d.format('MM');
       const date = d.format('DD');
       const dest1 = path.join(dir, year, month, date + '.json');
-      fs.outputJsonSync(dest1, post, { encoding: 'utf-8' });
+      writeFile(dest1, formatJson(post));
       const dest2 = path.join(dir, year, month, date, 'index.json');
-      return fs.outputJsonSync(dest2, post, { encoding: 'utf-8' });
+      writeFile(dest2, formatJson(post));
     });
   }
 
-  _writeMonthlyPosts(): string[] {
+  _writeMonthlyPosts(): void {
     const monthlyPosts: { [ym: string]: CompiledEntry[]; } =
       this._compiledPosts.reduce<{ [ym: string]: CompiledEntry[]; }>(
         (r, post) => {
@@ -102,19 +100,17 @@ export class Compiler {
           return r;
         }, {});
     const dir = this._dstDir;
-    const results: string[] = [];
     for (const ym in monthlyPosts) {
       const posts = monthlyPosts[ym];
       const [year, month] = ym.split('/');
       const dest1 = path.join(dir, year, month + '.json');
-      fs.outputJsonSync(dest1, posts, { encoding: 'utf-8' });
+      writeFile(dest1, formatJson(posts));
       const dest2 = path.join(dir, year, month, 'index.json');
-      results.push(fs.outputJsonSync(dest2, posts, { encoding: 'utf-8' }));
+      writeFile(dest2, formatJson(posts));
     }
-    return results;
   }
 
-  _writeYearlyPosts(): string[] {
+  _writeYearlyPosts(): void {
     const yearlyPosts: { [year: string]: CompiledEntry[]; } = this._compiledPosts.reduce<{ [year: string]: CompiledEntry[]; }>(
       (r, post) => {
         const d = moment(post.date);
@@ -126,15 +122,13 @@ export class Compiler {
         return r;
       }, {});
     const dir = this._dstDir;
-    const results: string[] = [];
     for (const year in yearlyPosts) {
       const posts = yearlyPosts[year];
       const dest1 = path.join(dir, year + '.json');
-      fs.outputJsonSync(dest1, posts, { encoding: 'utf-8' });
+      writeFile(dest1, formatJson(posts));
       const dest2 = path.join(dir, year, 'index.json');
-      results.push(fs.outputJsonSync(dest2, posts, { encoding: 'utf-8' }));
+      writeFile(dest2, formatJson(posts));
     }
-    return results;
   }
 
   _writeAllPosts(): void {
@@ -152,9 +146,7 @@ export class Compiler {
         title: i.title
       };
     });
-    fs.outputJsonSync(dest, data, {
-      encoding: 'utf-8'
-    });
+    writeFile(dest, formatJson(data));
   }
 
   _writeTagsJson(): void {
@@ -168,22 +160,20 @@ export class Compiler {
         });
         return tags;
       }, []);
-    fs.outputJsonSync(dest, data, {
-      encoding: 'utf-8'
-    });
+    writeFile(dest, formatJson(data));
   }
 
   _writeSitemapXml(): void {
     const dest = path.join(this._dstDir, 'sitemap.xml');
     const entries = this._compiledPosts;
     const formatted = formatSitemap(entries);
-    fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
+    writeFile(dest, formatted);
   }
 
   _writeAtomXml(): void {
     const dest = path.join(this._dstDir, 'atom.xml');
     const entries = this._compiledPosts;
     const formatted = formatAtom(entries);
-    fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
+    writeFile(dest, formatted);
   }
 }

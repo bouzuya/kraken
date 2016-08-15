@@ -7,6 +7,17 @@
     "email": "m@bouzuya.net",
     "url": "http://bouzuya.net"
   },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "beater": {
+    "dir": "./.tmp/es5/test/",
+    "require": [
+      "./scripts/enable-power-assert.js"
+    ]
+  },
   "bin": {
     "kraken": "./bin/kraken"
   },
@@ -25,12 +36,22 @@
   "devDependencies": {
     "@types/fs-extra": "0.0.29",
     "@types/node": "6.0.33",
+    "@types/power-assert": "0.0.27",
+    "@types/proxyquire": "1.3.26",
+    "@types/sinon": "1.16.26",
     "babel-cli": "6.11.4",
     "babel-preset-es2015": "6.13.2",
+    "beater": "0.4.1",
+    "beater-cli": "0.2.4",
     "cpx": "1.3.2",
+    "espower-loader": "1.0.0",
     "npm-run-all": "2.3.0",
+    "power-assert": "1.4.1",
+    "proxyquire": "1.7.10",
     "rimraf": "2.5.4",
-    "typescript": "2.0.0"
+    "sinon": "1.17.4",
+    "typescript": "2.0.0",
+    "watch": "0.19.1"
   },
   "homepage": "https://github.com/bouzuya/kraken",
   "license": "MIT",
@@ -46,6 +67,11 @@
     "clean": "rimraf .tmp lib",
     "copy:dts": "cpx '.tmp/es2015/src/**/*.d.ts' 'lib/'",
     "copy:js": "cpx '.tmp/es5/src/**/*.js' 'lib/'",
-    "prepublish": "npm-run-all -s 'clean' 'build'"
+    "prepublish": "npm-run-all -s 'clean' 'build'",
+    "test": "beater",
+    "watch": "npm-run-all -p 'watch:*'",
+    "watch:es2015": "npm run 'build:es2015' -- --watch",
+    "watch:test": "watch --wait 2 'npm test' '.tmp/es5/'",
+    "watch:ts": "npm run 'build:ts' -- --watch"
   }
 }

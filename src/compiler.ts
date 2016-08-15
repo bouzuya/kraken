@@ -80,12 +80,11 @@ export class Compiler {
     const posts = this._compiledPosts;
     const dir = this._dstDir;
     return async.eachSeries(posts, (post) => {
-      var dest: string;
       const d = moment(post.date);
       const year = d.format('YYYY');
       const month = d.format('MM');
       const date = d.format('DD');
-      dest = path.join(dir, year, month, date + '.json');
+      let dest = path.join(dir, year, month, date + '.json');
       fs.outputJsonSync(dest, post, {
         encoding: 'utf-8'
       });

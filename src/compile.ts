@@ -1,3 +1,4 @@
+import { ParserType } from './parse';
 import { formatAtom } from './format-atom';
 import {
   formatAllJson,
@@ -6,7 +7,6 @@ import {
   formatYearlyJson
 } from './format-bbn-json';
 import { formatSitemap } from './format-sitemap';
-import { Promise } from './globals';
 import { writeFile, path as join } from './fs';
 import { Repository } from './repository';
 
@@ -145,28 +145,29 @@ const saveLinkedJson = (
   writeFile(join(outDir, 'linked.json'), formatted);
 };
 
-export class Compiler {
-  private _postsDir: string;
-  private _dstDir: string;
-  private _compiledPosts: CompiledEntry[];
 
-  constructor({ dstDir, postsDir }: { dstDir: string; postsDir: string; }) {
-    this._postsDir = postsDir;
-    this._dstDir = dstDir;
-    // this._blog = {};
-    this._compiledPosts = [];
-  }
+const compileImpl = (
+  inDir: string, outDir: string, type: ParserType = 'default'
+): void => {
+  const repository = new Repository(inDir, type);
+  saveYearlyJson(repository, outDir);
+  saveMonthlyJson(repository, outDir);
+  saveDailyJson(repository, outDir);
+  saveAllJson(repository, outDir);
+  saveTagsJson(repository, outDir);
+  saveAtomXml(repository, outDir);
+  saveSitemapXml(repository, outDir);
+  saveLinkedJson(repository, outDir);
+};
 
-  compile(): Promise<void> {
-    const repository = new Repository(this._postsDir);
-    saveDailyJson(repository, this._dstDir);
-    saveMonthlyJson(repository, this._dstDir);
-    saveYearlyJson(repository, this._dstDir);
-    saveAllJson(repository, this._dstDir);
-    saveTagsJson(repository, this._dstDir);
-    saveAtomXml(repository, this._dstDir);
-    saveSitemapXml(repository, this._dstDir);
-    saveLinkedJson(repository, this._dstDir);
-    return Promise.resolve();
-  }
-}
+const compile = (inDir: string, outDir: string): void => {
+  compileImpl(inDir, outDir);
+};
+
+const compileOld = (inDir: string, outDir: string): void => {
+  compileImpl(inDir, outDir, 'jekyll');
+};
+
+const compileNew = compile;
+
+export { compileOld, compileNew, compile };

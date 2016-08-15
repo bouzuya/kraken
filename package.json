@@ -16,9 +16,11 @@
   "dependencies": {
     "commander-b": "0.2.0",
     "fs-extra": "^0.18.3",
+    "jekyll-markdown-parser": "0.1.2",
     "marked": "0.3.2",
     "moment": "^2.10.3",
-    "myjekyll": "https://github.com/bouzuya/myjekyll/archive/2.0.0.tar.gz"
+    "myjekyll": "https://github.com/bouzuya/myjekyll/archive/2.0.0.tar.gz",
+    "time-keeper": "0.2.2"
   },
   "devDependencies": {
     "@types/fs-extra": "0.0.29",

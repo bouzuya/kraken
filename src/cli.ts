@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as commander from 'commander-b';
-import { kraken } from './';
+import kraken from './';
 
 var CLI;
 

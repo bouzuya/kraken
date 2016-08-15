@@ -7,17 +7,34 @@ export type Post = {
   title: string;
 };
 
+export type AtomEntry = {
+  title: string;
+  linkHref: string;
+  updated: string;
+  id: string;
+  content: string;
+};
+
+export type Atom = {
+  title: string;
+  linkHref: string;
+  updated: string;
+  id: string;
+  author: {
+    name: string;
+  };
+  entries: AtomEntry[];
+};
+
 export class AtomBuilder {
   constructor(private posts: Post[]) {
     this.posts = posts;
   }
 
-  build() {
-    var atom, entries, ref, ref1;
-    entries = this.posts.sort(function (a, b) {
-      var ad, bd;
-      ad = moment(a.pubdate);
-      bd = moment(b.pubdate);
+  build(): Atom {
+    const entries: AtomEntry[] = this.posts.sort(function (a, b) {
+      const ad = moment(a.pubdate);
+      const bd = moment(b.pubdate);
       if (ad.isSame(bd)) {
         return 0;
       } else if (ad.isBefore(bd)) {
@@ -28,8 +45,7 @@ export class AtomBuilder {
     }).filter(function (_, index) {
       return index < 20;
     }).map(function (post) {
-      var url;
-      url = 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/';
+      const url = `http://blog.bouzuya.net/${post.date.replace(/-/g, '/')}/`;
       return {
         title: post.title,
         linkHref: url,
@@ -38,15 +54,17 @@ export class AtomBuilder {
         content: post.html
       };
     });
-    return atom = {
+    const lastEntry: AtomEntry | undefined = entries[0];
+    const updated = typeof lastEntry === 'undefined' ? '' : lastEntry.updated;
+    return {
       title: 'blog.bouzuya.net',
       linkHref: 'http://blog.bouzuya.net/',
-      updated: (ref = (ref1 = entries[0]) != null ? ref1.updated : void 0) != null ? ref : '',
+      updated,
       id: 'http://blog.bouzuya.net/',
       author: {
         name: 'bouzuya'
       },
       entries: entries
     };
-  };
+  }
 }

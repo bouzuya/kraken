@@ -1,30 +1,21 @@
 import * as path from 'path';
 
-var Config;
-
-Config = (function() {
-  function Config() {}
-
-  Config.prototype.load = function() {
+export class Config {
+  load() {
     this._rootDir = process.cwd();
     this._postsDir = path.join(this._rootDir, 'data');
     return this._dstDir = path.join(this._rootDir, 'dist');
-  };
+  }
 
-  Config.prototype.rootDir = function() {
+  rootDir() {
     return this._rootDir;
-  };
+  }
 
-  Config.prototype.postsDir = function() {
+  postsDir() {
     return this._postsDir;
-  };
+  }
 
-  Config.prototype.dstDir = function() {
+  dstDir() {
     return this._dstDir;
-  };
-
-  return Config;
-
-})();
-
-export { Config };
+  }
+}

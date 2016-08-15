@@ -1,7 +1,3 @@
-import * as marked from 'marked';
-import * as moment from 'moment';
-import * as myjekyll from 'myjekyll';
-import * as path from 'path';
 import { formatAtom } from './format-atom';
 import {
   formatAllJson,
@@ -11,22 +7,8 @@ import {
 } from './format-bbn-json';
 import { formatSitemap } from './format-sitemap';
 import { Promise } from './globals';
-import { formatJson, writeFile, path as join } from './fs';
+import { writeFile, path as join } from './fs';
 import { Repository } from './repository';
-
-type MyJekyll = {
-  entries: () => Entry[];
-  tagCounts: () => { [tag: string]: number };
-};
-
-type Entry = {
-  content: string;
-  file: string;
-  minutes: number;
-  pubdate: string;
-  tags: string;
-  title: string;
-};
 
 export type CompiledEntry = {
   data: string;
@@ -144,7 +126,6 @@ const saveSitemapXml = (
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
-  private _blog: MyJekyll;
   private _compiledPosts: CompiledEntry[];
 
   constructor({ dstDir, postsDir }: { dstDir: string; postsDir: string; }) {

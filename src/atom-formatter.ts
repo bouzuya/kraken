@@ -6,8 +6,7 @@ export class AtomFormatter {
   }
 
   format(): string {
-    var atom: Atom;
-    atom = this.atom;
+    const atom = this.atom;
     return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<feed xmlns=\"http://www.w3.org/2005/Atom\">\n  <title>" + (this._escapeHtml(atom.title)) + "</title>\n  <link rel=\"alternate\" type=\"text/html\" href=\"" + atom.linkHref + "\" />\n  <updated>" + atom.updated + "</updated>\n  <id>" + atom.id + "</id>\n  <author>\n    <name>" + atom.author.name + "</name>\n  </author>\n  " + (atom.entries.map(this._buildEntry.bind(this)).join('\n')) + "\n</feed>";
   };
 

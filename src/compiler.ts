@@ -10,12 +10,10 @@ import { Promise } from './globals';
 import { SitemapBuilder } from './sitemap-builder';
 import { SitemapFormatter } from './sitemap-formatter';
 
-var AtomBuilder, AtomFormatter, Compiler, SitemapBuilder, SitemapFormatter;
-
 fs.jsonfile.spaces = null;
 
-Compiler = (function() {
-  function Compiler(arg) {
+export class Compiler {
+  constructor(arg) {
     var dstDir, postsDir;
     postsDir = arg.postsDir, dstDir = arg.dstDir;
     this._postsDir = postsDir;
@@ -24,12 +22,12 @@ Compiler = (function() {
     this._compiledPosts = [];
   }
 
-  Compiler.prototype.compile = function() {
+  compile() {
     this._blog = myjekyll(this._postsDir + '/**/*.md', {});
     return Promise.resolve().then(this._compilePosts.bind(this)).then(this._writeDailyPosts.bind(this)).then(this._writeMonthlyPosts.bind(this)).then(this._writeYearlyPosts.bind(this)).then(this._writeAllPosts.bind(this)).then(this._writeTagsJson.bind(this)).then(this._writeSitemapXml.bind(this)).then(this._writeAtomXml.bind(this));
-  };
+  }
 
-  Compiler.prototype._compilePosts = function() {
+  _compilePosts() {
     return this._compiledPosts = this._blog.entries().map(function(entry) {
       return {
         data: entry.content,
@@ -41,9 +39,9 @@ Compiler = (function() {
         title: entry.title
       };
     });
-  };
+  }
 
-  Compiler.prototype._writeDailyPosts = function() {
+  _writeDailyPosts() {
     var dir, posts;
     posts = this._compiledPosts;
     dir = this._dstDir;
@@ -62,9 +60,9 @@ Compiler = (function() {
         encoding: 'utf-8'
       });
     });
-  };
+  }
 
-  Compiler.prototype._writeMonthlyPosts = function() {
+  _writeMonthlyPosts() {
     var dest, dir, month, monthlyPosts, posts, ref, results, year, ym;
     monthlyPosts = this._compiledPosts.reduce(function(r, post) {
       var d, ym;
@@ -91,9 +89,9 @@ Compiler = (function() {
       }));
     }
     return results;
-  };
+  }
 
-  Compiler.prototype._writeYearlyPosts = function() {
+  _writeYearlyPosts() {
     var dest, dir, posts, results, year, yearlyPosts;
     yearlyPosts = this._compiledPosts.reduce(function(r, post) {
       var d, y;
@@ -119,9 +117,9 @@ Compiler = (function() {
       }));
     }
     return results;
-  };
+  }
 
-  Compiler.prototype._writeAllPosts = function() {
+  _writeAllPosts() {
     var data, dest, posts;
     posts = this._compiledPosts;
     dest = path.join(this._dstDir, 'posts.json');
@@ -140,9 +138,9 @@ Compiler = (function() {
     return fs.outputJsonSync(dest, data, {
       encoding: 'utf-8'
     });
-  };
+  }
 
-  Compiler.prototype._writeTagsJson = function() {
+  _writeTagsJson() {
     var data, dest, tagCounts;
     dest = path.join(this._dstDir, 'tags.json');
     tagCounts = this._blog.tagCounts();
@@ -156,9 +154,9 @@ Compiler = (function() {
     return fs.outputJsonSync(dest, data, {
       encoding: 'utf-8'
     });
-  };
+  }
 
-  Compiler.prototype._writeSitemapXml = function() {
+  _writeSitemapXml() {
     var data, dest, formatter, sitemap;
     dest = path.join(this._dstDir, 'sitemap.xml');
     sitemap = new SitemapBuilder(this._compiledPosts).build();
@@ -167,9 +165,9 @@ Compiler = (function() {
     return fs.outputFileSync(dest, data, {
       encoding: 'utf-8'
     });
-  };
+  }
 
-  Compiler.prototype._writeAtomXml = function() {
+  _writeAtomXml() {
     var atom, data, dest, formatter;
     dest = path.join(this._dstDir, 'atom.xml');
     atom = new AtomBuilder(this._compiledPosts).build();
@@ -178,10 +176,5 @@ Compiler = (function() {
     return fs.outputFileSync(dest, data, {
       encoding: 'utf-8'
     });
-  };
-
-  return Compiler;
-
-})();
-
-export { Compiler };
+  }
+}

@@ -1,49 +1,48 @@
-export type Post = {
+export type Entry = {
   date: string;
   pubdate: string;
 };
-
-class SitemapBuilder {
-  private posts: Post[];
-
-  constructor(posts: Post[]) {
-    this.posts = posts;
-  }
-
-  build(): Sitemap {
-    return this.posts.map((post) => {
-      return {
-        loc: 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/',
-        lastmod: post.pubdate
-      };
-    });
-  }
-}
 
 type SitemapUrl = {
   loc: string;
   lastmod: string;
 };
-
 type Sitemap = SitemapUrl[];
 
-class SitemapFormatter {
-  private sitemap: Sitemap;
+class SitemapBuilder {
+  constructor(private entries: Entry[]) { }
 
-  constructor(sitemap: Sitemap) {
-    this.sitemap = sitemap;
-  }
-
-  format(): string {
-    return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + (this.sitemap.map(this._buildUrl.bind(this)).join('\n')) + "\n</urlset>";
-  }
-
-  _buildUrl(url: SitemapUrl): string {
-    return "<url>\n  <loc>" + url.loc + "</loc>\n  <lastmod>" + url.lastmod + "</lastmod>\n</url>";
+  build(): Sitemap {
+    return this.entries.map(({ date, pubdate: lastmod }) => {
+      const loc = `http://blog.bouzuya.net/${date.replace(/-/g, '/')}/`;
+      return { loc, lastmod };
+    });
   }
 }
 
-const formatSitemap = (entries: Post[]): string => {
+class SitemapFormatter {
+  constructor(private sitemap: Sitemap) { }
+
+  format(): string {
+    return [
+      '<?xml version="1.0" encoding="utf-8"?>',
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+      this.sitemap.map(this._buildUrl.bind(this)).join('\n'),
+      '</urlset>'
+    ].join('');
+  }
+
+  private _buildUrl(url: SitemapUrl): string {
+    return [
+      '<url>',
+      `<loc>${url.loc}</loc>`,
+      `<lastmod>${url.lastmod}</lastmod>`,
+      '</url>'
+    ].join('');
+  }
+}
+
+const formatSitemap = (entries: Entry[]): string => {
   const atom = new SitemapBuilder(entries).build();
   const formatted = new SitemapFormatter(atom).format();
   return formatted;

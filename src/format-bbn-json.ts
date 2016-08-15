@@ -27,4 +27,8 @@ const formatDailyJson = (entry: Entry): string => {
   return formatJson(entryJson);
 };
 
-export { formatDailyJson };
+const formatMonthlyJson = (entries: Entry[]): string => {
+  return formatJson(entries.map(format));
+};
+
+export { formatDailyJson, formatMonthlyJson };

@@ -4,6 +4,7 @@ import * as myjekyll from 'myjekyll';
 import * as path from 'path';
 import { formatAtom } from './format-atom';
 import {
+  formatAllJson,
   formatDailyJson,
   formatMonthlyJson,
   formatYearlyJson
@@ -90,6 +91,15 @@ const saveYearlyJson = (
   });
 };
 
+const saveAllJson = (
+  repository: Repository,
+  outDir: string
+): void => {
+  const entries = repository.findAll();
+  const formatted = formatAllJson(entries);
+  writeFile(join(outDir, 'posts.json'), formatted);
+};
+
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
@@ -108,10 +118,10 @@ export class Compiler {
     saveDailyJson(repository, this._dstDir);
     saveMonthlyJson(repository, this._dstDir);
     saveYearlyJson(repository, this._dstDir);
+    saveAllJson(repository, this._dstDir);
     this._blog = myjekyll(this._postsDir + '/**/*.md', {});
     return Promise.resolve()
       .then(this._compilePosts.bind(this))
-      .then(this._writeAllPosts.bind(this))
       .then(this._writeTagsJson.bind(this))
       .then(this._writeSitemapXml.bind(this))
       .then(this._writeAtomXml.bind(this));
@@ -129,24 +139,6 @@ export class Compiler {
         title: entry.title
       };
     });
-  }
-
-  _writeAllPosts(): void {
-    const posts = this._compiledPosts;
-    const dest = path.join(this._dstDir, 'posts.json');
-    const data = posts.map((i) => {
-      if (i.minutes == null) {
-        throw new Error(i.date + " minutes is not defined.");
-      }
-      return {
-        date: i.date,
-        minutes: i.minutes,
-        pubdate: i.pubdate,
-        tags: i.tags,
-        title: i.title
-      };
-    });
-    writeFile(dest, formatJson(data));
   }
 
   _writeTagsJson(): void {

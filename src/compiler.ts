@@ -84,14 +84,10 @@ export class Compiler {
       const year = d.format('YYYY');
       const month = d.format('MM');
       const date = d.format('DD');
-      let dest = path.join(dir, year, month, date + '.json');
-      fs.outputJsonSync(dest, post, {
-        encoding: 'utf-8'
-      });
-      dest = path.join(dir, year, month, date, 'index.json');
-      return fs.outputJsonSync(dest, post, {
-        encoding: 'utf-8'
-      });
+      const dest1 = path.join(dir, year, month, date + '.json');
+      fs.outputJsonSync(dest1, post, { encoding: 'utf-8' });
+      const dest2 = path.join(dir, year, month, date, 'index.json');
+      return fs.outputJsonSync(dest2, post, { encoding: 'utf-8' });
     });
   }
 
@@ -112,14 +108,10 @@ export class Compiler {
     for (const ym in monthlyPosts) {
       const posts = monthlyPosts[ym];
       const [year, month] = ym.split('/');
-      let dest = path.join(dir, year, month + '.json');
-      fs.outputJsonSync(dest, posts, {
-        encoding: 'utf-8'
-      });
-      dest = path.join(dir, year, month, 'index.json');
-      results.push(fs.outputJsonSync(dest, posts, {
-        encoding: 'utf-8'
-      }));
+      const dest1 = path.join(dir, year, month + '.json');
+      fs.outputJsonSync(dest1, posts, { encoding: 'utf-8' });
+      const dest2 = path.join(dir, year, month, 'index.json');
+      results.push(fs.outputJsonSync(dest2, posts, { encoding: 'utf-8' }));
     }
     return results;
   }
@@ -139,14 +131,10 @@ export class Compiler {
     const results: string[] = [];
     for (const year in yearlyPosts) {
       const posts = yearlyPosts[year];
-      let dest = path.join(dir, year + '.json');
-      fs.outputJsonSync(dest, posts, {
-        encoding: 'utf-8'
-      });
-      dest = path.join(dir, year, 'index.json');
-      results.push(fs.outputJsonSync(dest, posts, {
-        encoding: 'utf-8'
-      }));
+      const dest1 = path.join(dir, year + '.json');
+      fs.outputJsonSync(dest1, posts, { encoding: 'utf-8' });
+      const dest2 = path.join(dir, year, 'index.json');
+      results.push(fs.outputJsonSync(dest2, posts, { encoding: 'utf-8' }));
     }
     return results;
   }

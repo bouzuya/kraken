@@ -24,7 +24,7 @@ type Entry = {
   title: string;
 };
 
-type CompiledEntry = {
+export type CompiledEntry = {
   data: string;
   date: string;
   minutes: number;
@@ -60,7 +60,7 @@ export class Compiler {
       .then(this._writeAtomXml.bind(this));
   }
 
-  _compilePosts() {
+  _compilePosts(): CompiledEntry[] {
     return this._compiledPosts = this._blog.entries().map((entry) => {
       return {
         data: entry.content,
@@ -74,7 +74,7 @@ export class Compiler {
     });
   }
 
-  _writeDailyPosts() {
+  _writeDailyPosts(): Promise<void> {
     const posts = this._compiledPosts;
     const dir = this._dstDir;
     return async.eachSeries(posts, (post) => {
@@ -89,7 +89,7 @@ export class Compiler {
     });
   }
 
-  _writeMonthlyPosts() {
+  _writeMonthlyPosts(): string[] {
     const monthlyPosts: { [ym: string]: CompiledEntry[]; } =
       this._compiledPosts.reduce<{ [ym: string]: CompiledEntry[]; }>(
         (r, post) => {
@@ -114,7 +114,7 @@ export class Compiler {
     return results;
   }
 
-  _writeYearlyPosts() {
+  _writeYearlyPosts(): string[] {
     const yearlyPosts: { [year: string]: CompiledEntry[]; } = this._compiledPosts.reduce<{ [year: string]: CompiledEntry[]; }>(
       (r, post) => {
         const d = moment(post.date);
@@ -137,7 +137,7 @@ export class Compiler {
     return results;
   }
 
-  _writeAllPosts() {
+  _writeAllPosts(): void {
     const posts = this._compiledPosts;
     const dest = path.join(this._dstDir, 'posts.json');
     const data = posts.map((i) => {
@@ -152,12 +152,12 @@ export class Compiler {
         title: i.title
       };
     });
-    return fs.outputJsonSync(dest, data, {
+    fs.outputJsonSync(dest, data, {
       encoding: 'utf-8'
     });
   }
 
-  _writeTagsJson() {
+  _writeTagsJson(): void {
     const dest = path.join(this._dstDir, 'tags.json');
     const tagCounts = this._blog.tagCounts();
     const data = Object.keys(tagCounts)
@@ -168,22 +168,22 @@ export class Compiler {
         });
         return tags;
       }, []);
-    return fs.outputJsonSync(dest, data, {
+    fs.outputJsonSync(dest, data, {
       encoding: 'utf-8'
     });
   }
 
-  _writeSitemapXml() {
+  _writeSitemapXml(): void {
     const dest = path.join(this._dstDir, 'sitemap.xml');
     const entries = this._compiledPosts;
     const formatted = formatSitemap(entries);
-    return fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
+    fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
   }
 
-  _writeAtomXml() {
+  _writeAtomXml(): void {
     const dest = path.join(this._dstDir, 'atom.xml');
     const entries = this._compiledPosts;
     const formatted = formatAtom(entries);
-    return fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
+    fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
   }
 }

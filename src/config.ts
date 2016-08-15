@@ -6,21 +6,21 @@ export class Config {
   private _rootDir: string;
   private _postsDir: string;
 
-  load() {
+  load(): void {
     this._rootDir = process.cwd();
     this._postsDir = path.join(this._rootDir, 'data');
-    return this._dstDir = path.join(this._rootDir, 'dist');
+    this._dstDir = path.join(this._rootDir, 'dist');
   }
 
-  rootDir() {
+  rootDir(): string {
     return this._rootDir;
   }
 
-  postsDir() {
+  postsDir(): string {
     return this._postsDir;
   }
 
-  dstDir() {
+  dstDir(): string {
     return this._dstDir;
   }
 }

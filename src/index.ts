@@ -1,7 +1,7 @@
 import { Kraken } from './kraken';
-import { console } from './globals';
+import { console, Promise } from './globals';
 
-export default function () {
+export default function (): Promise<void> {
   return new Kraken().run().catch((error) => {
     return console.error(error);
   });

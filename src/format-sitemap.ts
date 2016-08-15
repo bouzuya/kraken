@@ -10,7 +10,7 @@ class SitemapBuilder {
     this.posts = posts;
   }
 
-  build() {
+  build(): Sitemap {
     return this.posts.map((post) => {
       return {
         loc: 'http://blog.bouzuya.net/' + post.date.replace(/-/g, '/') + '/',

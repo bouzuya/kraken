@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { process } from './globals';
 
 export class Config {
   private _dstDir: string;

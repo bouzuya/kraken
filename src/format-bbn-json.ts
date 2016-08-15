@@ -22,6 +22,13 @@ const format = (entry: Entry): EntryJson => {
   };
 };
 
+const formatAllJson = (entries: Entry[]): string => {
+  return formatJson(entries.map((entry) => {
+    const { date, minutes, pubdate, tags, title } = entry;
+    return { date, minutes, pubdate, tags, title };
+  }));
+};
+
 const formatDailyJson = (entry: Entry): string => {
   const entryJson = format(entry);
   return formatJson(entryJson);
@@ -35,4 +42,4 @@ const formatYearlyJson = (entries: Entry[]): string => {
   return formatJson(entries.map(format));
 };
 
-export { formatDailyJson, formatMonthlyJson, formatYearlyJson };
+export { formatAllJson, formatDailyJson, formatMonthlyJson, formatYearlyJson };

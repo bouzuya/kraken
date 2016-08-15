@@ -1,5 +1,5 @@
 import { Config } from './config';
-import { Compiler } from './compiler';
+import { Compiler } from './compile';
 
 export class Kraken {
   private _config: Config;

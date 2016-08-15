@@ -3,7 +3,11 @@ import * as moment from 'moment';
 import * as myjekyll from 'myjekyll';
 import * as path from 'path';
 import { formatAtom } from './format-atom';
-import { formatDailyJson, formatMonthlyJson } from './format-bbn-json';
+import {
+  formatDailyJson,
+  formatMonthlyJson,
+  formatYearlyJson
+} from './format-bbn-json';
 import { formatSitemap } from './format-sitemap';
 import { Promise } from './globals';
 import { formatJson, writeFile, path as join } from './fs';
@@ -70,6 +74,22 @@ const saveMonthlyJson = (
   });
 };
 
+const saveYearlyJson = (
+  repository: Repository,
+  outDir: string
+): void => {
+  repository.getYears().forEach((y) => {
+    const entries = repository.findBy({ year: y });
+    const formatted = formatYearlyJson(entries);
+    [
+      `${y}.json`,
+      `${y}/index.json`
+    ].forEach((file) => {
+      writeFile(join(outDir, file), formatted);
+    });
+  });
+};
+
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
@@ -87,10 +107,10 @@ export class Compiler {
     const repository = new Repository(this._postsDir);
     saveDailyJson(repository, this._dstDir);
     saveMonthlyJson(repository, this._dstDir);
+    saveYearlyJson(repository, this._dstDir);
     this._blog = myjekyll(this._postsDir + '/**/*.md', {});
     return Promise.resolve()
       .then(this._compilePosts.bind(this))
-      .then(this._writeYearlyPosts.bind(this))
       .then(this._writeAllPosts.bind(this))
       .then(this._writeTagsJson.bind(this))
       .then(this._writeSitemapXml.bind(this))
@@ -109,27 +129,6 @@ export class Compiler {
         title: entry.title
       };
     });
-  }
-
-  _writeYearlyPosts(): void {
-    const yearlyPosts: { [year: string]: CompiledEntry[]; } = this._compiledPosts.reduce<{ [year: string]: CompiledEntry[]; }>(
-      (r, post) => {
-        const d = moment(post.date);
-        const y = d.format('YYYY');
-        if (r[y] == null) {
-          r[y] = [];
-        }
-        r[y].push(post);
-        return r;
-      }, {});
-    const dir = this._dstDir;
-    for (const year in yearlyPosts) {
-      const posts = yearlyPosts[year];
-      const dest1 = path.join(dir, year + '.json');
-      writeFile(dest1, formatJson(posts));
-      const dest2 = path.join(dir, year, 'index.json');
-      writeFile(dest2, formatJson(posts));
-    }
   }
 
   _writeAllPosts(): void {

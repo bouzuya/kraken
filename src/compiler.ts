@@ -123,6 +123,28 @@ const saveSitemapXml = (
   writeFile(join(outDir, 'sitemap.xml'), formatted);
 };
 
+const saveLinkedJson = (
+  repository: Repository,
+  outDir: string
+): void => {
+  const linked: { [to: string]: string[]; } = {};
+  const entries = repository.findAll();
+  entries.forEach((entry) => {
+    const match = entry.data.match(/\[(\d\d\d\d-\d\d-\d\d)\]/g);
+    if (!match) return;
+    const from = `${entry.id.year}-${entry.id.month}-${entry.id.date}`;
+    match.forEach((m) => {
+      const matched = m.match(/\[(\d\d\d\d-\d\d-\d\d)\]/);
+      if (!matched) return;
+      const to = matched[1];
+      if (typeof linked[to] === 'undefined') linked[to] = [];
+      linked[to].push(from);
+    });
+  });
+  const formatted = JSON.stringify(linked);
+  writeFile(join(outDir, 'linked.json'), formatted);
+};
+
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
@@ -144,6 +166,7 @@ export class Compiler {
     saveTagsJson(repository, this._dstDir);
     saveAtomXml(repository, this._dstDir);
     saveSitemapXml(repository, this._dstDir);
+    saveLinkedJson(repository, this._dstDir);
     return Promise.resolve();
   }
 }

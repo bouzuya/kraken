@@ -123,6 +123,15 @@ const saveTagsJson = (
   writeFile(join(outDir, 'tags.json'), formatted);
 };
 
+const saveAtomXml = (
+  repository: Repository,
+  outDir: string
+): void => {
+  const entries = repository.findAll();
+  const formatted = formatAtom(entries);
+  writeFile(join(outDir, 'atom.xml'), formatted);
+};
+
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
@@ -143,11 +152,11 @@ export class Compiler {
     saveYearlyJson(repository, this._dstDir);
     saveAllJson(repository, this._dstDir);
     saveTagsJson(repository, this._dstDir);
+    saveAtomXml(repository, this._dstDir);
     this._blog = myjekyll(this._postsDir + '/**/*.md', {});
     return Promise.resolve()
       .then(this._compilePosts.bind(this))
-      .then(this._writeSitemapXml.bind(this))
-      .then(this._writeAtomXml.bind(this));
+      .then(this._writeSitemapXml.bind(this));
   }
 
   _compilePosts(): CompiledEntry[] {
@@ -168,13 +177,6 @@ export class Compiler {
     const dest = path.join(this._dstDir, 'sitemap.xml');
     const entries = this._compiledPosts;
     const formatted = formatSitemap(entries);
-    writeFile(dest, formatted);
-  }
-
-  _writeAtomXml(): void {
-    const dest = path.join(this._dstDir, 'atom.xml');
-    const entries = this._compiledPosts;
-    const formatted = formatAtom(entries);
     writeFile(dest, formatted);
   }
 }

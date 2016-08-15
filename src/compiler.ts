@@ -5,8 +5,6 @@ import * as myjekyll from 'myjekyll';
 import * as path from 'path';
 import * as async from './async';
 import { formatAtom } from './format-atom';
-import { AtomBuilder } from './atom-builder';
-import { AtomFormatter } from './atom-formatter';
 import { Promise } from './globals';
 import { SitemapBuilder } from './sitemap-builder';
 import { SitemapFormatter } from './sitemap-formatter';

@@ -54,6 +54,7 @@
     "watch": "0.19.1"
   },
   "homepage": "https://github.com/bouzuya/kraken",
+  "keywords": [],
   "license": "MIT",
   "main": "index.js",
   "repository": {

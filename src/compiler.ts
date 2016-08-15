@@ -5,9 +5,8 @@ import * as myjekyll from 'myjekyll';
 import * as path from 'path';
 import * as async from './async';
 import { formatAtom } from './format-atom';
+import { formatSitemap } from './format-sitemap';
 import { Promise } from './globals';
-import { SitemapBuilder } from './sitemap-builder';
-import { SitemapFormatter } from './sitemap-formatter';
 
 fs.jsonfile.spaces = null;
 
@@ -176,12 +175,9 @@ export class Compiler {
 
   _writeSitemapXml() {
     const dest = path.join(this._dstDir, 'sitemap.xml');
-    const sitemap = new SitemapBuilder(this._compiledPosts).build();
-    const formatter = new SitemapFormatter(sitemap);
-    const data = formatter.format();
-    return fs.outputFileSync(dest, data, {
-      encoding: 'utf-8'
-    });
+    const entries = this._compiledPosts;
+    const formatted = formatSitemap(entries);
+    return fs.outputFileSync(dest, formatted, { encoding: 'utf-8' });
   }
 
   _writeAtomXml() {

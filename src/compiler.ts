@@ -2,11 +2,12 @@ import * as marked from 'marked';
 import * as moment from 'moment';
 import * as myjekyll from 'myjekyll';
 import * as path from 'path';
-import * as async from './async';
 import { formatAtom } from './format-atom';
+import { formatDailyJson } from './format-daily-json';
 import { formatSitemap } from './format-sitemap';
 import { Promise } from './globals';
-import { formatJson, writeFile } from './fs';
+import { formatJson, writeFile, path as join } from './fs';
+import { Repository } from './repository';
 
 type MyJekyll = {
   entries: () => Entry[];
@@ -32,6 +33,25 @@ export type CompiledEntry = {
   html: string;
 };
 
+const saveDailyJson = (
+  repository: Repository,
+  outDir: string
+): void => {
+  repository.findAll().forEach((entry) => {
+    const { id } = entry;
+    const title = typeof id.title === 'undefined' ? 'diary' : id.title;
+    const formatted = formatDailyJson(entry);
+    [
+      `${id.year}/${id.month}/${id.date}.json`,
+      `${id.year}/${id.month}/${id.date}/index.json`,
+      `${id.year}/${id.month}/${id.date}/${title}.json`,
+      `${id.year}/${id.month}/${id.date}/${title}/index.json`
+    ].forEach((file) => {
+      writeFile(join(outDir, file), formatted);
+    });
+  });
+};
+
 export class Compiler {
   private _postsDir: string;
   private _dstDir: string;
@@ -46,10 +66,11 @@ export class Compiler {
   }
 
   compile(): Promise<void> {
+    const repository = new Repository(this._postsDir);
+    saveDailyJson(repository, this._dstDir);
     this._blog = myjekyll(this._postsDir + '/**/*.md', {});
     return Promise.resolve()
       .then(this._compilePosts.bind(this))
-      .then(this._writeDailyPosts.bind(this))
       .then(this._writeMonthlyPosts.bind(this))
       .then(this._writeYearlyPosts.bind(this))
       .then(this._writeAllPosts.bind(this))
@@ -69,21 +90,6 @@ export class Compiler {
         tags: entry.tags,
         title: entry.title
       };
-    });
-  }
-
-  _writeDailyPosts(): Promise<void> {
-    const posts = this._compiledPosts;
-    const dir = this._dstDir;
-    return async.eachSeries(posts, (post) => {
-      const d = moment(post.date);
-      const year = d.format('YYYY');
-      const month = d.format('MM');
-      const date = d.format('DD');
-      const dest1 = path.join(dir, year, month, date + '.json');
-      writeFile(dest1, formatJson(post));
-      const dest2 = path.join(dir, year, month, date, 'index.json');
-      writeFile(dest2, formatJson(post));
     });
   }
 

@@ -9,6 +9,7 @@ import {
 import { formatSitemap } from './format-sitemap';
 import { writeFile, path as join } from './fs';
 import { Repository } from './repository';
+import { tokenizer as newTokenizer, Token } from './kuromoji';
 
 export type CompiledEntry = {
   data: string;
@@ -145,20 +146,39 @@ const saveLinkedJson = (
   writeFile(join(outDir, 'linked.json'), formatted);
 };
 
+const saveTokensJson = (
+  repository: Repository, outDir: string
+): Promise<void> => {
+  const entries = repository.findAll();
+  return newTokenizer()
+    .then((tokenizer) => {
+      return entries.reduce((allTokens, entry) => {
+        const id = `${entry.id.year}-${entry.id.month}-${entry.id.date}`;
+        const tokens = tokenizer.tokenize(entry.data);
+        allTokens[id] = tokens;
+        return allTokens;
+      }, <{ [to: string]: Token[] }>{});
+    })
+    .then((tokens) => {
+      const formatted = JSON.stringify(tokens, null, 2);
+      writeFile(join(outDir, 'tokens.json'), formatted);
+    });
+};
 
 const compileImpl = (
   inDir: string, outDir: string, type: ParserType = 'default'
 ): Promise<void> => {
   const repository = new Repository(inDir, type);
   return Promise.resolve()
-    .then(() => saveYearlyJson(repository, outDir))
-    .then(() => saveMonthlyJson(repository, outDir))
-    .then(() => saveDailyJson(repository, outDir))
-    .then(() => saveAllJson(repository, outDir))
-    .then(() => saveTagsJson(repository, outDir))
-    .then(() => saveAtomXml(repository, outDir))
-    .then(() => saveSitemapXml(repository, outDir))
-    .then(() => saveLinkedJson(repository, outDir))
+    .then(() => true ? saveYearlyJson(repository, outDir) : void 0)
+    .then(() => true ? saveMonthlyJson(repository, outDir) : void 0)
+    .then(() => true ? saveDailyJson(repository, outDir) : void 0)
+    .then(() => true ? saveAllJson(repository, outDir) : void 0)
+    .then(() => true ? saveTagsJson(repository, outDir) : void 0)
+    .then(() => true ? saveAtomXml(repository, outDir) : void 0)
+    .then(() => true ? saveSitemapXml(repository, outDir) : void 0)
+    .then(() => true ? saveLinkedJson(repository, outDir) : void 0)
+    .then(() => true ? saveTokensJson(repository, outDir) : void 0)
     .then(() => void 0);
 };
 

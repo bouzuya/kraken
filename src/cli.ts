@@ -15,8 +15,8 @@ const run = (): void => {
     });
   command
     .command('compile <inDir> <outDir>', 'v4 data/ -> dist/')
-    .action((inDir: string, outDir: string): void => {
-      compile(inDir, outDir);
+    .action((inDir: string, outDir: string): Promise<void> => {
+      return compile(inDir, outDir);
     });
   command.execute();
 };

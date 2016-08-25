@@ -148,24 +148,26 @@ const saveLinkedJson = (
 
 const compileImpl = (
   inDir: string, outDir: string, type: ParserType = 'default'
-): void => {
+): Promise<void> => {
   const repository = new Repository(inDir, type);
-  saveYearlyJson(repository, outDir);
-  saveMonthlyJson(repository, outDir);
-  saveDailyJson(repository, outDir);
-  saveAllJson(repository, outDir);
-  saveTagsJson(repository, outDir);
-  saveAtomXml(repository, outDir);
-  saveSitemapXml(repository, outDir);
-  saveLinkedJson(repository, outDir);
+  return Promise.resolve()
+    .then(() => saveYearlyJson(repository, outDir))
+    .then(() => saveMonthlyJson(repository, outDir))
+    .then(() => saveDailyJson(repository, outDir))
+    .then(() => saveAllJson(repository, outDir))
+    .then(() => saveTagsJson(repository, outDir))
+    .then(() => saveAtomXml(repository, outDir))
+    .then(() => saveSitemapXml(repository, outDir))
+    .then(() => saveLinkedJson(repository, outDir))
+    .then(() => void 0);
 };
 
-const compile = (inDir: string, outDir: string): void => {
-  compileImpl(inDir, outDir);
+const compile = (inDir: string, outDir: string): Promise<void> => {
+  return compileImpl(inDir, outDir);
 };
 
-const compileOld = (inDir: string, outDir: string): void => {
-  compileImpl(inDir, outDir, 'jekyll');
+const compileOld = (inDir: string, outDir: string): Promise<void> => {
+  return compileImpl(inDir, outDir, 'jekyll');
 };
 
 const compileNew = compile;

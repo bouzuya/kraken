@@ -28,6 +28,7 @@
     "commander-b": "1.0.0",
     "fs-extra": "0.30.0",
     "jekyll-markdown-parser": "0.1.2",
+    "kuromoji": "0.1.1",
     "marked": "0.3.5",
     "time-keeper": "0.2.2"
   },

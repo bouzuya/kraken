@@ -47,7 +47,7 @@ Note
 
 [![Travis CI][travisci-badge-url]][travisci-url]
 
-[travisci-badge-url]: https://travis-ci.org/bouzuya/kraken.svg
+[travisci-badge-url]: https://img.shields.io/travis/bouzuya/kraken.svg
 [travisci-url]: https://travis-ci.org/bouzuya/kraken
 
 [bouzuya/blog.bouzuya.net]: https://github.com/bouzuya/blog.bouzuya.net

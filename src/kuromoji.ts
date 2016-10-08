@@ -39,7 +39,7 @@ export interface Tokenizer {
 
 const tokenizer = (): Promise<Tokenizer> => {
   return new Promise((resolve, reject) => {
-    const dicPath = path.join(__dirname, '../node_modules/kuromoji/dict/');
+    const dicPath = path.join(require.resolve('kuromoji'), '../../dict/');
     kuromoji
       .builder({ dicPath })
       .build((error: Error, tokenizer: Tokenizer): void => {

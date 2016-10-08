@@ -4,44 +4,47 @@ kraken: A blog data generator for [blog.bouzuya.net](http://blog.bouzuya.net/).
 
 See: [bouzuya/blog.bouzuya.net][]
 
-Installation
-------------------------------------------------------------------------------
+## Installation
 
-    $ npm install bouzuya/kraken
+```
+$ npm install bouzuya/kraken
+```
 
-Usage
-------------------------------------------------------------------------------
+Or
 
-    $ # before
-    $ cat src/_posts/2014-01-01-diary.markdown
-    ---
-    title: hoge
-    tags: [diary]
-    ---
-    i love munchkin.
+```
+$ npm install https://github.com/bouzuya/kraken/archive/<VERSION>.tar.gz
+```
 
-    $ # generate blog
-    $ kraken
+## Usage
 
-    $ # after
-    $ cat build/posts/2014-04-01.json
-    {"title":"hoge","tags":["diary"],"data":"i love munchkin.","html":"<p>i love munchkin.</p>\n\n"}
+```
+$ # before
+$ cat data/2014/01/2014-01-01.md
+i love munchkin.
 
-Note
-------------------------------------------------------------------------------
+$ cat data/2014/01/2014-01-01.json
+{
+  "minutes": 20,
+  "pubdate": "2014-01-01T23:59:59+09:00",
+  "tags": [
+    "misc"
+  ],
+  "title": "She has very short legs"
+}
 
-- SPA: Single Page Application.
-- All entries are written in [Markdown](http://daringfireball.net/projects/markdown/syntax).
-- All entries are compiled to JSON format.
-- 1 entry/day.
-- http://example.com/yyyy/mm/dd/
-- post:
-  - file
-  - pubdate
-  - title
-  - body
-  - tags
-  - minutes
+$ # generate blog
+$ kraken compile data dist
+
+$ # after
+$ cat dist/2014/01/01.json
+{"data":"i love munchikin.","date":"2014-01-01","minutes":20,"html":"<p>i love munchikin.</p>\n\n","pubdate":"2014-01-01T23:59:59+09:00","tags": ["misc"],"title": "She has very short legs"}
+
+$ # create same files in some paths
+$ diff dist/2014/01/01.json dist/2014/01/01/index.json
+$ diff dist/2014/01/01.json dist/2014/01/01/diary.json
+$ diff dist/2014/01/01.json dist/2014/01/01/diary/index.json
+```
 
 ## Badges
 

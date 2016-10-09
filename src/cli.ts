@@ -11,6 +11,7 @@ const run = (): void => {
   command
     .command('migrate <inDir> <outDir>', 'v3 data/ -> v4 data/')
     .action((inDir: string, outDir: string): void => {
+      console.log('DEPRECATED:');
       migrate(inDir, outDir);
     });
   command

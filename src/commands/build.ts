@@ -9,7 +9,7 @@ import {
 } from '../format';
 import { writeFile, path as join } from '../utils/fs';
 import { Repository } from '../repository';
-import { tokenizer as newTokenizer, Token } from '../kuromoji';
+import { tokenizer as newTokenizer, Token } from '../utils/kuromoji';
 
 export type CompiledEntry = {
   data: string;

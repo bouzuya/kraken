@@ -183,13 +183,17 @@ const compileImpl = (
 };
 
 const compile = (inDir: string, outDir: string): Promise<void> => {
+  console.log('DEPRECATED: Use `build()`');
   return compileImpl(inDir, outDir);
 };
 
 const compileOld = (inDir: string, outDir: string): Promise<void> => {
+  console.log('DEPRECATED:');
   return compileImpl(inDir, outDir, 'jekyll');
 };
 
 const compileNew = compile;
 
-export { compileOld, compileNew, compile };
+const build = compile;
+
+export { compileOld, compileNew, compile, build };

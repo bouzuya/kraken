@@ -1,6 +1,6 @@
 import { load } from './load';
 import { build, compile, compileOld, compileNew } from './build';
-import { start } from './start';
+import { start } from './commands/start';
 
 export * from './migrate';
 export {

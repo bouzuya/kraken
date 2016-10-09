@@ -1,12 +1,12 @@
 import { ParserType } from '../parse';
-import { formatAtom } from '../format-atom';
 import {
+  formatAtom,
   formatAllJson,
   formatDailyJson,
   formatMonthlyJson,
-  formatYearlyJson
-} from '../format-bbn-json';
-import { formatSitemap } from '../format-sitemap';
+  formatYearlyJson,
+  formatSitemap
+} from '../format';
 import { writeFile, path as join } from '../fs';
 import { Repository } from '../repository';
 import { tokenizer as newTokenizer, Token } from '../kuromoji';

@@ -2,14 +2,12 @@ import beater from 'beater';
 import * as assert from 'power-assert';
 
 import {
-  formatAtom
-} from '../src/format-atom';
-import {
-  formatDailyJson, formatMonthlyJson, formatYearlyJson
-} from '../src/format-bbn-json';
-import {
+  formatAtom,
+  formatDailyJson,
+  formatMonthlyJson,
+  formatYearlyJson,
   formatSitemap
-} from '../src/format-sitemap';
+} from '../src/format';
 import { Entry } from '../src/types';
 
 const { test } = beater();

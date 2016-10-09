@@ -1,7 +1,7 @@
 import beater from 'beater';
 import * as assert from 'power-assert';
 
-import { compile, compileNew, compileOld } from '../src/build';
+import { compile, compileNew, compileOld } from '../../src/commands/build';
 
 const { test } = beater();
 

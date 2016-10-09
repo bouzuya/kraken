@@ -1,15 +1,15 @@
-import { ParserType } from './parse';
-import { formatAtom } from './format-atom';
+import { ParserType } from '../parse';
+import { formatAtom } from '../format-atom';
 import {
   formatAllJson,
   formatDailyJson,
   formatMonthlyJson,
   formatYearlyJson
-} from './format-bbn-json';
-import { formatSitemap } from './format-sitemap';
-import { writeFile, path as join } from './fs';
-import { Repository } from './repository';
-import { tokenizer as newTokenizer, Token } from './kuromoji';
+} from '../format-bbn-json';
+import { formatSitemap } from '../format-sitemap';
+import { writeFile, path as join } from '../fs';
+import { Repository } from '../repository';
+import { tokenizer as newTokenizer, Token } from '../kuromoji';
 
 export type CompiledEntry = {
   data: string;

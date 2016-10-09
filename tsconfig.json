@@ -19,7 +19,8 @@
   "files": [
     "./src/cli.ts",
     "./src/index.ts",
-    "./test/build.ts",
+    "./test/commands/build.ts",
+    "./test/commands/migrate.ts",
     "./test/format.ts",
     "./test/fs/format-json.ts",
     "./test/fs/list-files.ts",
@@ -28,7 +29,6 @@
     "./test/fs/read-file.ts",
     "./test/fs/write-file.ts",
     "./test/index.ts",
-    "./test/commands/migrate.ts",
     "./test/parse.ts",
     "./test/repository.ts",
     "./typings.d.ts"

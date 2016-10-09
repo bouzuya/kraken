@@ -1,6 +1,6 @@
 import { parse } from 'jekyll-markdown-parser';
 import { Entry, EntryId, RawEntry } from './types';
-import { listFiles, parseJson, path, readFile } from './fs';
+import { listFiles, parseJson, path, readFile } from './utils/fs';
 import { parseISOString } from 'time-keeper';
 import * as marked from 'marked';
 

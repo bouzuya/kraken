@@ -20,7 +20,7 @@ test('parse.listEntryIds', () => {
 
   const listEntryIds: typeof listEntryIdsType = proxyquire(
     '../src/parse',
-    { './fs': { listFiles } }
+    { './utils/fs': { listFiles } }
   ).listEntryIds;
 
   assert.deepEqual(listEntryIds('./data'), [
@@ -52,7 +52,7 @@ test('parse.parseEntry (default)', () => {
 
   const parseEntry: typeof parseEntryType = proxyquire(
     '../src/parse',
-    { './fs': { parseJson, path, readFile } }
+    { './utils/fs': { parseJson, path, readFile } }
   ).parseEntry;
 
   const entryId = { year: '2006', month: '01', date: '02', title: undefined };

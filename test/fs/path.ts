@@ -2,7 +2,7 @@ import beater from 'beater';
 import * as assert from 'power-assert';
 import { join } from 'path';
 
-import { path } from '../../src/fs';
+import { path } from '../../src/utils/fs';
 
 const { test } = beater();
 

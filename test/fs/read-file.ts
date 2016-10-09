@@ -3,14 +3,14 @@ import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { readFile as readFileType } from '../../src/fs';
+import { readFile as readFileType } from '../../src/utils/fs';
 
 const { test } = beater();
 
 test('fs.readFile', () => {
   const readFileSync = sinon.stub();
   readFileSync.returns('content');
-  const fs = proxyquire('../../src/fs', { fs: { readFileSync } });
+  const fs = proxyquire('../../src/utils/fs', { fs: { readFileSync } });
   const readFile: typeof readFileType = fs.readFile;
   assert(readFile('path') === 'content');
   assert(readFileSync.callCount === 1);

@@ -7,7 +7,7 @@ import {
   formatYearlyJson,
   formatSitemap
 } from '../format';
-import { writeFile, path as join } from '../fs';
+import { writeFile, path as join } from '../utils/fs';
 import { Repository } from '../repository';
 import { tokenizer as newTokenizer, Token } from '../kuromoji';
 

@@ -1,5 +1,5 @@
 import { Entry, EntryJson } from '../types';
-import { formatJson } from '../fs';
+import { formatJson } from '../utils/fs';
 
 const format = (entry: Entry): EntryJson => {
   const {

@@ -3,7 +3,7 @@ import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { formatJson } from '../../src/fs';
+import { formatJson } from '../../src/utils/fs';
 import {
   migrate as mimgrateType
 } from '../../src/commands/migrate';
@@ -37,7 +37,7 @@ test('migrate.migrate', () => {
   const migrate: typeof mimgrateType = proxyquire(
     '../../src/commands/migrate',
     {
-      '../fs': { writeFile },
+      '../utils/fs': { writeFile },
       '../parse': { listEntryIds, parseEntry }
     }
   ).migrate;

@@ -3,13 +3,15 @@ import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { writeFile as writeFileType } from '../../src/fs';
+import { writeFile as writeFileType } from '../../src/utils/fs';
 
 const { test } = beater();
 
 test('fs.writeFile', () => {
   const outputFileSync = sinon.stub();
-  const fs = proxyquire('../../src/fs', { 'fs-extra': { outputFileSync } });
+  const fs = proxyquire('../../src/utils/fs', {
+    'fs-extra': { outputFileSync }
+  });
   const writeFile: typeof writeFileType = fs.writeFile;
   assert(typeof writeFile('path', 'data') === 'undefined');
   assert(outputFileSync.callCount === 1);

@@ -1,7 +1,7 @@
 import beater from 'beater';
 import * as assert from 'power-assert';
 
-import { formatJson } from '../../src/fs';
+import { formatJson } from '../../src/utils/fs';
 
 const { test } = beater();
 

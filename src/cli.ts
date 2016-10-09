@@ -16,6 +16,12 @@ const run = (): void => {
   command
     .command('compile <inDir> <outDir>', 'v4 data/ -> dist/')
     .action((inDir: string, outDir: string): Promise<void> => {
+      console.log('DEPRECATED: Use `kraken build`.');
+      return compile(inDir, outDir);
+    });
+  command
+    .command('build <inDir> <outDir>', 'v4 data/ -> dist/')
+    .action((inDir: string, outDir: string): Promise<void> => {
       return compile(inDir, outDir);
     });
   command.execute();

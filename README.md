@@ -33,8 +33,8 @@ $ cat data/2014/01/2014-01-01.json
   "title": "She has very short legs"
 }
 
-$ # generate blog
-$ kraken compile data dist
+$ # pre-render
+$ kraken build data dist
 
 $ # after
 $ cat dist/2014/01/01.json

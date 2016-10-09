@@ -3,10 +3,10 @@ import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { formatJson } from '../src/fs';
+import { formatJson } from '../../src/fs';
 import {
   migrate as mimgrateType
-} from '../src/migrate';
+} from '../../src/commands/migrate';
 
 const { test } = beater();
 
@@ -35,10 +35,10 @@ test('migrate.migrate', () => {
     Object.assign({}, meta2, { data: '2006-01-03' }));
 
   const migrate: typeof mimgrateType = proxyquire(
-    '../src/migrate',
+    '../../src/commands/migrate',
     {
-      './fs': { writeFile },
-      './parse': { listEntryIds, parseEntry }
+      '../fs': { writeFile },
+      '../parse': { listEntryIds, parseEntry }
     }
   ).migrate;
 

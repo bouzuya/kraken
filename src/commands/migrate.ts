@@ -1,5 +1,5 @@
-import { formatJson, path, writeFile } from './fs';
-import { listEntryIds, parseEntry } from './parse';
+import { formatJson, path, writeFile } from '../fs';
+import { listEntryIds, parseEntry } from '../parse';
 
 const migrate = (inDir: string, outDir: string): void => {
   listEntryIds(inDir)

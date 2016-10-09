@@ -1,34 +1,11 @@
-import { parse } from 'jekyll-markdown-parser';
 import { Entry, EntryId, RawEntry } from '../types';
-import { listFiles, parseJson, path, readFile } from '../utils/fs';
+import { listFiles } from '../utils/fs';
 import { parseISOString } from 'time-keeper';
 import * as marked from 'marked';
+import { loadBbnMarkdown } from './bbn';
+import { loadJekyllMarkdown } from './jekyll';
 
 export type ParserType = 'jekyll' | 'default';
-
-const loadJekyllMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
-  const { year, month, date, title } = entryId;
-  const dir = path(entryDir, year, month);
-  const file = path(dir, `${year}-${month}-${date}-${title}.md`);
-  const jekyllMarkdown = readFile(file);
-  const { markdown: data, parsedYaml: meta } = parse(jekyllMarkdown);
-  return { meta, data };
-};
-
-const loadBbnMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
-  const { year, month, date, title } = entryId;
-  const dir = path(entryDir, year, month);
-  const baseName = typeof title === 'undefined'
-    ? `${year}-${month}-${date}`
-    : `${year}-${month}-${date}-${title}`;
-  const jsonFile = path(dir, `${baseName}.json`);
-  const markdownFile = path(dir, `${baseName}.md`);
-  const metaJson = readFile(jsonFile);
-  const markdown = readFile(markdownFile);
-  const meta = parseJson(metaJson);
-  const data = markdown;
-  return { meta, data };
-};
 
 const parseEntry = (
   parserType: ParserType, entryDir: string, entryId: EntryId

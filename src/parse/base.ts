@@ -4,7 +4,9 @@ import { parseISOString } from 'time-keeper';
 import * as marked from 'marked';
 
 const parseEntry = (
-  entryDir: string, entryId: EntryId, parseRaw: (entryDir: string, entryId: EntryId) => RawEntry
+  entryDir: string,
+  entryId: EntryId,
+  parseRaw: (entryDir: string, entryId: EntryId) => RawEntry
 ): Entry => {
   const { meta, data } = parseRaw(entryDir, entryId);
   if (typeof meta.minutes === 'undefined') {

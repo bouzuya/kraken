@@ -1,10 +1,10 @@
 import { formatJson, path, writeFile } from '../utils/fs';
-import { listEntryIds, parseEntry } from '../parse';
+import { listEntryIds, parseEntry } from '../parse/jekyll';
 
 const migrate = (inDir: string, outDir: string): void => {
   listEntryIds(inDir)
     .forEach((id) => {
-      const entry = parseEntry('jekyll', inDir, id);
+      const entry = parseEntry(inDir, id);
       const data = entry.data;
       const meta = {
         minutes: entry.minutes,

@@ -1,4 +1,5 @@
-import { EntryId, RawEntry } from '../types';
+import { listEntryIds, parseEntry as parseEntryBase } from './base';
+import { Entry, EntryId, RawEntry } from '../types';
 import { parseJson, path, readFile } from '../utils/fs';
 
 const loadBbnMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
@@ -16,4 +17,8 @@ const loadBbnMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
   return { meta, data };
 };
 
-export { loadBbnMarkdown };
+const parseEntry = (entryDir: string, entryId: EntryId): Entry => {
+  return parseEntryBase(entryDir, entryId, loadBbnMarkdown);
+};
+
+export { listEntryIds, parseEntry };

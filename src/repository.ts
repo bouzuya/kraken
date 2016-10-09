@@ -1,11 +1,14 @@
-import { listEntryIds, parseEntry, ParserType } from './parse';
-import { Entry } from './types';
+import { Entry, EntryId } from './types';
 
 export class Repository {
   private _entries: Entry[];
 
-  constructor(dir: string, type: ParserType = 'default') {
-    this._entries = listEntryIds(dir).map((id) => parseEntry(type, dir, id));
+  constructor(
+    dir: string,
+    listEntryIds: (dirOrFile: string) => EntryId[],
+    parse: (entryDir: string, entryId: EntryId) => Entry
+  ) {
+    this._entries = listEntryIds(dir).map((id) => parse(dir, id));
   }
 
   findAll(): Entry[] {

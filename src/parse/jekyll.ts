@@ -1,5 +1,6 @@
 import { parse } from 'jekyll-markdown-parser';
-import { EntryId, RawEntry } from '../types';
+import { listEntryIds, parseEntry as parseEntryBase } from './base';
+import { Entry, EntryId, RawEntry } from '../types';
 import { path, readFile } from '../utils/fs';
 
 const loadJekyllMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
@@ -11,4 +12,8 @@ const loadJekyllMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
   return { meta, data };
 };
 
-export { loadJekyllMarkdown };
+const parseEntry = (entryDir: string, entryId: EntryId): Entry => {
+  return parseEntryBase(entryDir, entryId, loadJekyllMarkdown);
+};
+
+export { listEntryIds, parseEntry };

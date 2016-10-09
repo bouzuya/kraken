@@ -1,4 +1,12 @@
-import { ParserType } from '../parse';
+import { Entry, EntryId } from '../types';
+import {
+  listEntryIds as listBbn,
+  parseEntry as parseBbn
+} from '../parse/bbn';
+import {
+  listEntryIds as listJekyll,
+  parseEntry as parseJekyll
+} from '../parse/jekyll';
 import {
   formatAtom,
   formatAllJson,
@@ -166,9 +174,9 @@ const saveTokensJson = (
 };
 
 const compileImpl = (
-  inDir: string, outDir: string, type: ParserType = 'default'
+  inDir: string, outDir: string, list: (dir: string) => EntryId[], parse: (entryDir: string, entryId: EntryId) => Entry
 ): Promise<void> => {
-  const repository = new Repository(inDir, type);
+  const repository = new Repository(inDir, list, parse);
   return Promise.resolve()
     .then(() => true ? saveYearlyJson(repository, outDir) : void 0)
     .then(() => true ? saveMonthlyJson(repository, outDir) : void 0)
@@ -184,12 +192,12 @@ const compileImpl = (
 
 const compile = (inDir: string, outDir: string): Promise<void> => {
   console.log('DEPRECATED: Use `build()`');
-  return compileImpl(inDir, outDir);
+  return compileImpl(inDir, outDir, listBbn, parseBbn);
 };
 
 const compileOld = (inDir: string, outDir: string): Promise<void> => {
   console.log('DEPRECATED:');
-  return compileImpl(inDir, outDir, 'jekyll');
+  return compileImpl(inDir, outDir, listJekyll, parseJekyll);
 };
 
 const compileNew = compile;

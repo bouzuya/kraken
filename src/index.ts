@@ -1,5 +1,5 @@
 import { load } from './load';
-import { build, compile, compileOld, compileNew } from './compile';
+import { build, compile, compileOld, compileNew } from './build';
 
 export * from './migrate';
 export {

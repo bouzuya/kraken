@@ -19,7 +19,7 @@
   "files": [
     "./src/cli.ts",
     "./src/index.ts",
-    "./test/compile.ts",
+    "./test/build.ts",
     "./test/format.ts",
     "./test/fs/format-json.ts",
     "./test/fs/list-files.ts",

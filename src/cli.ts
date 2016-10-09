@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as commander from 'commander-b';
-import { migrate, compile } from './';
+import { migrate, compile, start } from './';
 
 const run = (): void => {
   const packageJsonFile = path.join(__dirname, '..', 'package.json');
@@ -24,6 +24,11 @@ const run = (): void => {
     .command('build <inDir> <outDir>', 'v4 data/ -> dist/')
     .action((inDir: string, outDir: string): Promise<void> => {
       return compile(inDir, outDir);
+    });
+  command
+    .command('start <dir>', 'run server')
+    .action((dir: string): Promise<void> => {
+      return start(dir);
     });
   command.execute();
 };

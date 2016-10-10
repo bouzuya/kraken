@@ -19,6 +19,13 @@ $ npm install https://github.com/bouzuya/kraken/archive/<VERSION>.tar.gz
 ## Usage
 
 ```
+$ kraken build private/ public/  # private/ (md) -> public/ (json & xml)
+$ kraken start public/           # run server
+```
+
+### `kraken build`
+
+```
 $ # before
 $ cat data/2014/01/2014-01-01.md
 i love munchkin.
@@ -44,6 +51,18 @@ $ # create same files in some paths
 $ diff dist/2014/01/01.json dist/2014/01/01/index.json
 $ diff dist/2014/01/01.json dist/2014/01/01/diary.json
 $ diff dist/2014/01/01.json dist/2014/01/01/diary/index.json
+```
+
+### `kraken start`
+
+```
+$ cat dist/2014/01/01.json
+{"data":"i love munchikin.","date":"2014-01-01","minutes":20,"html":"<p>i love munchikin.</p>\n\n","pubdate":"2014-01-01T23:59:59+09:00","tags": ["misc"],"title": "She has very short legs"}
+
+$ kraken start dist/
+
+$ curl http://localhost/2014/01/01.json
+{"data":"i love munchikin.","date":"2014-01-01","minutes":20,"html":"<p>i love munchikin.</p>\n\n","pubdate":"2014-01-01T23:59:59+09:00","tags": ["misc"],"title": "She has very short legs"}
 ```
 
 ## Badges

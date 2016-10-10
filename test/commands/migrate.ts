@@ -38,7 +38,7 @@ test('migrate.migrate', () => {
     '../../src/commands/migrate',
     {
       '../utils/fs': { writeFile },
-      '../parse': { listEntryIds, parseEntry }
+      '../parse/jekyll': { listEntryIds, parseEntry }
     }
   ).migrate;
 
@@ -46,12 +46,10 @@ test('migrate.migrate', () => {
   assert(listEntryIds.callCount === 1);
   assert(listEntryIds.getCall(0).args[0] === 'old-data');
   assert(parseEntry.callCount === 2);
-  assert(parseEntry.getCall(0).args[0] === 'jekyll');
-  assert(parseEntry.getCall(0).args[1] === 'old-data');
-  assert.deepEqual(parseEntry.getCall(0).args[2], id1);
-  assert(parseEntry.getCall(1).args[0] === 'jekyll');
-  assert(parseEntry.getCall(1).args[1] === 'old-data');
-  assert.deepEqual(parseEntry.getCall(1).args[2], id2);
+  assert(parseEntry.getCall(0).args[0] === 'old-data');
+  assert.deepEqual(parseEntry.getCall(0).args[1], id1);
+  assert(parseEntry.getCall(1).args[0] === 'old-data');
+  assert.deepEqual(parseEntry.getCall(1).args[1], id2);
   assert(writeFile.callCount === 4);
   assert(writeFile.getCall(0).args[0] === 'new-data/2006/01/2006-01-02.json');
   assert(writeFile.getCall(0).args[1] === formatJson(meta1, 2));

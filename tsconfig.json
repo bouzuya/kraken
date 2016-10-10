@@ -30,6 +30,7 @@
     "./test/fs/write-file.ts",
     "./test/index.ts",
     "./test/parse/base.ts",
+    "./test/parse/bbn.ts",
     "./test/repository.ts",
     "./typings.d.ts"
   ]

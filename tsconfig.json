@@ -31,6 +31,7 @@
     "./test/index.ts",
     "./test/parse/base.ts",
     "./test/parse/bbn.ts",
+    "./test/parse/jekyll.ts",
     "./test/repository.ts",
     "./typings.d.ts"
   ]

@@ -29,7 +29,7 @@
     "./test/fs/read-file.ts",
     "./test/fs/write-file.ts",
     "./test/index.ts",
-    "./test/parse.ts",
+    "./test/parse/base.ts",
     "./test/repository.ts",
     "./typings.d.ts"
   ]

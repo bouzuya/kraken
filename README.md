@@ -65,6 +65,10 @@ $ curl http://localhost/2014/01/01.json
 {"data":"i love munchikin.","date":"2014-01-01","minutes":20,"html":"<p>i love munchikin.</p>\n\n","pubdate":"2014-01-01T23:59:59+09:00","tags": ["misc"],"title": "She has very short legs"}
 ```
 
+## Document
+
+See [doc/](doc)
+
 ## Badges
 
 [![Travis CI][travisci-badge-url]][travisci-url]

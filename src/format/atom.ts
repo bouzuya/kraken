@@ -68,7 +68,7 @@ class AtomFormatter {
   format(): string {
     const atom = this.atom;
     return [
-      '<?xml version= "1.0" encoding= "utf-8" ?>',
+      '<?xml version="1.0" encoding="utf-8" ?>',
       '<feed xmlns="http://www.w3.org/2005/Atom">',
       `<title>${this._escapeHtml(atom.title)}</title>`,
       `<link rel="alternate" type="text/html" href="${atom.linkHref}" />`,
@@ -84,10 +84,10 @@ class AtomFormatter {
     return [
       '<entry>',
       `<title>${this._escapeHtml(entry.title)}</title>`,
-      `<link href= "${entry.linkHref}" />`,
+      `<link href="${entry.linkHref}" />`,
       `<updated>${entry.updated}</updated>`,
       `<id>${entry.id}</id>`,
-      `<content type= "html">${this._escapeHtml(entry.content)}</content>`,
+      `<content type="html">${this._escapeHtml(entry.content)}</content>`,
       '</entry>'
     ].join('');
   }

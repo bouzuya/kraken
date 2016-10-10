@@ -1,4 +1,4 @@
-import { Entry } from './types';
+import { Entry } from '../types';
 declare const formatAllJson: (entries: Entry[]) => string;
 declare const formatDailyJson: (entry: Entry) => string;
 declare const formatMonthlyJson: (entries: Entry[]) => string;

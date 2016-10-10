@@ -10,4 +10,5 @@ export declare type CompiledEntry = {
 declare const compile: (inDir: string, outDir: string) => Promise<void>;
 declare const compileOld: (inDir: string, outDir: string) => Promise<void>;
 declare const compileNew: (inDir: string, outDir: string) => Promise<void>;
-export { compileOld, compileNew, compile };
+declare const build: (inDir: string, outDir: string) => Promise<void>;
+export { compileOld, compileNew, compile, build };

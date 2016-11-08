@@ -2,13 +2,23 @@ import { Entry, EntryId } from './types';
 
 export class Repository {
   private _entries: Entry[];
+  private _dir: string;
+  private _ids: EntryId[];
+  private _parse: (entryDir: string, entryId: EntryId) => Entry;
 
   constructor(
     dir: string,
     listEntryIds: (dirOrFile: string) => EntryId[],
     parse: (entryDir: string, entryId: EntryId) => Entry
   ) {
+    this._dir = dir;
+    this._ids = listEntryIds(dir);
+    this._parse = parse;
     this._entries = listEntryIds(dir).map((id) => parse(dir, id));
+  }
+
+  each(f: (item: Entry) => any): void {
+    this._ids.forEach((id) => f(this._parse(this._dir, id)))
   }
 
   findAll(): Entry[] {

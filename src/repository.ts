@@ -1,7 +1,6 @@
 import { Entry, EntryId } from './types';
 
 export class Repository {
-  private _entries: Entry[];
   private _dir: string;
   private _ids: EntryId[];
   private _parse: (entryDir: string, entryId: EntryId) => Entry;
@@ -14,23 +13,25 @@ export class Repository {
     this._dir = dir;
     this._ids = listEntryIds(dir);
     this._parse = parse;
-    this._entries = listEntryIds(dir).map((id) => parse(dir, id));
   }
 
   each(f: (item: Entry) => any): void {
-    this._ids.forEach((id) => f(this._parse(this._dir, id)))
+    this._ids.forEach((id) => f(this._parse(this._dir, id)));
   }
 
   findAll(): Entry[] {
-    return this._entries; // TODO: defensive copy
+    // TODo: defensive copy
+    return this._ids.map((id) => this._parse(this._dir, id));
   }
 
   findBy(query: { year?: string; month?: string; }): Entry[] {
-    return this._entries.filter(({ id: { year, month } }) => {
-      const y = typeof query.year === 'undefined' || year === query.year;
-      const m = typeof query.month === 'undefined' || month === query.month;
-      return y && m;
-    });
+    return this._ids
+      .filter(({ year, month }) => {
+        const y = typeof query.year === 'undefined' || year === query.year;
+        const m = typeof query.month === 'undefined' || month === query.month;
+        return y && m;
+      })
+      .map((id) => this._parse(this._dir, id));
   }
 
   getMonths(year: string): string[] {
@@ -40,7 +41,7 @@ export class Repository {
   }
 
   getYears(): string[] {
-    return this._entries.reduce<string[]>((ys, { id: { year } }) => {
+    return this._ids.reduce<string[]>((ys, { year }) => {
       return ys.some((y) => y === year) ? ys : ys.concat([year]);
     }, []);
   }

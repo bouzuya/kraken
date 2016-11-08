@@ -33,7 +33,7 @@ const saveDailyJson = (
   repository: Repository,
   outDir: string
 ): void => {
-  repository.findAll().forEach((entry) => {
+  repository.each((entry) => {
     const { id } = entry;
     const title = typeof id.title === 'undefined' ? 'diary' : id.title;
     const formatted = formatDailyJson(entry);
@@ -137,8 +137,7 @@ const saveLinkedJson = (
   outDir: string
 ): void => {
   const linked: { [to: string]: string[]; } = {};
-  const entries = repository.findAll();
-  entries.forEach((entry) => {
+  repository.each((entry) => {
     const match = entry.data.match(/\[(\d\d\d\d-\d\d-\d\d)\]/g);
     if (!match) return;
     const from = `${entry.id.year}-${entry.id.month}-${entry.id.date}`;

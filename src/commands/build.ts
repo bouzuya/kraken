@@ -95,22 +95,23 @@ const saveTagsJson = (
   repository: Repository,
   outDir: string
 ): void => {
-  const entries = repository.findAll();
   const formatted = JSON.stringify(
-    entries.reduce<{ name: string; count: number; }[]>((tags, entry) => {
-      return entry.tags.reduce((tags, tag) => {
-        const index = tags.findIndex(({ name }) => name === tag);
-        if (index >= 0) {
-          const before = tags.slice(0, index);
-          const oldTag = tags[index];
-          const newTag = Object.assign({}, oldTag, { count: oldTag.count + 1 });
-          const after = tags.slice(index + 1);
-          return before.concat([newTag]).concat(after);
-        } else {
-          return tags.concat([{ name: tag, count: 1 }]);
-        }
-      }, tags);
-    }, []));
+    repository.reduce<{ name: string; count: number; }[]>(
+      (tags, { tags: entryTags }) => {
+        return entryTags.reduce((tags, tag) => {
+          const index = tags.findIndex(({ name }) => name === tag);
+          if (index >= 0) {
+            const before = tags.slice(0, index);
+            const oldTag = tags[index];
+            const newTag = Object.assign(
+              {}, oldTag, { count: oldTag.count + 1 });
+            const after = tags.slice(index + 1);
+            return before.concat([newTag]).concat(after);
+          } else {
+            return tags.concat([{ name: tag, count: 1 }]);
+          }
+        }, tags);
+      }, []));
   writeFile(join(outDir, 'tags.json'), formatted);
 };
 
@@ -156,10 +157,9 @@ const saveLinkedJson = (
 const saveTokensJson = (
   repository: Repository, outDir: string
 ): Promise<void> => {
-  const entries = repository.findAll();
   return newTokenizer()
     .then((tokenizer) => {
-      return entries.reduce((allTokens, entry) => {
+      return repository.reduce((allTokens, entry) => {
         const id = `${entry.id.year}-${entry.id.month}-${entry.id.date}`;
         const tokens = tokenizer.tokenize(entry.data);
         allTokens[id] = tokens;

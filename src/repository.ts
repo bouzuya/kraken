@@ -45,4 +45,8 @@ export class Repository {
       return ys.some((y) => y === year) ? ys : ys.concat([year]);
     }, []);
   }
+
+  reduce<T>(f: (a: T, i: Entry) => T, s: T): T {
+    return this._ids.reduce((a, id) => f(a, this._parse(this._dir, id)), s);
+  }
 }

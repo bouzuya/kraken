@@ -12,4 +12,5 @@ export declare class Repository {
     }): Entry[];
     getMonths(year: string): string[];
     getYears(): string[];
+    reduce<T>(f: (a: T, i: Entry) => T, s: T): T;
 }

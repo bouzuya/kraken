@@ -7,8 +7,14 @@ export declare type CompiledEntry = {
     title: string;
     html: string;
 };
-declare const compile: (inDir: string, outDir: string) => Promise<void>;
+declare const compile: (inDir: string, outDir: string, options?: {
+    noTokensJson: boolean;
+} | undefined) => Promise<void>;
 declare const compileOld: (inDir: string, outDir: string) => Promise<void>;
-declare const compileNew: (inDir: string, outDir: string) => Promise<void>;
-declare const build: (inDir: string, outDir: string) => Promise<void>;
+declare const compileNew: (inDir: string, outDir: string, options?: {
+    noTokensJson: boolean;
+} | undefined) => Promise<void>;
+declare const build: (inDir: string, outDir: string, options?: {
+    noTokensJson: boolean;
+} | undefined) => Promise<void>;
 export { compileOld, compileNew, compile, build };

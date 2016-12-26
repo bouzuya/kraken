@@ -16,14 +16,28 @@ const run = (): void => {
     });
   command
     .command('compile <inDir> <outDir>', 'v4 data/ -> dist/')
-    .action((inDir: string, outDir: string): Promise<void> => {
+    .option('--no-tokens-json', 'no tokens.json')
+    .action((
+      inDir: string,
+      outDir: string,
+      options: { noTokensJson?: boolean; }
+    ): Promise<void> => {
       console.log('DEPRECATED: Use `kraken build`.');
-      return compile(inDir, outDir);
+      const noTokensJson = typeof options.noTokensJson === 'undefined'
+        ? false : options.noTokensJson;
+      return compile(inDir, outDir, { noTokensJson });
     });
   command
     .command('build <inDir> <outDir>', 'v4 data/ -> dist/')
-    .action((inDir: string, outDir: string): Promise<void> => {
-      return compile(inDir, outDir);
+    .option('--no-tokens-json', 'no tokens.json')
+    .action((
+      inDir: string,
+      outDir: string,
+      options: { noTokensJson?: boolean; }
+    ): Promise<void> => {
+      const noTokensJson = typeof options.noTokensJson === 'undefined'
+        ? false : options.noTokensJson;
+      return compile(inDir, outDir, { noTokensJson });
     });
   command
     .command('start <dir>', 'run server')

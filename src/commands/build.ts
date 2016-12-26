@@ -173,7 +173,11 @@ const saveTokensJson = (
 };
 
 const compileImpl = (
-  inDir: string, outDir: string, list: (dir: string) => EntryId[], parse: (entryDir: string, entryId: EntryId) => Entry
+  inDir: string,
+  outDir: string,
+  list: (dir: string) => EntryId[],
+  parse: (entryDir: string, entryId: EntryId) => Entry,
+  noTokensJson: boolean
 ): Promise<void> => {
   const repository = new Repository(inDir, list, parse);
   return Promise.resolve()
@@ -185,22 +189,41 @@ const compileImpl = (
     .then(() => true ? saveAtomXml(repository, outDir) : void 0)
     .then(() => true ? saveSitemapXml(repository, outDir) : void 0)
     .then(() => true ? saveLinkedJson(repository, outDir) : void 0)
-    .then(() => true ? saveTokensJson(repository, outDir) : void 0)
+    .then(() => {
+      return noTokensJson === false
+        ? saveTokensJson(repository, outDir) : void 0;
+    })
     .then(() => void 0);
 };
 
-const compile = (inDir: string, outDir: string): Promise<void> => {
+const compile = (
+  inDir: string,
+  outDir: string,
+  options?: {
+    noTokensJson: boolean;
+  }): Promise<void> => {
   console.log('DEPRECATED: Use `build()`');
-  return compileImpl(inDir, outDir, listBbn, parseBbn);
+  const noTokensJson = typeof options === 'undefined'
+    ? false : options.noTokensJson;
+  return compileImpl(inDir, outDir, listBbn, parseBbn, noTokensJson);
 };
 
 const compileOld = (inDir: string, outDir: string): Promise<void> => {
   console.log('DEPRECATED:');
-  return compileImpl(inDir, outDir, listJekyll, parseJekyll);
+  return compileImpl(inDir, outDir, listJekyll, parseJekyll, true);
 };
 
 const compileNew = compile;
 
-const build = compile;
+const build = (
+  inDir: string,
+  outDir: string,
+  options?: {
+    noTokensJson: boolean;
+  }): Promise<void> => {
+  const noTokensJson = typeof options === 'undefined'
+    ? false : options.noTokensJson;
+  return compileImpl(inDir, outDir, listBbn, parseBbn, noTokensJson);
+};
 
 export { compileOld, compileNew, compile, build };

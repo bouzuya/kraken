@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as commander from 'commander-b';
-import { migrate, compile, start } from './';
+import { migrate, build, compile, start } from './';
 
 const run = (): void => {
   const packageJsonFile = path.join(__dirname, '..', 'package.json');
@@ -37,7 +37,7 @@ const run = (): void => {
     ): Promise<void> => {
       const noTokensJson = typeof options.noTokensJson === 'undefined'
         ? false : options.noTokensJson;
-      return compile(inDir, outDir, { noTokensJson });
+      return build(inDir, outDir, { noTokensJson });
     });
   command
     .command('start <dir>', 'run server')

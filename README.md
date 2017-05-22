@@ -7,13 +7,7 @@ See: [bouzuya/blog.bouzuya.net][]
 ## Installation
 
 ```
-$ npm install bouzuya/kraken
-```
-
-Or
-
-```
-$ npm install https://github.com/bouzuya/kraken/archive/<VERSION>.tar.gz
+$ npm install @bouzuya/kraken
 ```
 
 ## Usage

@@ -11,7 +11,7 @@ const format = (entry: Entry): EntryJson => {
     tags,
     title
   } = entry;
-  return {
+  return Object.assign({
     data,
     date,
     minutes,
@@ -19,7 +19,7 @@ const format = (entry: Entry): EntryJson => {
     pubdate,
     tags,
     title
-  };
+  }, typeof entry.id.title === 'undefined' ? {} : { idTitle: entry.id.title });
 };
 
 const formatAllJson = (entries: Entry[]): string => {

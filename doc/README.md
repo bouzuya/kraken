@@ -8,17 +8,20 @@
 ### bbn parser
 
 ```
-/{yyyy}/{mm}/{yyyy-mm-dd}.json       ... meta json
-/{yyyy}/{mm}/{yyyy-mm-dd}.md         ... markdown
+/{yyyy}/{mm}/{yyyy}-{mm}-{dd}.json             ... meta json
+/{yyyy}/{mm}/{yyyy}-{mm}-{dd}-{id_title}.json  ... meta json (obsolete)
+/{yyyy}/{mm}/{yyyy}-{mm}-{dd}.md               ... markdown
+/{yyyy}/{mm}/{yyyy}-{mm}-{dd}-{id_title}.md    ... markdown (obsolete)
 ```
 
 #### meta json
 
 ```
 {
+  id_title?: string;       // default: filename or undefined
   minutes: number;
   pubdate: DateTimeString; // 'yyyy-mm-ddThh:mm:ssZ'
-  tags?: string[];
+  tags?: string[];         // default: []
   title: string;
 }
 ```
@@ -36,20 +39,20 @@ TODO
 ## API (Output)
 
 ```
-/{yyyy}.json                         ... yearly json
-/{yyyy}/index.json                   ... yearly json
-/{yyyy}/{mm}.json                    ... monthly json
-/{yyyy}/{mm}/index.json              ... monthly json
-/{yyyy}/{mm}/{dd}.json               ... daily json
-/{yyyy}/{mm}/{dd}/index.json         ... daily json
-/{yyyy}/{mm}/{dd}/{title}.json       ... daily json
-/{yyyy}/{mm}/{dd}/{title}/index.json ... daily json
-/posts.json                          ... all json
-/tags.json                           ... tags json
-/atom.xml                            ... atom xml
-/sitemap.xml                         ... sitemap xml
-/linked.json                         ... linked json
-/tokens.json                         ... tokens json
+/{yyyy}.json                            ... yearly json
+/{yyyy}/index.json                      ... yearly json
+/{yyyy}/{mm}.json                       ... monthly json
+/{yyyy}/{mm}/index.json                 ... monthly json
+/{yyyy}/{mm}/{dd}.json                  ... daily json
+/{yyyy}/{mm}/{dd}/index.json            ... daily json
+/{yyyy}/{mm}/{dd}/{id_title}.json       ... daily json (obsolete)
+/{yyyy}/{mm}/{dd}/{id_title}/index.json ... daily json (obsolete)
+/posts.json                             ... all json
+/tags.json                              ... tags json
+/atom.xml                               ... atom xml
+/sitemap.xml                            ... sitemap xml
+/linked.json                            ... linked json
+/tokens.json                            ... tokens json
 ```
 
 ### daily json
@@ -60,6 +63,7 @@ type DailyJson = {
   date: DateString; // 'yyyy-mm-dd' in '+09:00'
   minutes: number;
   html: HtmlString; // '<p>markdown</p>'
+  idTitle?: string; // 'title' (obsolete)
   pubdate: DateTimeString; // 'yyyy-mm-ddThh:mm:ssZ'
   tags: string[];
   title: string;
@@ -74,6 +78,7 @@ type MonthlyJson = {
   date: DateString; // 'yyyy-mm-dd' in '+09:00'
   minutes: number;
   html: HtmlString; // '<p>markdown</p>'
+  idTitle?: string; // 'title' (obsolete)
   pubdate: DateTimeString; // 'yyyy-mm-ddThh:mm:ssZ'
   tags: string[];
   title: string;
@@ -88,6 +93,7 @@ type YearlyJson = {
   date: DateString; // 'yyyy-mm-dd' in '+09:00'
   minutes: number;
   html: HtmlString; // '<p>markdown</p>'
+  idTitle?: string; // 'title' (obsolete)
   pubdate: DateTimeString; // 'yyyy-mm-ddThh:mm:ssZ'
   tags: string[];
   title: string;
@@ -99,6 +105,7 @@ type YearlyJson = {
 ```
 type AllJson = {
   date: DateString; // 'yyyy-mm-dd'
+  idTitle?: string; // 'title' (obsolete)
   minutes: number;
   pubdate: DateTimeString; // 'yyyy-mm-ddThh:mm:ssZ'
   tags: string[];

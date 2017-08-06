@@ -33,6 +33,7 @@ export interface EntryJson {
   data: Markdown;
   date: DateString;
   html: HtmlString;
+  idTitle?: string;
   minutes: Minutes;
   pubdate: DateTimeString;
   tags: TagName[];

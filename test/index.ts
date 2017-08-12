@@ -1,12 +1,16 @@
-import beater from 'beater';
-import * as assert from 'power-assert';
-import * as sinon from 'sinon';
-import * as proxyquire from 'proxyquire';
+import { Test, run } from 'beater';
 
-const { test } = beater();
+import { tests as commandsTests } from './commands';
+import { tests as fsTests } from './fs';
+import { tests as formatTests } from './format';
+import { tests as parseTests } from './parse';
+import { tests as repositoryTests } from './repository';
 
-test('add', () => {
-  assert(1 + 2 === 3);
-  assert(sinon);
-  assert(proxyquire);
-});
+const tests1: Test[] = ([] as Test[])
+  .concat(commandsTests)
+  .concat(fsTests)
+  .concat(formatTests)
+  .concat(parseTests)
+  .concat(repositoryTests);
+
+run(tests1).catch((_) => void process.exit(-1));

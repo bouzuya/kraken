@@ -9,7 +9,14 @@
   },
   "babel": {
     "presets": [
-      "es2015",
+      [
+        "env",
+        {
+          "targets": {
+            "node": 4
+          }
+        }
+      ],
       "power-assert"
     ]
   },
@@ -37,8 +44,8 @@
     "@types/proxyquire": "^1.3.27",
     "@types/serve-static": "1.7.31",
     "@types/sinon": "^2.3.3",
-    "babel-cli": "6.11.4",
-    "babel-preset-es2015": "6.13.2",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-power-assert": "^1.0.0",
     "beater": "^5.0.1",
     "cpx": "^1.5.0",
@@ -65,7 +72,7 @@
     "build": "npm-run-all -s \"build:tmp:ts\" \"build:tmp:es2015\" -p \"build:lib:*\"",
     "build:lib:dts": "cpx \".tmp/es2015/src/**/*.d.ts\" \"lib/\"",
     "build:lib:js": "cpx \".tmp/es5/src/**/*.js\" \"lib/\"",
-    "build:tmp:es2015": "babel .tmp/es2015/ -d .tmp/es5/",
+    "build:tmp:es2015": "babel --quiet .tmp/es2015/ -d .tmp/es5/",
     "build:tmp:ts": "tsc",
     "clean": "rimraf .tmp lib",
     "prepublish": "npm-run-all -s \"clean\" \"build\"",

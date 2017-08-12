@@ -6,7 +6,8 @@ import * as marked from 'marked';
 const parseEntry = (
   entryDir: string,
   entryId: EntryId,
-  parseRaw: (entryDir: string, entryId: EntryId) => RawEntry
+  parseRaw: (entryDir: string, entryId: EntryId) => RawEntry,
+  options: { noIds: boolean; }
 ): Entry => {
   const { meta, data } = parseRaw(entryDir, entryId);
   if (typeof meta.minutes === 'undefined') {
@@ -27,7 +28,9 @@ const parseEntry = (
     .toISOString()
     .substring(0, '2006-01-02'.length);
   const renderer = new marked.Renderer();
-  renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
+  if (options.noIds) {
+    renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
+  }
   const html = marked(data, { renderer });
   const entry = {
     id: entryId, data, date, html, minutes, pubdate, tags, title

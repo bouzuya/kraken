@@ -17,8 +17,11 @@ const loadBbnMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
   return { meta, data };
 };
 
-const parseEntry = (entryDir: string, entryId: EntryId): Entry => {
-  return parseEntryBase(entryDir, entryId, loadBbnMarkdown);
+const parseEntry = (entryDir: string, entryId: EntryId, options?: { noIds: boolean; }): Entry => {
+  const parseOptions = typeof options === 'undefined'
+    ? { noIds: false }
+    : options;
+  return parseEntryBase(entryDir, entryId, loadBbnMarkdown, parseOptions);
 };
 
 export { listEntryIds, parseEntry };

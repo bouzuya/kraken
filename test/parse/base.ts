@@ -44,7 +44,7 @@ const tests1: Test[] = [
     parse.returns({ meta, data });
 
     const entryId = { year: '2006', month: '01', date: '02', title: undefined };
-    assert.deepEqual(parseEntry('data', entryId, parse), {
+    assert.deepEqual(parseEntry('data', entryId, parse, { noIds: false }), {
       id: entryId,
       minutes: 10,
       pubdate: '2006-01-02T15:04:05-07:00',
@@ -59,6 +59,25 @@ const tests1: Test[] = [
   }),
 
   test(category + 'parseEntry > header id', () => {
+    const noIds = false;
+    const input = '# 123';
+    const output = '<h1 id="123">123</h1>\n';
+
+    const meta = {
+      minutes: 10,
+      pubdate: '2006-01-02T15:04:05-07:00',
+      title: 'title'
+    };
+    const data = input;
+    const parse = sinon.stub();
+    parse.returns({ meta, data });
+    const entryId = { year: '2006', month: '01', date: '02', title: undefined };
+    const { html } = parseEntry('data', entryId, parse, { noIds });
+    assert(html === output);
+  }),
+
+  test(category + 'parseEntry > header id (noIds)', () => {
+    const noIds = true;
     const input = '# 123';
     const output = '<h1>123</h1>\n';
 
@@ -71,7 +90,7 @@ const tests1: Test[] = [
     const parse = sinon.stub();
     parse.returns({ meta, data });
     const entryId = { year: '2006', month: '01', date: '02', title: undefined };
-    const { html } = parseEntry('data', entryId, parse);
+    const { html } = parseEntry('data', entryId, parse, { noIds });
     assert(html === output);
   })
 ];

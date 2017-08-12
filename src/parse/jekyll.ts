@@ -12,8 +12,11 @@ const loadJekyllMarkdown = (entryDir: string, entryId: EntryId): RawEntry => {
   return { meta, data };
 };
 
-const parseEntry = (entryDir: string, entryId: EntryId): Entry => {
-  return parseEntryBase(entryDir, entryId, loadJekyllMarkdown);
+const parseEntry = (entryDir: string, entryId: EntryId, options?: { noIds: boolean; }): Entry => {
+  const parseOptions = typeof options === 'undefined'
+    ? { noIds: false }
+    : options;
+  return parseEntryBase(entryDir, entryId, loadJekyllMarkdown, parseOptions);
 };
 
 export { listEntryIds, parseEntry };

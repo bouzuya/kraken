@@ -9,13 +9,8 @@
   },
   "babel": {
     "presets": [
-      "es2015"
-    ]
-  },
-  "beater": {
-    "dir": "./.tmp/es5/test/",
-    "require": [
-      "./scripts/enable-power-assert.js"
+      "es2015",
+      "power-assert"
     ]
   },
   "bin": {
@@ -74,7 +69,7 @@
     "copy:dts": "cpx '.tmp/es2015/src/**/*.d.ts' 'lib/'",
     "copy:js": "cpx '.tmp/es5/src/**/*.js' 'lib/'",
     "prepublish": "npm-run-all -s 'clean' 'build'",
-    "test": "beater",
+    "test": "node .tmp/es5/test/index",
     "watch": "npm-run-all -p 'watch:*'",
     "watch:es2015": "npm run 'build:es2015' -- --watch",
     "watch:test": "watch --wait 2 'npm test' '.tmp/es5/'",

@@ -201,7 +201,7 @@ const compile = (
   outDir: string,
   options?: {
     noIds?: boolean;
-    noTokensJson: boolean;
+    noTokensJson?: boolean;
   }): Promise<void> => {
   console.log('DEPRECATED: Use `build()`');
   return build(inDir, outDir, options);
@@ -222,7 +222,7 @@ const build = (
   outDir: string,
   options?: {
     noIds?: boolean;
-    noTokensJson: boolean;
+    noTokensJson?: boolean;
   }): Promise<void> => {
   const noIds = typeof options === 'undefined'
     ? false
@@ -230,7 +230,10 @@ const build = (
       ? false
       : options.noIds;
   const noTokensJson = typeof options === 'undefined'
-    ? false : options.noTokensJson;
+    ? false
+    : typeof options.noTokensJson === 'undefined'
+      ? false
+      : options.noTokensJson;
   return compileImpl(inDir, outDir, listBbn, parseBbn, {
     noIds,
     noTokensJson

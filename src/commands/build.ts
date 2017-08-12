@@ -176,10 +176,10 @@ const compileImpl = (
   inDir: string,
   outDir: string,
   list: (dir: string) => EntryId[],
-  parse: (entryDir: string, entryId: EntryId) => Entry,
-  noTokensJson: boolean
+  parse: (entryDir: string, entryId: EntryId, options?: { noIds: boolean; }) => Entry,
+  { noIds, noTokensJson }: { noIds: boolean; noTokensJson: boolean; }
 ): Promise<void> => {
-  const repository = new Repository(inDir, list, parse);
+  const repository = new Repository(inDir, list, (d, i) => parse(d, i, { noIds }));
   return Promise.resolve()
     .then(() => true ? saveYearlyJson(repository, outDir) : void 0)
     .then(() => true ? saveMonthlyJson(repository, outDir) : void 0)
@@ -200,17 +200,19 @@ const compile = (
   inDir: string,
   outDir: string,
   options?: {
+    noIds?: boolean;
     noTokensJson: boolean;
   }): Promise<void> => {
   console.log('DEPRECATED: Use `build()`');
-  const noTokensJson = typeof options === 'undefined'
-    ? false : options.noTokensJson;
-  return compileImpl(inDir, outDir, listBbn, parseBbn, noTokensJson);
+  return build(inDir, outDir, options);
 };
 
 const compileOld = (inDir: string, outDir: string): Promise<void> => {
   console.log('DEPRECATED:');
-  return compileImpl(inDir, outDir, listJekyll, parseJekyll, true);
+  return compileImpl(inDir, outDir, listJekyll, parseJekyll, {
+    noIds: false,
+    noTokensJson: true
+  });
 };
 
 const compileNew = compile;
@@ -219,11 +221,20 @@ const build = (
   inDir: string,
   outDir: string,
   options?: {
+    noIds?: boolean;
     noTokensJson: boolean;
   }): Promise<void> => {
+  const noIds = typeof options === 'undefined'
+    ? false
+    : typeof options.noIds === 'undefined'
+      ? false
+      : options.noIds;
   const noTokensJson = typeof options === 'undefined'
     ? false : options.noTokensJson;
-  return compileImpl(inDir, outDir, listBbn, parseBbn, noTokensJson);
+  return compileImpl(inDir, outDir, listBbn, parseBbn, {
+    noIds,
+    noTokensJson
+  });
 };
 
 export { compileOld, compileNew, compile, build };

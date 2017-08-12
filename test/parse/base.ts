@@ -60,7 +60,7 @@ const tests1: Test[] = [
 
   test(category + 'parseEntry > header id', () => {
     const input = '# 123';
-    const output = '<h1 id="123">123</h1>\n';
+    const output = '<h1>123</h1>\n';
 
     const meta = {
       minutes: 10,

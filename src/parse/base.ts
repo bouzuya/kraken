@@ -26,7 +26,9 @@ const parseEntry = (
     .inTimeZone('+09:00')
     .toISOString()
     .substring(0, '2006-01-02'.length);
-  const html = marked(data);
+  const renderer = new marked.Renderer();
+  renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
+  const html = marked(data, { renderer });
   const entry = {
     id: entryId, data, date, html, minutes, pubdate, tags, title
   };

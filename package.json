@@ -62,6 +62,7 @@
     "doc": "doc"
   },
   "files": [
+    "bin",
     "lib"
   ],
   "homepage": "https://github.com/bouzuya/kraken",

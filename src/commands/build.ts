@@ -147,7 +147,7 @@ const saveLinkedJson = (
     const outbound = match
       .map((m) => m.match(/\[(\d\d\d\d-\d\d-\d\d)\]/))
       .filter((m): m is RegExpMatchArray => m !== null)
-      .map(([to]: RegExpMatchArray) => to); // workaround for `filter` type
+      .map(([_, to]: RegExpMatchArray) => to); // workaround for `filter` type
     outbound.forEach((to) => {
       if (typeof inbounds[to] === 'undefined') inbounds[to] = [];
       inbounds[to].push(from);
@@ -160,8 +160,14 @@ const saveLinkedJson = (
     const { year, month, date } = entryId;
     const id = `${year}-${month}-${date}`;
     const n = 4;
-    const prev = entryIds.slice(Math.max(0, index - n), index);
-    const next = entryIds.slice(index + 1, Math.min(entryIds.length, index + n + 1));
+    const prev = entryIds
+      .slice(Math.max(0, index - n), index)
+      .map(({ year, month, date }) => `${year}-${month}-${date}`)
+      .sort((a, b) => a < b ? 1 : (a === b ? 0 : -1));
+    const next = entryIds
+      .slice(index + 1, Math.min(entryIds.length, index + n + 1))
+      .map(({ year, month, date }) => `${year}-${month}-${date}`)
+      .sort((a, b) => a < b ? 1 : (a === b ? 0 : -1));
     const inbound = inbounds[id];
     const outbound = outbounds[id];
     const formatted = JSON.stringify({ inbound, next, outbound, prev });

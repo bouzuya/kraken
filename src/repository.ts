@@ -34,6 +34,10 @@ export class Repository {
       .map((id) => this._parse(this._dir, id));
   }
 
+  getEntryIds(): EntryId[] {
+    return this._ids;
+  }
+
   getMonths(year: string): string[] {
     return this.findBy({ year }).reduce<string[]>((ms, { id: { month } }) => {
       return ms.some((m) => m === month) ? ms : ms.concat([month]);

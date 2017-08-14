@@ -13,7 +13,6 @@ const tests1: Test[] = [
     assert(compileNew === compile);
   }),
 
-
   test('compile.compileOld', () => {
     // TODO
     assert(compileOld);

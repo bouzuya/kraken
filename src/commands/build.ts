@@ -137,20 +137,38 @@ const saveLinkedJson = (
   repository: Repository,
   outDir: string
 ): void => {
-  const linked: { [to: string]: string[]; } = {};
+  const inbounds: { [to: string]: string[]; } = {};
+  const outbounds: { [from: string]: string[]; } = {};
   repository.each((entry) => {
     const match = entry.data.match(/\[(\d\d\d\d-\d\d-\d\d)\]/g);
-    if (!match) return;
-    const from = `${entry.id.year}-${entry.id.month}-${entry.id.date}`;
-    match.forEach((m) => {
-      const matched = m.match(/\[(\d\d\d\d-\d\d-\d\d)\]/);
-      if (!matched) return;
-      const to = matched[1];
-      if (typeof linked[to] === 'undefined') linked[to] = [];
-      linked[to].push(from);
+    if (match === null) return;
+    const { year, month, date } = entry.id;
+    const from = `${year}-${month}-${date}`;
+    const outbound = match
+      .map((m) => m.match(/\[(\d\d\d\d-\d\d-\d\d)\]/))
+      .filter((m): m is RegExpMatchArray => m !== null)
+      .map(([to]: RegExpMatchArray) => to); // workaround for `filter` type
+    outbound.forEach((to) => {
+      if (typeof inbounds[to] === 'undefined') inbounds[to] = [];
+      inbounds[to].push(from);
     });
+    outbounds[from] = outbound;
   });
-  const formatted = JSON.stringify(linked);
+
+  const entryIds = repository.getEntryIds();
+  entryIds.forEach((entryId, index) => {
+    const { year, month, date } = entryId;
+    const id = `${year}-${month}-${date}`;
+    const n = 4;
+    const prev = entryIds.slice(Math.max(0, index - n), index);
+    const next = entryIds.slice(index + 1, Math.min(entryIds.length, index + n + 1));
+    const inbound = inbounds[id];
+    const outbound = outbounds[id];
+    const formatted = JSON.stringify({ inbound, next, outbound, prev });
+    writeFile(join(outDir, year, month, date, 'related.json'), formatted);
+    writeFile(join(outDir, year, month, date, 'related', 'index.json'), formatted);
+  });
+  const formatted = JSON.stringify(inbounds);
   writeFile(join(outDir, 'linked.json'), formatted);
 };
 

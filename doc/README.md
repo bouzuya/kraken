@@ -45,6 +45,8 @@ TODO
 /{yyyy}/{mm}/index.json                 ... monthly json
 /{yyyy}/{mm}/{dd}.json                  ... daily json
 /{yyyy}/{mm}/{dd}/index.json            ... daily json
+/{yyyy}/{mm}/{dd}/related.json          ... daily related json
+/{yyyy}/{mm}/{dd}/related/index.json    ... daily related json
 /{yyyy}/{mm}/{dd}/{id_title}.json       ... daily json (obsolete)
 /{yyyy}/{mm}/{dd}/{id_title}/index.json ... daily json (obsolete)
 /posts.json                             ... all json
@@ -67,6 +69,17 @@ type DailyJson = {
   pubdate: DateTimeString; // 'yyyy-mm-ddThh:mm:ssZ'
   tags: string[];
   title: string;
+};
+```
+
+### daily related json
+
+```
+type DailyRelatedJson = {
+  next: string[]; // ['yyyy-mm-dd']
+  outbound: string[]; // ['yyyy-mm-dd']
+  prev: string[]; // ['yyyy-mm-dd']
+  recent: string[]; // ['yyyy-mm-dd']
 };
 ```
 

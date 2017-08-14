@@ -137,13 +137,13 @@ const saveLinkedJson = (
   repository: Repository,
   outDir: string
 ): void => {
+  const idString = ({ year, month, date }: EntryId): string => `${year}-${month}-${date}`;
   const inbounds: { [to: string]: string[]; } = {};
   const outbounds: { [from: string]: string[]; } = {};
   repository.each((entry) => {
     const match = entry.data.match(/\[(\d\d\d\d-\d\d-\d\d)\]/g);
     if (match === null) return;
-    const { year, month, date } = entry.id;
-    const from = `${year}-${month}-${date}`;
+    const from = idString(entry.id);
     const outbound = match
       .map((m) => m.match(/\[(\d\d\d\d-\d\d-\d\d)\]/))
       .filter((m): m is RegExpMatchArray => m !== null)
@@ -158,18 +158,18 @@ const saveLinkedJson = (
   const entryIds = repository.getEntryIds();
   entryIds.forEach((entryId, index) => {
     const { year, month, date } = entryId;
-    const id = `${year}-${month}-${date}`;
+    const id = idString(entryId);
     const n = 4;
     const prev = entryIds
       .slice(Math.max(0, index - n), index)
-      .map(({ year, month, date }) => `${year}-${month}-${date}`)
+      .map((entryId) => idString(entryId))
       .sort((a, b) => a < b ? 1 : (a === b ? 0 : -1));
     const next = entryIds
       .slice(index + 1, Math.min(entryIds.length, index + n + 1))
-      .map(({ year, month, date }) => `${year}-${month}-${date}`)
+      .map((entryId) => idString(entryId))
       .sort((a, b) => a < b ? 1 : (a === b ? 0 : -1));
-    const inbound = inbounds[id];
-    const outbound = outbounds[id];
+    const inbound = typeof inbounds[id] === 'undefined' ? [] : inbounds[id];
+    const outbound = typeof outbounds[id] === 'undefined' ? [] : outbounds[id];
     const formatted = JSON.stringify({ inbound, next, outbound, prev });
     writeFile(join(outDir, year, month, date, 'related.json'), formatted);
     writeFile(join(outDir, year, month, date, 'related', 'index.json'), formatted);

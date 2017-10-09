@@ -135,7 +135,8 @@ const saveSitemapXml = (
 
 const saveLinkedJson = (
   repository: Repository,
-  outDir: string
+  outDir: string,
+  within: number
 ): void => {
   const idString = ({ year, month, date }: EntryId): string => `${year}-${month}-${date}`;
   const inbounds: { [to: string]: string[]; } = {};
@@ -159,7 +160,7 @@ const saveLinkedJson = (
   entryIds.forEach((entryId, index) => {
     const { year, month, date } = entryId;
     const id = idString(entryId);
-    const n = 4;
+    const n = within;
     const prev = entryIds
       .slice(Math.max(0, index - n), index)
       .map((entryId) => idString(entryId))
@@ -201,7 +202,7 @@ const compileImpl = (
   outDir: string,
   list: (dir: string) => EntryId[],
   parse: (entryDir: string, entryId: EntryId, options?: { noIds: boolean; }) => Entry,
-  { noIds, noTokensJson }: { noIds: boolean; noTokensJson: boolean; }
+  { noIds, noTokensJson, within }: { noIds: boolean; noTokensJson: boolean; within: number; }
 ): Promise<void> => {
   const repository = new Repository(inDir, list, (d, i) => parse(d, i, { noIds }));
   return Promise.resolve()
@@ -212,7 +213,7 @@ const compileImpl = (
     .then(() => true ? saveTagsJson(repository, outDir) : void 0)
     .then(() => true ? saveAtomXml(repository, outDir) : void 0)
     .then(() => true ? saveSitemapXml(repository, outDir) : void 0)
-    .then(() => true ? saveLinkedJson(repository, outDir) : void 0)
+    .then(() => true ? saveLinkedJson(repository, outDir, within) : void 0)
     .then(() => {
       return noTokensJson === false
         ? saveTokensJson(repository, outDir) : void 0;
@@ -226,6 +227,7 @@ const compile = (
   options?: {
     noIds?: boolean;
     noTokensJson?: boolean;
+    within?: number;
   }): Promise<void> => {
   console.log('DEPRECATED: Use `build()`');
   return build(inDir, outDir, options);
@@ -235,7 +237,8 @@ const compileOld = (inDir: string, outDir: string): Promise<void> => {
   console.log('DEPRECATED:');
   return compileImpl(inDir, outDir, listJekyll, parseJekyll, {
     noIds: false,
-    noTokensJson: true
+    noTokensJson: true,
+    within: 4
   });
 };
 
@@ -247,6 +250,7 @@ const build = (
   options?: {
     noIds?: boolean;
     noTokensJson?: boolean;
+    within?: number;
   }): Promise<void> => {
   const noIds = typeof options === 'undefined'
     ? false
@@ -258,9 +262,15 @@ const build = (
     : typeof options.noTokensJson === 'undefined'
       ? false
       : options.noTokensJson;
+  const within = typeof options === 'undefined'
+    ? 4
+    : typeof options.within === 'undefined'
+      ? 4
+      : options.within;
   return compileImpl(inDir, outDir, listBbn, parseBbn, {
     noIds,
-    noTokensJson
+    noTokensJson,
+    within
   });
 };
 

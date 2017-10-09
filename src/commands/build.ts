@@ -143,6 +143,9 @@ const saveLinkedJson = (
   const inbounds: { [to: string]: string[]; } = {};
   const outbounds: { [from: string]: string[]; } = {};
   repository.each((entry) => {
+    const mmdd = `--${entry.id.month}-${entry.id.date}`;
+    if (typeof sameDays[mmdd] === 'undefined') sameDays[mmdd] = [];
+    sameDays[mmdd].push(idString(entry.id));
     const match = entry.data.match(/\[(\d\d\d\d-\d\d-\d\d)\]/g);
     if (match === null) return;
     const from = idString(entry.id);
@@ -155,9 +158,6 @@ const saveLinkedJson = (
       inbounds[to].push(from);
     });
     outbounds[from] = outbound;
-    const mmdd = `--${entry.id.month}-${entry.id.date}`;
-    if (typeof sameDays[mmdd] === 'undefined') sameDays[mmdd] = [];
-    sameDays[mmdd].push(from);
   });
 
   const entryIds = repository.getEntryIds();

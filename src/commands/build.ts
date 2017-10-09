@@ -176,7 +176,8 @@ const saveLinkedJson = (
       .sort((a, b) => a < b ? 1 : (a === b ? 0 : -1));
     const inbound = typeof inbounds[id] === 'undefined' ? [] : inbounds[id];
     const outbound = typeof outbounds[id] === 'undefined' ? [] : outbounds[id];
-    const sameDays_ = typeof sameDays[mmdd] === 'undefined' ? [] : sameDays[mmdd];
+    const sameDays_ =
+      typeof sameDays[mmdd] === 'undefined' ? [] : sameDays[mmdd].filter((i) => i !== id);
     const formatted = JSON.stringify({ inbound, next, outbound, prev, same: sameDays_ });
     writeFile(join(outDir, year, month, date, 'related.json'), formatted);
     writeFile(join(outDir, year, month, date, 'related', 'index.json'), formatted);

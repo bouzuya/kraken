@@ -156,7 +156,8 @@ const saveLinkedJson = (
     });
     outbounds[from] = outbound;
     const mmdd = `--${entry.id.month}-${entry.id.date}`;
-    (typeof sameDays[mmdd] === 'undefined' ? [] : sameDays[mmdd]).push(from);
+    if (typeof sameDays[mmdd] === 'undefined') sameDays[mmdd] = [];
+    sameDays[mmdd].push(from);
   });
 
   const entryIds = repository.getEntryIds();

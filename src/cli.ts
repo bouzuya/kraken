@@ -35,6 +35,7 @@ const run = (): void => {
     });
   command
     .command('build <inDir> <outDir>', 'v4 data/ -> dist/')
+    .option('--no-ids', 'no id')
     .option('--no-tokens-json', 'no tokens.json')
     .option('--within <n>', 'prev / next entries count')
     .action((

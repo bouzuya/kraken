@@ -139,6 +139,7 @@ const saveLinkedJson = (
   within: number
 ): void => {
   const idString = ({ year, month, date }: EntryId): string => `${year}-${month}-${date}`;
+  const sameDays: { [mmdd: string]: string[]; } = {};
   const inbounds: { [to: string]: string[]; } = {};
   const outbounds: { [from: string]: string[]; } = {};
   repository.each((entry) => {
@@ -154,12 +155,15 @@ const saveLinkedJson = (
       inbounds[to].push(from);
     });
     outbounds[from] = outbound;
+    const mmdd = `--${entry.id.month}-${entry.id.date}`;
+    (typeof sameDays[mmdd] === 'undefined' ? [] : sameDays[mmdd]).push(from);
   });
 
   const entryIds = repository.getEntryIds();
   entryIds.forEach((entryId, index) => {
     const { year, month, date } = entryId;
     const id = idString(entryId);
+    const mmdd = `--${entryId.month}-${entryId.date}`;
     const n = within;
     const prev = entryIds
       .slice(Math.max(0, index - n), index)
@@ -171,7 +175,8 @@ const saveLinkedJson = (
       .sort((a, b) => a < b ? 1 : (a === b ? 0 : -1));
     const inbound = typeof inbounds[id] === 'undefined' ? [] : inbounds[id];
     const outbound = typeof outbounds[id] === 'undefined' ? [] : outbounds[id];
-    const formatted = JSON.stringify({ inbound, next, outbound, prev });
+    const sameDays_ = typeof sameDays[mmdd] === 'undefined' ? [] : sameDays[mmdd];
+    const formatted = JSON.stringify({ inbound, next, outbound, prev, same: sameDays_ });
     writeFile(join(outDir, year, month, date, 'related.json'), formatted);
     writeFile(join(outDir, year, month, date, 'related', 'index.json'), formatted);
   });

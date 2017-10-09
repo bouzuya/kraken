@@ -16,19 +16,22 @@ const run = (): void => {
     });
   command
     .command('compile <inDir> <outDir>', 'v4 data/ -> dist/')
+    .option('--no-ids', 'no id')
     .option('--no-tokens-json', 'no tokens.json')
     .option('--within <n>', 'prev / next entries count')
     .action((
       inDir: string,
       outDir: string,
-      options: { noTokensJson?: boolean; within?: string; }
+      options: { noIds?: boolean; noTokensJson?: boolean; within?: string; }
     ): Promise<void> => {
       console.log('DEPRECATED: Use `kraken build`.');
+      const noIds = typeof options.noIds === 'undefined'
+      ? false : options.noIds;
       const noTokensJson = typeof options.noTokensJson === 'undefined'
-        ? false : options.noTokensJson;
-        const within = typeof options.within === 'undefined'
-          ? 4 : parseInt(options.within, 10);
-      return compile(inDir, outDir, { noTokensJson, within });
+      ? false : options.noTokensJson;
+      const within = typeof options.within === 'undefined'
+        ? 4 : parseInt(options.within, 10);
+      return compile(inDir, outDir, { noIds, noTokensJson, within });
     });
   command
     .command('build <inDir> <outDir>', 'v4 data/ -> dist/')
@@ -37,13 +40,15 @@ const run = (): void => {
     .action((
       inDir: string,
       outDir: string,
-      options: { noTokensJson?: boolean; within?: string; }
+      options: { noIds?: boolean; noTokensJson?: boolean; within?: string; }
     ): Promise<void> => {
+      const noIds = typeof options.noIds === 'undefined'
+      ? false : options.noIds;
       const noTokensJson = typeof options.noTokensJson === 'undefined'
         ? false : options.noTokensJson;
       const within = typeof options.within === 'undefined'
         ? 4 : parseInt(options.within, 10);
-      return build(inDir, outDir, { noTokensJson, within });
+      return build(inDir, outDir, { noIds, noTokensJson, within });
     });
   command
     .command('start <dir>', 'run server')

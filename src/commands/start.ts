@@ -3,11 +3,9 @@ import * as serveStatic from 'serve-static';
 import * as finalHandler from 'finalhandler';
 
 const start = (dir: string): Promise<void> => {
-  // workaround for @types/finalhandler bug
-  const final: typeof finalHandler.default = <any>finalHandler;
   const serve = serveStatic(dir);
   const server = http.createServer((req: any, res: any) => {
-    serve(req, res, final(req, res));
+    serve(req, res, finalHandler(req, res));
   });
   const portString = process.env.PORT;
   const port = typeof portString === 'undefined'

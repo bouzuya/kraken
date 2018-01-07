@@ -9,8 +9,9 @@ const start = (dir: string): Promise<void> => {
   const server = http.createServer((req: any, res: any) => {
     serve(req, res, final(req, res));
   });
-  const port = typeof process.env.PORT === 'undefined'
-    ? 80 : parseInt(process.env.PORT, 10);
+  const portString = process.env.PORT;
+  const port = typeof portString === 'undefined'
+    ? 80 : parseInt(portString, 10);
   server.listen(port);
   return new Promise((resolve) => {
     server.on('close', () => resolve());

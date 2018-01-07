@@ -80,7 +80,7 @@
     "build:tmp:es2015": "babel --quiet .tmp/es2015/ -d .tmp/es5/",
     "build:tmp:ts": "tsc",
     "clean": "rimraf .tmp lib",
-    "prepublish": "npm-run-all -s \"clean\" \"build\"",
+    "prepare": "npm-run-all -s \"clean\" \"build\"",
     "test": "node .tmp/es5/test/index",
     "watch": "npm-run-all -p \"watch:**\"",
     "watch:test": "watch --wait 2 \"npm test\" \".tmp/es5/\"",

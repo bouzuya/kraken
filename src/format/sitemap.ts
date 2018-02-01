@@ -14,7 +14,7 @@ class SitemapBuilder {
 
   build(): Sitemap {
     return this.entries.map(({ date, pubdate: lastmod }) => {
-      const loc = `http://blog.bouzuya.net/${date.replace(/-/g, '/')}/`;
+      const loc = `https://blog.bouzuya.net/${date.replace(/-/g, '/')}/`;
       return { loc, lastmod };
     });
   }

@@ -32,9 +32,9 @@ class AtomBuilder {
     const updated = typeof entries[0] === 'undefined' ? '' : entries[0].updated;
     const atom = {
       title: 'blog.bouzuya.net',
-      linkHref: 'http://blog.bouzuya.net/',
+      linkHref: 'https://blog.bouzuya.net/',
       updated,
-      id: 'http://blog.bouzuya.net/',
+      id: 'https://blog.bouzuya.net/',
       author: { name: 'bouzuya' },
       entries
     };
@@ -49,7 +49,7 @@ class AtomBuilder {
       })
       .filter((_, index) => index < 20) // limit
       .map((entry) => {
-        const url = `http://blog.bouzuya.net/${entry.date.replace(/-/g, '/')}/`;
+        const url = `https://blog.bouzuya.net/${entry.date.replace(/-/g, '/')}/`;
         const atomEntry = {
           title: entry.title,
           linkHref: url,

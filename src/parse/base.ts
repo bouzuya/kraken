@@ -1,6 +1,6 @@
+import { inTimeZone, parseISOString, toISOString } from 'time-keeper';
 import { Entry, EntryId, RawEntry } from '../types';
 import { listFiles } from '../utils/fs';
-import { parseISOString } from 'time-keeper';
 import * as marked from 'marked';
 
 const parseEntry = (
@@ -23,9 +23,7 @@ const parseEntry = (
   const pubdate = meta.pubdate as string;
   const tags = (typeof meta.tags === 'undefined' ? [] : meta.tags) as string[];
   const title = meta.title as string;
-  const date = parseISOString(pubdate)
-    .inTimeZone('+09:00')
-    .toISOString()
+  const date = toISOString(inTimeZone(parseISOString(pubdate), '+09:00'))
     .substring(0, '2006-01-02'.length);
   const renderer = new marked.Renderer();
   if (options.noIds) {

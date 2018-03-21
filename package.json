@@ -34,7 +34,7 @@
     "kuromoji": "0.1.1",
     "marked": "^0.3.9",
     "serve-static": "^1.13.1",
-    "time-keeper": "^1.0.0"
+    "time-keeper": "^2.0.0"
   },
   "devDependencies": {
     "@types/finalhandler": "0.0.32",

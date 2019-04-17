@@ -1,7 +1,7 @@
 {
   "name": "@bouzuya/kraken",
   "description": "A blog data generator for blog.bouzuya.net.",
-  "version": "3.7.6",
+  "version": "3.7.7",
   "author": {
     "name": "bouzuya",
     "email": "m@bouzuya.net",

@@ -37,9 +37,9 @@
     "time-keeper": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
     "@types/finalhandler": "0.0.33",
     "@types/fs-extra": "^5.0.4",
     "@types/marked": "^0.4.2",

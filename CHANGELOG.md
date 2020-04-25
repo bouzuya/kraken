@@ -1,3 +1,15 @@
+## [4.0.2](https://github.com/bouzuya/kraken/compare/v4.0.1...v4.0.2) (2020-04-25)
+
+- build: watch -> chokidar ([2baef83](https://github.com/bouzuya/kraken/commit/2baef83))
+- fix: marked mangle option ([f08e17d](https://github.com/bouzuya/kraken/commit/f08e17d))
+- fix: re-export tests ([e75b1d4](https://github.com/bouzuya/kraken/commit/e75b1d4))
+- fix: test helper ([faf4920](https://github.com/bouzuya/kraken/commit/faf4920))
+- test: add pre element tests ([a210007](https://github.com/bouzuya/kraken/commit/a210007))
+
+### BREAKING CHANGE
+
+- fix: change marked mangle option (mangle: true -> false)
+
 ## [4.0.1](https://github.com/bouzuya/kraken/compare/v4.0.0...v4.0.1) (2020-04-25)
 
 - Bump acorn from 5.7.3 to 5.7.4 ([31606d0](https://github.com/bouzuya/kraken/commit/31606d0))

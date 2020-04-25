@@ -1,12 +1,9 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
 import * as proxyquire from 'proxyquire';
-import * as sinon from 'sinon';
-
 import { formatJson } from '../../src/utils/fs';
 import {
   migrate as mimgrateType
 } from '../../src/commands/migrate';
+import { Test, assert, sinon, test } from '../helper';
 
 const tests1: Test[] = [
   test('migrate.migrate', () => {

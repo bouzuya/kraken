@@ -1,8 +1,6 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
 import { join } from 'path';
-
 import { path } from '../../src/utils/fs';
+import { Test, assert, test } from '../helper';
 
 const tests1: Test[] = [
   test('fs.path', () => {

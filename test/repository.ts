@@ -1,11 +1,8 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
-import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-
 import {
   Repository
 } from '../src/repository';
+import { Test, assert, sinon, test } from './helper';
 
 const category = '/parse/repository';
 

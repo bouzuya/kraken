@@ -1,6 +1,3 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
-
 import {
   formatAtom,
   formatDailyJson,
@@ -9,6 +6,7 @@ import {
   formatSitemap
 } from '../src/format';
 import { Entry } from '../src/types';
+import { Test, assert, test } from './helper';
 
 const tests1: Test[] = [
   test('format.formatAtom', () => {

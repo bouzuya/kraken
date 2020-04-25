@@ -1,9 +1,6 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
 import * as proxyquire from 'proxyquire';
-import * as sinon from 'sinon';
-
 import { readFile as readFileType } from '../../src/utils/fs';
+import { Test, assert, sinon, test } from '../helper';
 
 const tests1: Test[] = [
   test('fs.readFile', () => {

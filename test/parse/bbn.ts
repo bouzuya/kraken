@@ -1,12 +1,9 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
 import * as proxyquire from 'proxyquire';
-import * as sinon from 'sinon';
-
 import {
   listEntryIds as listEntryIdsType,
   parseEntry as parseEntryType
 } from '../../src/parse/bbn';
+import { Test, assert, sinon, test } from '../helper';
 
 const category = 'parse > bbn > ';
 

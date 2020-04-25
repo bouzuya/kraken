@@ -1,7 +1,5 @@
-import { Test, test } from 'beater';
-import * as assert from 'power-assert';
-
 import { compile, compileNew, compileOld } from '../../src/commands/build';
+import { Test, assert, test } from '../helper';
 
 const tests1: Test[] = [
   test('compile.compile', () => {

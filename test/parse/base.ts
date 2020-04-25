@@ -77,6 +77,13 @@ const tests1: Test[] = group("base/", [
     );
   }),
 
+  test("parseEntry/todo list", () => {
+    assert.deepStrictEqual(
+      markdownToHtml("- [ ] text"),
+      '<ul>\n<li><input disabled="" type="checkbox"> text</li>\n</ul>\n'
+    );
+  }),
+
   test("parseEntry > header id", () => {
     const noIds = false;
     const input = "# 123";

@@ -52,6 +52,7 @@
     "babel-preset-power-assert": "^3.0.0",
     "beater": "^9.0.1",
     "beater-helpers": "^2.0.0",
+    "chokidar-cli": "^2.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "npm-run-all": "^4.1.5",
@@ -59,8 +60,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2",
-    "typescript": "^3.8.3",
-    "watch": "^1.0.2"
+    "typescript": "^3.8.3"
   },
   "directories": {
     "doc": "doc"
@@ -87,11 +87,11 @@
     "clean": "rimraf .tmp lib",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "prepare": "npm-run-all -s \"clean\" \"build\"",
-    "test": "node .tmp/es5/test/index",
+    "test": "node .tmp/es5/test/index.js",
     "watch": "npm-run-all -p \"watch:*\"",
     "watch:es2015": "npm run \"build:es2015\" -- --watch",
     "watch:es5": "npm run \"build:es5\" -- --watch",
     "watch:lib": "npm run \"build:lib\" -- --watch",
-    "watch:test": "watch --wait 2 \"npm test\" \".tmp/es5/\""
+    "watch:test": "chokidar \".tmp/es2015/**/*.js\" --command \"npm test\""
   }
 }

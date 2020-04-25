@@ -1,11 +1,11 @@
-import { formatJson } from "../../src/utils/fs";
 import { migrate } from "../../src/commands/migrate";
 import * as parseJekyllModule from "../../src/parse/jekyll";
 import * as utilFsModule from "../../src/utils/fs";
-import { Test, assert, test } from "../helper";
+import { formatJson } from "../../src/utils/fs";
+import { assert, group, Test, test } from "../helper";
 
-const tests1: Test[] = [
-  test("migrate.migrate", ({ sandbox }) => {
+const tests1: Test[] = group("migrate/", [
+  test("migrate", ({ sandbox }) => {
     const id1 = { year: "2006", month: "01", date: "02", title: undefined };
     const meta1 = {
       minutes: 1,
@@ -56,6 +56,6 @@ const tests1: Test[] = [
     );
     assert(writeFile.getCall(3).args[1] === "2006-01-03");
   }),
-];
+]);
 
 export { tests1 as tests };

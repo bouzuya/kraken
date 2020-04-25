@@ -1,17 +1,15 @@
-import { listEntryIds, parseEntry } from "../../src/parse/bbn";
 import * as parseBaseModule from "../../src/parse/base";
+import { listEntryIds, parseEntry } from "../../src/parse/bbn";
 import * as utilsFsModule from "../../src/utils/fs";
-import { Test, assert, test } from "../helper";
+import { assert, group, Test, test } from "../helper";
 
-const category = "parse > bbn > ";
-
-const tests1: Test[] = [
-  test(category + "listEntryIds", ({ sandbox }) => {
+const tests1: Test[] = group("bbn/", [
+  test("listEntryIds", ({ sandbox }) => {
     const listEntryIdsStub = sandbox.stub(parseBaseModule, "listEntryIds");
     assert(listEntryIds === listEntryIdsStub);
   }),
 
-  test(category + "parseEntry", ({ sandbox }) => {
+  test("parseEntry", ({ sandbox }) => {
     const meta = {
       minutes: 10,
       pubdate: "2006-01-02T15:04:05-07:00",
@@ -59,6 +57,6 @@ const tests1: Test[] = [
     ]);
     assert.deepEqual(readFile.getCall(1).args, ["data/2006/01/2006-01-02.md"]);
   }),
-];
+]);
 
 export { tests1 as tests };

@@ -1,11 +1,11 @@
 import { listFiles } from "../../src/utils/fs";
-import { Test, assert, test } from "../helper";
+import { assert, group, Test, test } from "../helper";
 
-const tests1: Test[] = [
-  test("fs.listFiles", () => {
+const tests1: Test[] = group("listFiles/", [
+  test("listFiles", () => {
     // TODO
     assert(listFiles);
   }),
-];
+]);
 
 export { tests1 as tests };

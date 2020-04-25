@@ -1,7 +1,11 @@
-import { Test, run } from "beater";
-import { named as namedFn, fixture } from "beater-helpers";
+import { run, Test } from "beater";
+import { fixture, name as nameFn, named as namedFn } from "beater-helpers";
 import * as assert from "power-assert";
 import * as sinon from "sinon";
+
+function group(name: string, tests: Test[]): Test[] {
+  return tests.map((t) => namedFn(name + nameFn(t), t));
+}
 
 function test(
   name: string,
@@ -17,4 +21,4 @@ function test(
   );
 }
 
-export { Test, assert, run, sinon, test };
+export { Test, assert, group, run, sinon, test };

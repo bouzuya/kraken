@@ -1,9 +1,9 @@
 import * as fsModule from "fs";
 import { readFile } from "../../src/utils/fs";
-import { Test, assert, test } from "../helper";
+import { assert, group, Test, test } from "../helper";
 
-const tests1: Test[] = [
-  test("fs.readFile", ({ sandbox }) => {
+const tests1: Test[] = group("readFile/", [
+  test("readFile", ({ sandbox }) => {
     const readFileSync = sandbox
       .stub(fsModule, "readFileSync")
       .returns("content");
@@ -13,6 +13,6 @@ const tests1: Test[] = [
     assert(args[0] === "path");
     assert.deepEqual(args[1], { encoding: "utf-8" });
   }),
-];
+]);
 
 export { tests1 as tests };

@@ -2,19 +2,19 @@ import {
   formatAtom,
   formatDailyJson,
   formatMonthlyJson,
-  formatYearlyJson,
   formatSitemap,
+  formatYearlyJson,
 } from "../src/format";
 import { Entry } from "../src/types";
-import { Test, assert, test } from "./helper";
+import { assert, group, Test, test } from "./helper";
 
-const tests1: Test[] = [
-  test("format.formatAtom", () => {
+const tests1: Test[] = group("format/", [
+  test("formatAtom", () => {
     // TODO
     assert(formatAtom);
   }),
 
-  test("format.formatDailyJson", () => {
+  test("formatDailyJson", () => {
     const entry: Entry = {
       id: { year: "2006", month: "01", date: "03", title: undefined },
       data: "hello",
@@ -30,7 +30,7 @@ const tests1: Test[] = [
     assert.deepEqual(JSON.parse(formatDailyJson(entry)), json);
   }),
 
-  test("format.formatMonthlyJson", () => {
+  test("formatMonthlyJson", () => {
     const entry1: Entry = {
       id: { year: "2006", month: "01", date: "03", title: undefined },
       data: "hello",
@@ -61,7 +61,7 @@ const tests1: Test[] = [
     ]);
   }),
 
-  test("format.formatYearlyJson", () => {
+  test("formatYearlyJson", () => {
     const entry1: Entry = {
       id: { year: "2006", month: "01", date: "03", title: undefined },
       data: "hello",
@@ -92,10 +92,10 @@ const tests1: Test[] = [
     ]);
   }),
 
-  test("format.formatSitemap", () => {
+  test("formatSitemap", () => {
     // TODO
     assert(formatSitemap);
   }),
-];
+]);
 
 export { tests1 as tests };

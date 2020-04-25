@@ -1,10 +1,10 @@
 import { parseJson } from "../../src/utils/fs";
-import { Test, assert, test } from "../helper";
+import { assert, group, Test, test } from "../helper";
 
-const tests1: Test[] = [
-  test("fs.parseJson", () => {
+const tests1: Test[] = group("parseJson/", [
+  test("parseJson", () => {
     assert.deepEqual(parseJson('{"foo":123}'), { foo: 123 });
   }),
-];
+]);
 
 export { tests1 as tests };

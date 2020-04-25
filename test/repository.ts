@@ -1,15 +1,14 @@
 import { Repository } from "../src/repository";
-import { Test, assert, sinon, test } from "./helper";
+import { assert, group, sinon, Test, test } from "./helper";
 
-const category = "/parse/repository";
-
-const tests1: Test[] = [
-  test("repository.Repository", () => {
+const tests1: Test[] = group("repository/", [
+  test("Repository", () => {
     // TODO
     assert(Repository);
     assert(sinon);
   }),
-  test(category + "getEntryIds", () => {
+
+  test("getEntryIds", () => {
     const dir = "dir1";
     const ids = [{ year: "2006", month: "01", date: "02", title: undefined }];
     const listEntryIds = sinon.stub().returns(ids);
@@ -21,6 +20,6 @@ const tests1: Test[] = [
     assert.deepEqual(listEntryIds.getCall(0).args, [dir]);
     assert(parse.callCount === 0);
   }),
-];
+]);
 
 export { tests1 as tests };

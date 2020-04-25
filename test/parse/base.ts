@@ -1,11 +1,9 @@
 import { listEntryIds, parseEntry } from "../../src/parse/base";
 import * as utilsFsModule from "../../src/utils/fs";
-import { Test, assert, sinon, test } from "../helper";
+import { assert, group, sinon, Test, test } from "../helper";
 
-const category = "parse > base > ";
-
-const tests1: Test[] = [
-  test(category + "listEntryIds", ({ sandbox }) => {
+const tests1: Test[] = group("base/", [
+  test("listEntryIds", ({ sandbox }) => {
     const listFiles = sandbox
       .stub(utilsFsModule, "listFiles")
       .returns([
@@ -22,7 +20,7 @@ const tests1: Test[] = [
     assert(listFiles.getCall(0).args[0] === "./data");
   }),
 
-  test(category + "parseEntry", () => {
+  test("parseEntry", () => {
     const meta = {
       minutes: 10,
       pubdate: "2006-01-02T15:04:05-07:00",
@@ -48,7 +46,7 @@ const tests1: Test[] = [
     assert.deepEqual(parse.getCall(0).args, ["data", entryId]);
   }),
 
-  test(category + "parseEntry > header id", () => {
+  test("parseEntry > header id", () => {
     const noIds = false;
     const input = "# 123";
     const output = '<h1 id="123">123</h1>\n';
@@ -66,7 +64,7 @@ const tests1: Test[] = [
     assert(html === output);
   }),
 
-  test(category + "parseEntry > header id (noIds)", () => {
+  test("parseEntry > header id (noIds)", () => {
     const noIds = true;
     const input = "# 123";
     const output = "<h1>123</h1>\n";
@@ -83,6 +81,6 @@ const tests1: Test[] = [
     const { html } = parseEntry("data", entryId, parse, { noIds });
     assert(html === output);
   }),
-];
+]);
 
 export { tests1 as tests };

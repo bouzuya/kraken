@@ -1,3 +1,8 @@
 {
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "typescript.format.enable": true,
   "typescript.tsdk": "./node_modules/typescript/lib"
 }

@@ -16,7 +16,7 @@ function test(
     fixture(
       () => sinon.createSandbox(),
       (sandbox) => void sandbox.restore(),
-      (sandbox) => (): unknown => testFn({ sandbox })
+      (sandbox) => testFn({ sandbox })
     )
   );
 }

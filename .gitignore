@@ -1,7 +1,7 @@
-*.log
-.envrc
-.tmp
-coverage
-dist
-lib
-node_modules
+/*.log
+/.env*
+/.tmp/
+/coverage/
+/dist/
+/lib/
+/node_modules/

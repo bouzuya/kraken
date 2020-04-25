@@ -66,6 +66,17 @@ const tests1: Test[] = group("base/", [
     );
   }),
 
+  test("parseEntry/pre element behavior", () => {
+    assert.deepStrictEqual(
+      markdownToHtml("<pre><code>*foo*</code></pre>"),
+      "<pre><code>*foo*</code></pre>"
+    );
+    assert.deepStrictEqual(
+      markdownToHtml("<noscript><pre><code>*foo*</code></pre></noscript>"),
+      "<p><noscript><pre><code><em>foo</em></code></pre></noscript></p>\n"
+    );
+  }),
+
   test("parseEntry > header id", () => {
     const noIds = false;
     const input = "# 123";

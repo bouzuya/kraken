@@ -27,9 +27,11 @@ const tests1: Test[] = [
     const parseEntry = sandbox.stub(parseJekyllModule, "parseEntry");
     parseEntry
       .onCall(0)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .returns(Object.assign({}, meta1, { data: "2006-01-02" }) as any); // FIXME
     parseEntry
       .onCall(1)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .returns(Object.assign({}, meta2, { data: "2006-01-03" }) as any); // FIXME
 
     migrate("old-data", "new-data");

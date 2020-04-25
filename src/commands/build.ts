@@ -185,7 +185,7 @@ const saveTokensJson = (
         const tokens = tokenizer.tokenize(entry.data);
         allTokens[id] = tokens;
         return allTokens;
-      }, <{ [to: string]: Token[] }>{});
+      }, {} as { [to: string]: Token[] });
     })
     .then((tokens) => {
       const formatted = JSON.stringify(tokens, null, 2);
@@ -212,33 +212,20 @@ const compileImpl = (
     parse(d, i, { noIds })
   );
   return Promise.resolve()
-    .then(() => (true ? saveYearlyJson(repository, outDir) : void 0))
-    .then(() => (true ? saveMonthlyJson(repository, outDir) : void 0))
-    .then(() => (true ? saveDailyJson(repository, outDir) : void 0))
-    .then(() => (true ? saveAllJson(repository, outDir) : void 0))
-    .then(() => (true ? saveTagsJson(repository, outDir) : void 0))
-    .then(() => (true ? saveAtomXml(repository, outDir) : void 0))
-    .then(() => (true ? saveSitemapXml(repository, outDir) : void 0))
-    .then(() => (true ? saveLinkedJson(repository, outDir, within) : void 0))
+    .then(() => saveYearlyJson(repository, outDir))
+    .then(() => saveMonthlyJson(repository, outDir))
+    .then(() => saveDailyJson(repository, outDir))
+    .then(() => saveAllJson(repository, outDir))
+    .then(() => saveTagsJson(repository, outDir))
+    .then(() => saveAtomXml(repository, outDir))
+    .then(() => saveSitemapXml(repository, outDir))
+    .then(() => saveLinkedJson(repository, outDir, within))
     .then(() => {
       return noTokensJson === false
         ? saveTokensJson(repository, outDir)
         : void 0;
     })
     .then(() => void 0);
-};
-
-const compile = (
-  inDir: string,
-  outDir: string,
-  options?: {
-    noIds?: boolean;
-    noTokensJson?: boolean;
-    within?: number;
-  }
-): Promise<void> => {
-  console.log("DEPRECATED: Use `build()`");
-  return build(inDir, outDir, options);
 };
 
 const compileOld = (inDir: string, outDir: string): Promise<void> => {
@@ -249,8 +236,6 @@ const compileOld = (inDir: string, outDir: string): Promise<void> => {
     within: 4,
   });
 };
-
-const compileNew = compile;
 
 const build = (
   inDir: string,
@@ -285,5 +270,20 @@ const build = (
     within,
   });
 };
+
+const compile = (
+  inDir: string,
+  outDir: string,
+  options?: {
+    noIds?: boolean;
+    noTokensJson?: boolean;
+    within?: number;
+  }
+): Promise<void> => {
+  console.log("DEPRECATED: Use `build()`");
+  return build(inDir, outDir, options);
+};
+
+const compileNew = compile;
 
 export { compileOld, compileNew, compile, build };

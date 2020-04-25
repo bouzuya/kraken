@@ -28,7 +28,8 @@ const parseEntry = (
   ).substring(0, "2006-01-02".length);
   const renderer = new marked.Renderer();
   if (options.noIds) {
-    renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
+    renderer.heading = (text, level): string =>
+      `<h${level}>${text}</h${level}>\n`;
   }
   const html = marked(data, { renderer });
   const entry = {

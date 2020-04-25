@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as fse from "fs-extra";
 import { join } from "path";
 
+// FIXME
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const formatJson = (data: any, space?: number): string => {
   return JSON.stringify(data, undefined, space);
 };
@@ -16,6 +18,8 @@ const listFiles = (path: string): string[] => {
   return f([], path);
 };
 
+// FIXME
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parseJson = (json: string): any => {
   return JSON.parse(json);
 };
@@ -25,7 +29,7 @@ const readFile = (path: string): string => {
 };
 
 const writeFile = (path: string, data: string): void => {
-  (fse.outputFileSync as any)(path, data, { encoding: "utf-8" });
+  fse.outputFileSync(path, data, { encoding: "utf-8" });
 };
 
 export { formatJson, listFiles, parseJson, join as path, readFile, writeFile };

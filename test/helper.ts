@@ -12,7 +12,7 @@ function test(
     fixture(
       () => sinon.createSandbox(),
       (sandbox) => void sandbox.restore(),
-      (sandbox) => () => testFn({ sandbox })
+      (sandbox) => (): unknown => testFn({ sandbox })
     )
   );
 }

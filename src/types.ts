@@ -6,6 +6,8 @@ export type TagName = string; // 'programming'
 export type Title = string; // 'Hello, world!'
 
 export interface RawEntry {
+  // FIXME
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   meta: any;
   data: Markdown;
 }

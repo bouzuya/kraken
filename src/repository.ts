@@ -15,8 +15,8 @@ export class Repository {
     this._parse = parse;
   }
 
-  each(f: (item: Entry) => any): void {
-    this._ids.forEach((id) => f(this._parse(this._dir, id)));
+  each(f: (item: Entry) => void): void {
+    this._ids.forEach((id) => void f(this._parse(this._dir, id)));
   }
 
   findAll(): Entry[] {

@@ -1,6 +1,6 @@
-import * as proxyquire from 'proxyquire';
+import * as parseBaseModule from '../../src/parse/base';
 import {
-  listEntryIds as listEntryIdsType,
+  listEntryIds,
   parseEntry as parseEntryType
 } from '../../src/parse/jekyll';
 import { Test, assert, sinon, test } from '../helper';
@@ -8,14 +8,8 @@ import { Test, assert, sinon, test } from '../helper';
 const category = 'parse > jekyll > ';
 
 const tests1: Test[] = [
-  test(category + 'listEntryIds', () => {
-    const listEntryIdsStub = {};
-
-    const listEntryIds: typeof listEntryIdsType = proxyquire(
-      '../../src/parse/bbn',
-      { './base': { listEntryIds: listEntryIdsStub } }
-    ).listEntryIds;
-
+  test(category + 'listEntryIds', ({ sandbox }) => {
+    const listEntryIdsStub = sandbox.stub(parseBaseModule, 'listEntryIds');
     assert(listEntryIds === listEntryIdsStub);
   }),
 

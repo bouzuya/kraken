@@ -1,48 +1,35 @@
-import * as proxyquire from 'proxyquire';
 import {
-  listEntryIds as listEntryIdsType,
-  parseEntry as parseEntryType
+  listEntryIds,
+  parseEntry
 } from '../../src/parse/bbn';
-import { Test, assert, sinon, test } from '../helper';
+import * as parseBaseModule from '../../src/parse/base';
+import * as utilsFsModule from '../../src/utils/fs';
+import { Test, assert, test } from '../helper';
 
 const category = 'parse > bbn > ';
 
 const tests1: Test[] = [
-  test(category + 'listEntryIds', () => {
-    const listEntryIdsStub = {};
-
-    const listEntryIds: typeof listEntryIdsType = proxyquire(
-      '../../src/parse/bbn',
-      { './base': { listEntryIds: listEntryIdsStub } }
-    ).listEntryIds;
-
+  test(category + 'listEntryIds', ({ sandbox }) => {
+    const listEntryIdsStub = sandbox.stub(parseBaseModule, 'listEntryIds');
     assert(listEntryIds === listEntryIdsStub);
   }),
 
-  test(category + 'parseEntry', () => {
+  test(category + 'parseEntry', ({ sandbox }) => {
     const meta = {
       minutes: 10,
       pubdate: '2006-01-02T15:04:05-07:00',
       title: 'title'
     };
     const data = 'markdown';
-
-    const parseJson = sinon.stub();
-    const path = sinon.stub();
-    const readFile = sinon.stub();
-
-    parseJson.onCall(0).returns(meta);
-    path.onCall(0).returns('data/2006/01');
-    path.onCall(1).returns('data/2006/01/2006-01-02.json');
-    path.onCall(2).returns('data/2006/01/2006-01-02.md');
-    readFile.onCall(0).returns(JSON.stringify(meta));
-    readFile.onCall(1).returns(data);
-
-    const parseEntry: typeof parseEntryType = proxyquire(
-      '../../src/parse/bbn',
-      { '../utils/fs': { parseJson, path, readFile } }
-    ).parseEntry;
-
+    const parseJson = sandbox.stub(utilsFsModule, 'parseJson')
+      .onCall(0).returns(meta);
+    const path = sandbox.stub(utilsFsModule, 'path')
+      .onCall(0).returns('data/2006/01')
+      .onCall(1).returns('data/2006/01/2006-01-02.json')
+      .onCall(2).returns('data/2006/01/2006-01-02.md');
+    const readFile = sandbox.stub(utilsFsModule, 'readFile')
+      .onCall(0).returns(JSON.stringify(meta))
+      .onCall(1).returns(data);
     const entryId = { year: '2006', month: '01', date: '02', title: undefined };
     assert.deepEqual(parseEntry('data', entryId), {
       id: entryId,

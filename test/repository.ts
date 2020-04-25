@@ -1,4 +1,3 @@
-import * as proxyquire from 'proxyquire';
 import {
   Repository
 } from '../src/repository';
@@ -11,7 +10,6 @@ const tests1: Test[] = [
     // TODO
     assert(Repository);
     assert(sinon);
-    assert(proxyquire);
   }),
   test(category + 'getEntryIds', () => {
     const dir = 'dir1';

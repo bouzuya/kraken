@@ -1,25 +1,19 @@
-import * as proxyquire from 'proxyquire';
 import {
-  listEntryIds as listEntryIdsType,
+  listEntryIds,
   parseEntry
 } from '../../src/parse/base';
+import * as utilsFsModule from '../../src/utils/fs';
 import { Test, assert, sinon, test } from '../helper';
 
 const category = 'parse > base > ';
 
 const tests1: Test[] = [
-  test(category + 'listEntryIds', () => {
-    const listFiles = sinon.stub();
-    listFiles.returns([
+  test(category + 'listEntryIds', ({ sandbox }) => {
+    const listFiles = sandbox.stub(utilsFsModule, 'listFiles').returns([
       '/home/bouzuya/data/2006-01-02.md',
       '/home/bouzuya/data/2006-01-03-title.md',
       '/home/bouzuya/data/2006-01-04.json'
     ]);
-
-    const listEntryIds: typeof listEntryIdsType = proxyquire(
-      '../../src/parse/base',
-      { '../utils/fs': { listFiles } }
-    ).listEntryIds;
 
     assert.deepEqual(listEntryIds('./data'), [
       { year: '2006', month: '01', date: '02', title: undefined },

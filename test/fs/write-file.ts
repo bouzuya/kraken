@@ -1,14 +1,10 @@
-import * as proxyquire from 'proxyquire';
-import { writeFile as writeFileType } from '../../src/utils/fs';
-import { Test, assert, sinon, test } from '../helper';
+import { writeFile } from '../../src/utils/fs';
+import { Test, assert, test } from '../helper';
+import * as fsExtraModule from 'fs-extra';
 
 const tests1: Test[] = [
-  test('fs.writeFile', () => {
-    const outputFileSync = sinon.stub();
-    const fs = proxyquire('../../src/utils/fs', {
-      'fs-extra': { outputFileSync }
-    });
-    const writeFile: typeof writeFileType = fs.writeFile;
+  test('fs.writeFile', ({ sandbox }) => {
+    const outputFileSync = sandbox.stub(fsExtraModule, 'outputFileSync');
     assert(typeof writeFile('path', 'data') === 'undefined');
     assert(outputFileSync.callCount === 1);
     const args = outputFileSync.getCall(0).args;

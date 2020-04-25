@@ -1,12 +1,11 @@
-import * as proxyquire from 'proxyquire';
 import { formatJson } from '../../src/utils/fs';
-import {
-  migrate as mimgrateType
-} from '../../src/commands/migrate';
-import { Test, assert, sinon, test } from '../helper';
+import { migrate } from '../../src/commands/migrate';
+import * as parseJekyllModule from '../../src/parse/jekyll';
+import * as utilFsModule from '../../src/utils/fs';
+import { Test, assert, test } from '../helper';
 
 const tests1: Test[] = [
-  test('migrate.migrate', () => {
+  test('migrate.migrate', ({ sandbox }) => {
     const id1 = { year: '2006', month: '01', date: '02', title: undefined };
     const meta1 = {
       minutes: 1,
@@ -21,22 +20,13 @@ const tests1: Test[] = [
       tags: ['misc'],
       title: 'title2'
     };
-    const listEntryIds = sinon.stub();
-    const parseEntry = sinon.stub();
-    const writeFile = sinon.stub();
-    listEntryIds.returns([id1, id2]);
+    const writeFile = sandbox.stub(utilFsModule, 'writeFile');
+    const listEntryIds = sandbox.stub(parseJekyllModule, 'listEntryIds').returns([id1, id2]);
+    const parseEntry = sandbox.stub(parseJekyllModule, 'parseEntry');
     parseEntry.onCall(0).returns(
-      Object.assign({}, meta1, { data: '2006-01-02' }));
+      Object.assign({}, meta1, { data: '2006-01-02' }) as any); // FIXME
     parseEntry.onCall(1).returns(
-      Object.assign({}, meta2, { data: '2006-01-03' }));
-
-    const migrate: typeof mimgrateType = proxyquire(
-      '../../src/commands/migrate',
-      {
-        '../utils/fs': { writeFile },
-        '../parse/jekyll': { listEntryIds, parseEntry }
-      }
-    ).migrate;
+      Object.assign({}, meta2, { data: '2006-01-03' }) as any); // FIXME
 
     migrate('old-data', 'new-data');
     assert(listEntryIds.callCount === 1);

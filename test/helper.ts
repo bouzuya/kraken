@@ -1,10 +1,17 @@
 import { Test, run } from 'beater';
-import { named as namedFn } from 'beater-helpers';
+import { named as namedFn, fixture } from 'beater-helpers';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 
-function test(name: string, testFn: Function): Test {
-  return namedFn(name, testFn);
+function test(
+  name: string,
+  testFn: (context: { sandbox: sinon.SinonSandbox; }) => unknown
+): Test {
+  return namedFn(name, fixture(
+    () => sinon.createSandbox(),
+    (sandbox) => void sandbox.restore(),
+    (sandbox) => () => testFn({ sandbox })
+  ));
 }
 
 export { Test, assert, run, sinon, test };

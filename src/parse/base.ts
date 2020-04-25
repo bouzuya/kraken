@@ -1,37 +1,45 @@
-import { inTimeZone, parseISOString, toISOString } from 'time-keeper';
-import { Entry, EntryId, RawEntry } from '../types';
-import { listFiles } from '../utils/fs';
-import * as marked from 'marked';
+import { inTimeZone, parseISOString, toISOString } from "time-keeper";
+import { Entry, EntryId, RawEntry } from "../types";
+import { listFiles } from "../utils/fs";
+import * as marked from "marked";
 
 const parseEntry = (
   entryDir: string,
   entryId: EntryId,
   parseRaw: (entryDir: string, entryId: EntryId) => RawEntry,
-  options: { noIds: boolean; }
+  options: { noIds: boolean }
 ): Entry => {
   const { meta, data } = parseRaw(entryDir, entryId);
-  if (typeof meta.minutes === 'undefined') {
-    throw new Error('minutes is not defined');
+  if (typeof meta.minutes === "undefined") {
+    throw new Error("minutes is not defined");
   }
-  if (typeof meta.pubdate === 'undefined') {
-    throw new Error('pubdate is not defined');
+  if (typeof meta.pubdate === "undefined") {
+    throw new Error("pubdate is not defined");
   }
-  if (typeof meta.title === 'undefined') {
-    throw new Error('title is not defined');
+  if (typeof meta.title === "undefined") {
+    throw new Error("title is not defined");
   }
   const minutes = meta.minutes as number;
   const pubdate = meta.pubdate as string;
-  const tags = (typeof meta.tags === 'undefined' ? [] : meta.tags) as string[];
+  const tags = (typeof meta.tags === "undefined" ? [] : meta.tags) as string[];
   const title = meta.title as string;
-  const date = toISOString(inTimeZone(parseISOString(pubdate), '+09:00'))
-    .substring(0, '2006-01-02'.length);
+  const date = toISOString(
+    inTimeZone(parseISOString(pubdate), "+09:00")
+  ).substring(0, "2006-01-02".length);
   const renderer = new marked.Renderer();
   if (options.noIds) {
     renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
   }
   const html = marked(data, { renderer });
   const entry = {
-    id: entryId, data, date, html, minutes, pubdate, tags, title
+    id: entryId,
+    data,
+    date,
+    html,
+    minutes,
+    pubdate,
+    tags,
+    title,
   };
   return entry;
 };

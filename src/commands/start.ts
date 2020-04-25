@@ -1,6 +1,6 @@
-import * as http from 'http';
-import * as serveStatic from 'serve-static';
-import * as finalHandler from 'finalhandler';
+import * as http from "http";
+import * as serveStatic from "serve-static";
+import * as finalHandler from "finalhandler";
 
 const start = (dir: string): Promise<void> => {
   const serve = serveStatic(dir);
@@ -8,11 +8,11 @@ const start = (dir: string): Promise<void> => {
     serve(req, res, finalHandler(req, res));
   });
   const portString = process.env.PORT;
-  const port = typeof portString === 'undefined'
-    ? 80 : parseInt(portString, 10);
+  const port =
+    typeof portString === "undefined" ? 80 : parseInt(portString, 10);
   server.listen(port);
   return new Promise((resolve) => {
-    server.on('close', () => resolve());
+    server.on("close", () => resolve());
   });
 };
 

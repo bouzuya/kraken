@@ -1,20 +1,20 @@
-import { compile, compileNew, compileOld } from '../../src/commands/build';
-import { Test, assert, test } from '../helper';
+import { compile, compileNew, compileOld } from "../../src/commands/build";
+import { Test, assert, test } from "../helper";
 
 const tests1: Test[] = [
-  test('compile.compile', () => {
+  test("compile.compile", () => {
     // TODO
     assert(compile);
   }),
 
-  test('compile.compileNew', () => {
+  test("compile.compileNew", () => {
     assert(compileNew === compile);
   }),
 
-  test('compile.compileOld', () => {
+  test("compile.compileOld", () => {
     // TODO
     assert(compileOld);
-  })
+  }),
 ];
 
 export { tests1 as tests };

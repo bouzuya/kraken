@@ -1,11 +1,11 @@
-import { formatAtom } from './atom';
+import { formatAtom } from "./atom";
 import {
   formatAllJson,
   formatDailyJson,
   formatMonthlyJson,
-  formatYearlyJson
-} from './bbn-json';
-import { formatSitemap } from './sitemap';
+  formatYearlyJson,
+} from "./bbn-json";
+import { formatSitemap } from "./sitemap";
 
 export {
   formatAtom,
@@ -13,5 +13,5 @@ export {
   formatDailyJson,
   formatMonthlyJson,
   formatYearlyJson,
-  formatSitemap
+  formatSitemap,
 };

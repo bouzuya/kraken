@@ -1,4 +1,4 @@
-import { Entry, EntryId } from './types';
+import { Entry, EntryId } from "./types";
 
 export class Repository {
   private _dir: string;
@@ -24,11 +24,11 @@ export class Repository {
     return this._ids.map((id) => this._parse(this._dir, id));
   }
 
-  findBy(query: { year?: string; month?: string; }): Entry[] {
+  findBy(query: { year?: string; month?: string }): Entry[] {
     return this._ids
       .filter(({ year, month }) => {
-        const y = typeof query.year === 'undefined' || year === query.year;
-        const m = typeof query.month === 'undefined' || month === query.month;
+        const y = typeof query.year === "undefined" || year === query.year;
+        const m = typeof query.month === "undefined" || month === query.month;
         return y && m;
       })
       .map((id) => this._parse(this._dir, id));

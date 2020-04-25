@@ -10,35 +10,35 @@ type SitemapUrl = {
 type Sitemap = SitemapUrl[];
 
 class SitemapBuilder {
-  constructor(private entries: Entry[]) { }
+  constructor(private entries: Entry[]) {}
 
   build(): Sitemap {
     return this.entries.map(({ date, pubdate: lastmod }) => {
-      const loc = `https://blog.bouzuya.net/${date.replace(/-/g, '/')}/`;
+      const loc = `https://blog.bouzuya.net/${date.replace(/-/g, "/")}/`;
       return { loc, lastmod };
     });
   }
 }
 
 class SitemapFormatter {
-  constructor(private sitemap: Sitemap) { }
+  constructor(private sitemap: Sitemap) {}
 
   format(): string {
     return [
       '<?xml version="1.0" encoding="utf-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-      this.sitemap.map(this._buildUrl.bind(this)).join('\n'),
-      '</urlset>'
-    ].join('');
+      this.sitemap.map(this._buildUrl.bind(this)).join("\n"),
+      "</urlset>",
+    ].join("");
   }
 
   private _buildUrl(url: SitemapUrl): string {
     return [
-      '<url>',
+      "<url>",
       `<loc>${url.loc}</loc>`,
       `<lastmod>${url.lastmod}</lastmod>`,
-      '</url>'
-    ].join('');
+      "</url>",
+    ].join("");
   }
 }
 

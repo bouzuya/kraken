@@ -25,18 +25,18 @@ type Atom = {
 };
 
 class AtomBuilder {
-  constructor(private entries: Entry[]) { }
+  constructor(private entries: Entry[]) {}
 
   build(): Atom {
     const entries = this._buildAtomEntries();
-    const updated = typeof entries[0] === 'undefined' ? '' : entries[0].updated;
+    const updated = typeof entries[0] === "undefined" ? "" : entries[0].updated;
     const atom = {
-      title: 'blog.bouzuya.net',
-      linkHref: 'https://blog.bouzuya.net/',
+      title: "blog.bouzuya.net",
+      linkHref: "https://blog.bouzuya.net/",
       updated,
-      id: 'https://blog.bouzuya.net/',
-      author: { name: 'bouzuya' },
-      entries
+      id: "https://blog.bouzuya.net/",
+      author: { name: "bouzuya" },
+      entries,
     };
     return atom;
   }
@@ -45,17 +45,20 @@ class AtomBuilder {
     return this.entries
       .sort(({ pubdate: a }, { pubdate: b }) => {
         // order by pubdate desc.
-        return a === b ? 0 : (a < b ? 1 : -1);
+        return a === b ? 0 : a < b ? 1 : -1;
       })
       .filter((_, index) => index < 20) // limit
       .map((entry) => {
-        const url = `https://blog.bouzuya.net/${entry.date.replace(/-/g, '/')}/`;
+        const url = `https://blog.bouzuya.net/${entry.date.replace(
+          /-/g,
+          "/"
+        )}/`;
         const atomEntry = {
           title: entry.title,
           linkHref: url,
           updated: entry.pubdate,
           id: url,
-          content: entry.html
+          content: entry.html,
         };
         return atomEntry;
       });
@@ -63,7 +66,7 @@ class AtomBuilder {
 }
 
 class AtomFormatter {
-  constructor(private atom: Atom) { }
+  constructor(private atom: Atom) {}
 
   format(): string {
     const atom = this.atom;
@@ -75,30 +78,30 @@ class AtomFormatter {
       `<updated>${atom.updated}</updated>`,
       `<id>${atom.id}</id>`,
       `<author><name>${atom.author.name}</name></author>`,
-      atom.entries.map(this._buildEntry.bind(this)).join('\n'),
-      '</feed>'
-    ].join('');
+      atom.entries.map(this._buildEntry.bind(this)).join("\n"),
+      "</feed>",
+    ].join("");
   }
 
   _buildEntry(entry: AtomEntry): string {
     return [
-      '<entry>',
+      "<entry>",
       `<title>${this._escapeHtml(entry.title)}</title>`,
       `<link href="${entry.linkHref}" />`,
       `<updated>${entry.updated}</updated>`,
       `<id>${entry.id}</id>`,
       `<content type="html">${this._escapeHtml(entry.content)}</content>`,
-      '</entry>'
-    ].join('');
+      "</entry>",
+    ].join("");
   }
 
   _escapeHtml(html: string): string {
     return html
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
   }
 }
 

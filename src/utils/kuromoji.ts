@@ -1,5 +1,5 @@
-import * as kuromoji from 'kuromoji';
-import * as path from 'path';
+import * as kuromoji from "kuromoji";
+import * as path from "path";
 
 export interface UnknownEntry {
   word_id: number;
@@ -39,11 +39,11 @@ export interface Tokenizer {
 
 const tokenizer = (): Promise<Tokenizer> => {
   return new Promise((resolve, reject) => {
-    const dicPath = path.join(require.resolve('kuromoji'), '../../dict/');
+    const dicPath = path.join(require.resolve("kuromoji"), "../../dict/");
     kuromoji
       .builder({ dicPath })
       .build((error: Error, tokenizer: Tokenizer): void => {
-        if (typeof error === 'undefined' || error === null) {
+        if (typeof error === "undefined" || error === null) {
           resolve(tokenizer);
         } else {
           reject(error);

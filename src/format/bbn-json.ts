@@ -1,32 +1,29 @@
-import { Entry, EntryJson } from '../types';
-import { formatJson } from '../utils/fs';
+import { Entry, EntryJson } from "../types";
+import { formatJson } from "../utils/fs";
 
 const format = (entry: Entry): EntryJson => {
-  const {
-    data,
-    date,
-    html,
-    minutes,
-    pubdate,
-    tags,
-    title
-  } = entry;
-  return Object.assign({
-    data,
-    date,
-    minutes,
-    html,
-    pubdate,
-    tags,
-    title
-  }, typeof entry.id.title === 'undefined' ? {} : { idTitle: entry.id.title });
+  const { data, date, html, minutes, pubdate, tags, title } = entry;
+  return Object.assign(
+    {
+      data,
+      date,
+      minutes,
+      html,
+      pubdate,
+      tags,
+      title,
+    },
+    typeof entry.id.title === "undefined" ? {} : { idTitle: entry.id.title }
+  );
 };
 
 const formatAllJson = (entries: Entry[]): string => {
-  return formatJson(entries.map((entry) => {
-    const { date, minutes, pubdate, tags, title } = entry;
-    return { date, minutes, pubdate, tags, title };
-  }));
+  return formatJson(
+    entries.map((entry) => {
+      const { date, minutes, pubdate, tags, title } = entry;
+      return { date, minutes, pubdate, tags, title };
+    })
+  );
 };
 
 const formatDailyJson = (entry: Entry): string => {

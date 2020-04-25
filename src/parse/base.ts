@@ -1,7 +1,7 @@
+import * as marked from "marked";
 import { inTimeZone, parseISOString, toISOString } from "time-keeper";
 import { Entry, EntryId, RawEntry } from "../types";
 import { listFiles } from "../utils/fs";
-import * as marked from "marked";
 
 const parseEntry = (
   entryDir: string,
@@ -31,7 +31,7 @@ const parseEntry = (
     renderer.heading = (text, level): string =>
       `<h${level}>${text}</h${level}>\n`;
   }
-  const html = marked(data, { renderer });
+  const html = marked(data, { mangle: false, renderer });
   const entry = {
     id: entryId,
     data,

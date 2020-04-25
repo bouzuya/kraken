@@ -6,9 +6,9 @@ import {
 import { assert, group, sinon, Test, test } from "../helper";
 
 const tests1: Test[] = group("jekyll/", [
-  test("listEntryIds", ({ sandbox }) => {
-    const listEntryIdsStub = sandbox.stub(parseBaseModule, "listEntryIds");
-    assert(listEntryIds === listEntryIdsStub);
+  test("listEntryIds", () => {
+    // re-export listEntryIds
+    assert.deepStrictEqual(listEntryIds, parseBaseModule.listEntryIds);
   }),
 
   test("parseEntry", () => {

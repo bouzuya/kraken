@@ -59,6 +59,57 @@ const tests1: Test[] = group("base/", [
     assert.deepEqual(parse.getCall(0).args, ["data", entryId]);
   }),
 
+  test("parseEntry/noscript", () => {
+    assert.deepStrictEqual(
+      markdownToHtml("<pre><code>*a*</code></pre>"),
+      "<pre><code>*a*</code></pre>"
+    );
+    assert.deepStrictEqual(
+      markdownToHtml("<noscript><pre><code>*a*</code></pre></noscript>"),
+      "<p><noscript><pre><code><em>a</em></code></pre></noscript></p>\n" // ?
+    );
+
+    assert.deepStrictEqual(
+      markdownToHtml("<noscript>\n<pre><code>*a*</code></pre></noscript>"),
+      "<noscript>\n<pre><code>*a*</code></pre></noscript>" // ?
+    );
+
+    assert.deepStrictEqual(
+      markdownToHtml("<pre><code>\n\n*a*</code></pre>"),
+      "<pre><code>\n\n*a*</code></pre>"
+    );
+    assert.deepStrictEqual(
+      markdownToHtml("<noscript><pre><code>\n\n*a*</code></pre></noscript>"),
+      "<p><noscript><pre><code></p>\n<p><em>a</em></code></pre></noscript></p>\n" // ?
+    );
+    assert.deepStrictEqual(
+      markdownToHtml("<noscript>\n<pre><code>\n\n*a*</code></pre></noscript>"),
+      "<noscript>\n<pre><code>\n\n<p><em>a</em></code></pre></noscript></p>\n" // ?
+    );
+  }),
+
+  test("parseEntry/marked bug ?", () => {
+    assert.deepStrictEqual(markdownToHtml("*a*"), "<p><em>a</em></p>\n");
+    assert.deepStrictEqual(markdownToHtml("*a*?"), "<p><em>a</em>?</p>\n");
+    assert.deepStrictEqual(markdownToHtml("*aa*?"), "<p><em>aa</em>?</p>\n");
+    assert.deepStrictEqual(
+      markdownToHtml("*a*?*b*"),
+      "<p><em>a</em>?<em>b</em></p>\n"
+    );
+    assert.deepStrictEqual(
+      markdownToHtml("*aa*?*b*"),
+      "<p><em>aa*?</em>b*</p>\n" // ?
+    );
+    assert.deepStrictEqual(
+      markdownToHtml("*a* *b*"),
+      "<p><em>a</em> <em>b</em></p>\n"
+    );
+    assert.deepStrictEqual(
+      markdownToHtml(`*aa* *b*`),
+      "<p><em>aa</em> <em>b</em></p>\n"
+    );
+  }),
+
   test("parseEntry/email like", () => {
     assert.deepStrictEqual(
       markdownToHtml("expand-markdown-anchors@0.3.1"),
